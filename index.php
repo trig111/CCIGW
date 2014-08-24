@@ -7,9 +7,9 @@ require_once 'include/demoframe.php';
 require_once 'include/common.php';
 require_once 'dblib/db_events.php';
 require_once 'dblib/db_news.php';
-$css=array('layout.css', 'bootstrap.css');
+$css=array('layout.css', 'bootstrap.css','ccigw.css');
 //$js=array();
-$js=array('jquery-1.3.1.min.js','bootstrap.js','meny.js');
+$js=array('bootstrap.js','meny.js');
 
 
 getHeader("Home",$css,$js,'',0);

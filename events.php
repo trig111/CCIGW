@@ -6,7 +6,7 @@ if(!isset($_SESSION))
 require_once('include/demoframe.php');
 require_once('dblib/db_events.php');
 
-$css=array('bootstrap.css');
+$css=array('bootstrap.css','ccigw.css');
 
 $js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 
@@ -20,15 +20,12 @@ output_page_menu();
 //display_admin_form();
 
 $event_handle = new Db_events();
-    echo'
-    <h4>40px</h4>
-    <h1>Events</h1>';
+    
         
     foreach( $event_handle->show_events_list(0, 50) as $aEvent)
     {
 
     echo '
-
     <div id="eventBox">
             <p id="eventInfo"> <a href="eventpage.php?eventsid=' ,$aEvent["eventsid"]
             ,'" > ', $aEvent['subject'] , '</a></p>

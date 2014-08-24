@@ -7,14 +7,13 @@ require_once("include/demoframe.php");
 
 
 
-$css=array('bootstrap.css');
+$css=array('bootstrap.css','ccigw.css');
 
 $js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 getHeader("About",$css,$js,'',0);
 output_page_menu();
 
 echo <<<ZZEOF
-    <h3>40px</h3>
 
 	
 		<div class="well">

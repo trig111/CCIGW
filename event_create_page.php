@@ -10,9 +10,9 @@ require_once("include/common.php");
 require_once('event_action.php');
 
 
-$css=array('layout.css');
+$css=array('ccigw.css','bootstrap.css');
 //$js=array('meny.js', 'group5js/check.js');
-$js=array('meny.js','tinymce/tinymce.min.js');
+$js=array('meny.js','tinymce/tinymce.min.js','bootstrap.js');
 //require_once('/form/form_admin.php');
 getHeader("Events", $css, $js, '' , 0);
 
