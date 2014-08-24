@@ -36,7 +36,6 @@ function getHeader($title,$css = array(), $js = array(),$url,$sec){
 		
   		
                 $link
-		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
                 $script
                 
 		
@@ -66,7 +65,39 @@ $login = array();
 //    $login['useraccess']="useraccess.php";
   }
 
- echo <<<ZZEOF
+echo <<<ZZEOF
+ <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.php">CCIGW</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.php">Home</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="events.php">Events</a></li>
+            <li><a href="news.php">News</a></li>
+            <li><a href="contact.php">Contact Us</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{$login['url']}">{$login['label']}</a></li>
+            <li><a href="tryregister.php">Sign Up</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+ZZEOF;
+
+/*
+echo <<<ZZEOF
 	<body>
 		<div class="header">
 			<div class="title">
@@ -79,22 +110,27 @@ $login = array();
 					<td><p> | </p></td>
 					<td><a href="tryregister.php">Sign Up</a></td>
                                         
-ZZEOF;
-                                        $controlpanel=''; 
-                                        if(!empty($temp)) 
-                                            $controlpanel= '<td><p> | </p></td><td><a href='.$temp.'>Control Panel</a></td>';
-                                                
+ZZEOF;*/
+                                /*$controlpanel=''; 
+                                if(!empty($temp)) 
+                                $controlpanel= '<td><p> | </p></td><td><a href='.$temp.'>Control Panel</a></td>';
+                                */                
                                                
-                                        
+                              /*          
 echo <<<zzeof
                                  $controlpanel     
-				</tr>
+	
+		
+zzeof;*/
+
+/*
+</tr>
 			</table>
 		</div>
 		<div class="meny">
 			<h2>Menu</h2>
 			<ul>
-				<li><a href="index.php">Home</a></li>
+				<li><a href="index.php">Hme</a></li>
 				<li><a href="about.php">About</a></li>
 				<li><a href="events.php">Events</a></li>
 				<li><a href="news.php">News</a></li>
@@ -104,10 +140,7 @@ echo <<<zzeof
 
 		<div class="meny-arrow"></div>
 
-		<div class="contents">
-		
-		
-zzeof;
+		<div class="contents">*/
   
 }
 

@@ -7,14 +7,64 @@ require_once 'include/demoframe.php';
 require_once 'include/common.php';
 require_once 'dblib/db_events.php';
 require_once 'dblib/db_news.php';
-$css=array('layout.css', 'slideshow.css');
+$css=array('layout.css', 'bootstrap.css');
 //$js=array();
-$js=array('jquery-1.3.1.min.js','slideshow.js','meny.js');
+$js=array('jquery-1.3.1.min.js','bootstrap.js','meny.js');
+
+
 getHeader("Home",$css,$js,'',0);
+
+
 output_page_menu();
 
+
+echo <<<zzeof
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<div class="container"></div>
+
+	 <div id="ccigwdemo" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#ccigwdemo" data-slide-to="0" class="active"></li>
+          <li data-target="#ccigwdemo" data-slide-to="1"></li>
+          <li data-target="#ccigwdemo" data-slide-to="2"></li>
+          <li data-target="#ccigwdemo" data-slide-to="3"></li>
+        </ol>
+
+        <div class="carousel-inner">
+      <div class="item active"><img src="images/ccigwdemo1.jpg" alt="" class="img-responsive">
+        <div class="carousel-caption">
+          <h3>A yound girl performs a Chinese dance.</h3>
+        </div>
+      </div>
+      <div class="item"><img src="images/ccigwdemo2.jpg" alt="" class="img-responsive">   
+      <div class="carousel-caption">
+        <h3>Learn how to make you own dumplings!</h3>
+      </div>
+      </div>
+      <div class="item"><img src="images/ccigwdemo4.jpg" alt="" class="img-responsive">   
+      <div class="carousel-caption">
+        <h3>Watch him perform</h3>
+      </div></div>
+      
+      <div class="item"><img src="images/ccigwdemo6.jpg" alt="" class="img-responsive">   
+      <div class="carousel-caption">
+        <h3>Art Display</h3>
+      </div></div>
+      </div>
+
+    <a class="carousel-control left" href="#ccigwdemo" data-slide="prev" >
+      <span class="icon-prev"></span>
+    </a>
+    <a  class="carousel-control right" href="#ccigwdemo" data-slide="next">
+      <span class="icon-next"></span>
+    </a>
+  
+    </div>
+
+zzeof;
+
 //Show the body on the home page
-echo '
+/*echo '
 		<ul class="slideshow">
 				<li class="show">
 					<a href="http://www.msn.com">
@@ -45,11 +95,15 @@ echo '
 					</a>
 				</li>
 			</ul>';
+*/
+
+
+//upcoming evetns
 $news_handle = new Db_news();
 $event_handle = new Db_events();
 $news_list = $news_handle->show_all_news(0, 2);
 $event_list = $event_handle->show_events_list(0, 2);
-echo '<div id="news"><table><tr><td><h6>News</h6></td><td><h6>Upcoming Events</h6></td>';
+/*echo '<div id="news"><table><tr><td><h6>News</h6></td><td><h6>Upcoming Events</h6></td>';
 for ( $i = 0 ; $i < 2 ; $i ++ ) 
 {
     echo  '<tr><td>',
@@ -62,11 +116,41 @@ for ( $i = 0 ; $i < 2 ; $i ++ )
 }
 
 echo '</table></div>';
-			
+*/			
+echo <<<zzeof
+
+<div class="jumbotron">
+      <div class="container">
+        <h1>Introduction!</h1>
+        <p>we can have some intro here. blablabla</p>
+        <p>its better if you have more than 2 rows or using more than 3 br</p>
+
+        <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+    
+
+<?php for ( $i = 0 ; $i < 2 ; $i ++ ) { ?>
 
 
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>News</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="newspage.php?newsid=<?php $news_list[$i]["newsid"]; ?>" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+          <h2>Upcoming Events</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+       </div>
+       
+      <br>
+      <hr>
 
-
+<?php } ?>
+zzeof;
 getFooter();
 
 ?>

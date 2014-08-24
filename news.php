@@ -6,9 +6,9 @@ if(!isset($_SESSION))
 require_once("include/demoframe.php");
 require_once('dblib/db_news.php');
 
-$css=array('layout.css');
+$css=array('bootstrap.css');
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','ajax.js');
+$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 
 getHeader("News",$css,$js,'',0);
 output_page_menu();
@@ -16,7 +16,8 @@ output_page_menu();
 $news_handle = new Db_news();
 $news_list = $news_handle->show_all_news(0, 50);
 
-echo '
+echo '    <h4>40px</h4>
+
 	<div id="news">
 			<table><h1>News </h1>';
 echo <<<zzeof

@@ -6,9 +6,9 @@ if(!isset($_SESSION))
 require_once('include/demoframe.php');
 require_once('dblib/db_events.php');
 
-$css=array('layout.css');
+$css=array('bootstrap.css');
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js');
+$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 
 getHeader("Events",$css,$js,'',0);
 
@@ -21,18 +21,83 @@ output_page_menu();
 
 $event_handle = new Db_events();
     echo'
+    <h4>40px</h4>
     <h1>Events</h1>';
         
     foreach( $event_handle->show_events_list(0, 50) as $aEvent)
     {
 
     echo '
+
     <div id="eventBox">
             <p id="eventInfo"> <a href="eventpage.php?eventsid=' ,$aEvent["eventsid"]
             ,'" > ', $aEvent['subject'] , '</a></p>
     </div>
 ';
     }
+
+echo <<<zzeof
+<div class="page-header">
+        <h1>Events</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+        <div class="col-sm-4">
+          <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+      </div>
+
+zzeof;
 
 getFooter();
 

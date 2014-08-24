@@ -41,14 +41,16 @@ if(isset($_POST['email'])&&isset($_POST['title'])&&isset($_POST['comment'])){
 else{
 //else print the html page
     
-$css=array('layout.css');
+$css=array('bootstrap.css');
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js');
+$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 getHeader("Contact Us",$css,$js,'',0);
 output_page_menu();
 
 
 	echo <<<ZZEOF
+            <h4>40px</h4>
+
 		<h1>Contact Us</h1>
 		
 		<div class="responsive-container">
