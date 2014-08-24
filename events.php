@@ -6,11 +6,11 @@ if(!isset($_SESSION))
 require_once('include/demoframe.php');
 require_once('dblib/db_events.php');
 
-$css=array('bootstrap.css','ccigw.css');
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 
-getHeader("Events",$css,$js,'',0);
+$js=array('group5js/check.js');
+
+getHeader("Events",'',$js,'',0);
 
 output_page_menu();
 

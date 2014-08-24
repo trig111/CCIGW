@@ -33,9 +33,11 @@ function getHeader($title,$css = array(), $js = array(),$url,$sec){
 
 		<meta name="viewport" content="width=800, user-scalable=no">
                 $url
-		
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+                <link rel="stylesheet" type="text/css" href="css/ccigw.css"/>
   		
                 $link
+                <script type="application/javascript" src="js/bootstrap.js"></script>
                 $script
                 
 		
@@ -57,12 +59,15 @@ $login = array();
     $login['label'] = 'Logout';
     
     $temp= "useraccess.php";
+    $controlpanel= '<li><a href='.$temp.'>Control Panel</a></li>';
+    
   }
   else
   {
     $login['url'] = 'trylogin.php';
     $login['label'] = 'Login';
 //    $login['useraccess']="useraccess.php";
+    $controlpanel="";
   }
 
 echo <<<ZZEOF
@@ -87,8 +92,10 @@ echo <<<ZZEOF
             <li><a href="contact.php">Contact Us</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            $controlpanel
             <li><a href="{$login['url']}">{$login['label']}</a></li>
             <li><a href="tryregister.php">Sign Up</a></li>
+            
           </ul>
         </div>
       </div>

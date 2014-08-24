@@ -11,7 +11,7 @@ require_once 'include/common.php';
 //require_once('/form/form_admin.php');
 $css = array('layout.css');
 
-$js = array('jquery-1.3.1.min.js', 'meny.js', 'group5js/check.js');
+$js = array('group5js/check.js');
 getHeader("Superuser", $css, $js, '', 0);
 output_page_menu();
 if (!isset($_SESSION['username'])) {
