@@ -147,6 +147,26 @@ function send_activation_email($username,$userpass,$verifycode,$email){
         
     }
     
+    function send_reset_userpass_email($username,$encryptedstring,$email){
+    $username=  fix_str($username);
+    $host= 'http://'.$_SERVER['HTTP_HOST'];
+        $verifyurl=$host;
+       $verifyurl.="/server_check_and_reset_userpass.php?verify=$encryptedstring";
+       
+       $subject="CCIGW-Reset your password";
+       $body="Hi, $username<br/><br/>";
+       
+       $body.="In order to reset your password, please visit:<br/><br/>".$verifyurl."<br/><br/>";
+       $body.="<b>If you can't click the link please copy and paste it into your browser.<br/><br/>";        
+       
+       $body.="Due to the security reason,Please delete this email after your activation is complete.<br/><br/>";
+       $body.="Thanks <br/><br/><br/><br/>";
+       $body.='-CCIGW TEAM'."</b>";
+       
+       sendMail($subject, $body, $email);
+        
+    }
+    
     
 
 
@@ -167,7 +187,7 @@ function send_activation_email($username,$userpass,$verifycode,$email){
         $url=$host.$url;
         //echo'lalalalalal';
         //sleep (4);
-        getHeader("Home",$css,$js,$url,1);
+        getHeader("Home",$css,$js,$url,2);
         output_page_menu();
         echo <<<zzeof
         <div class="redirect" align=center>$message please wait to redirect to the $to page</div>
