@@ -195,7 +195,4 @@ zzeof;
         getFooter();
         
     }
-    
-    
 ?>
-    

@@ -64,9 +64,9 @@ if (isset($_POST['submit_modify'])) {
 {
     if ( isset($_POST['event_uid']) && isset($_POST['event_body']) && isset($_POST['event_title']))
     {
-        $_POST['this_event_id'] = fix_str($_POST['this_event_id']);
+        //$_POST['this_event_id'] = fix_str($_POST['this_event_id']);
         //$_POST['event_body'] = fix_str($_POST['event_body']);
-        $_POST['event_title'] = fix_str($_POST['event_title']);
+        //$_POST['event_title'] = fix_str($_POST['event_title']);
         $categoryarray=$event_handle->show_category_list();
         $aEvent->subject=$_POST['event_title'];
         $aEvent->readaccess=20;
