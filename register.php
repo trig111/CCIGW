@@ -64,9 +64,14 @@ if (!empty($username)) {
         exit();
 
     }
+    if(strcmp($userpass, $repeat_pass)!=0){
+        redirect("inconsistent password and repeat password!", $url,'register');
+        
 
+        exit();
+    }
     
-//checing email
+//checking email
     $pattern = "/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/";
 
     if (!preg_match($pattern, $email)) {
