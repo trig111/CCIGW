@@ -16,9 +16,9 @@ if(isset($_GET['username'])&&!isset($_GET['reactivate'])&&!isset($_GET['cancel']
 //if username is set and two submit type of input is null then give user a choice to choose reactivate or cancel
     
 $username= fix_str($_GET['username']);
-$css=array('layout.css', 'slideshow.css');
+$css='';
 
-$js=array('jquery-1.3.1.min.js','meny.js');
+$js='';
 getHeader("Home",$css,$js,'',0);
 output_page_menu();
 echo <<< zzeof

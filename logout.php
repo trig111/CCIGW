@@ -16,10 +16,10 @@ if(isset($_SESSION['username'])&&!isset($_GET['logout'])&&!isset($_GET['cancel']
     $username= fix_str($_SESSION['username']);
     $lastlogin=  fix_str($_SESSION['lastlogin']);
     
-    $css=array('layout.css', 'slideshow.css');
+   
 
-$js=array('jquery-1.3.1.min.js','meny.js');
-getHeader("Home",$css,$js,'',0);
+
+getHeader("Home",'','','',0);
 output_page_menu();
     
     //give user a option to decide whether to logged out or cancel

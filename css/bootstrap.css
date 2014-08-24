@@ -11,7 +11,9 @@ html {
       -ms-text-size-adjust: 100%;
 }
 body {
+    padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
   margin: 0;
+  
 }
 article,
 aside,

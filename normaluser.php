@@ -28,9 +28,9 @@ $du= new Db_user();
 
 $result=$du->show_user_info($username);
 echo $username;
-$css=array('layout.css', 'slideshow.css');
+$css='';
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js');
+$js=array('group5js/check.js');
 getHeader("Home",$css,$js,'',0);
 
 output_page_menu();

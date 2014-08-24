@@ -7,9 +7,9 @@ require_once 'include/demoframe.php';
 require_once 'include/common.php';
 require_once 'dblib/db_events.php';
 require_once 'dblib/db_news.php';
-$css=array('layout.css', 'bootstrap.css','ccigw.css');
+$css='';
 //$js=array();
-$js=array('bootstrap.js','meny.js');
+$js=array('bootstrap.js','jquery-1.3.1.min.js');
 
 
 getHeader("Home",$css,$js,'',0);
@@ -17,9 +17,9 @@ getHeader("Home",$css,$js,'',0);
 
 output_page_menu();
 
-
+//<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 echo <<<zzeof
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 	<div class="container"></div>
 
 	 <div id="ccigwdemo" class="carousel slide">

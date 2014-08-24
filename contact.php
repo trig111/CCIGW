@@ -41,9 +41,9 @@ if(isset($_POST['email'])&&isset($_POST['title'])&&isset($_POST['comment'])){
 else{
 //else print the html page
     
-$css=array('bootstrap.css');
+$css='';
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
+$js=array('group5js/check.js');
 getHeader("Contact Us",$css,$js,'',0);
 output_page_menu();
 

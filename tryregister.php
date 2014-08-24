@@ -9,9 +9,9 @@ require_once("include/demoframe.php");
 
 
 
-$css=array('bootstrap.css', 'ccigw.css');
+$css='';
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','group5js/checkName.js','bootstrap.js');
+$js=array('group5js/check.js','group5js/checkName.js');
 getHeader("Home",$css,$js,'',0);
 output_page_menu();
 echo <<< zzeof

@@ -22,7 +22,7 @@ if(isset($_GET['verify'])&&!isset($_POST['userpass'])&&!isset($_POST['repeat_pas
     $checkCode = sha1($array[0].'^'.$pass);
     //compare not->exit
     if($array[1] === $checkCode){
-        $css=array('layout.css', 'slideshow.css');
+        $css='';
         $username=$array[0];
 
 $js=array('group5js/check.js','group5js/checkName.js');

@@ -7,9 +7,9 @@ require_once("include/demoframe.php");
 
 
 
-$css=array('bootstrap.css','ccigw.css');
+$css='';
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
+$js=array('group5js/check.js');
 getHeader("About",$css,$js,'',0);
 output_page_menu();
 

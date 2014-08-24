@@ -13,10 +13,10 @@ require_once 'include/common.php';
 require_once("include/demoframe.php");
 
 
-$css=array('ccigw.css', 'bootstrap.css');
+//$css=array('ccigw.css', 'bootstrap.css');
 
-$js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
-getHeader("Home",$css,$js,'',0);
+$js=array('group5js/check.js');
+getHeader("Home",'',$js,'',0);
 output_page_menu();
 echo <<< zzeof
 <h1>Login</h1>

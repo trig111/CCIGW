@@ -33,8 +33,9 @@ function getHeader($title,$css = array(), $js = array(),$url,$sec){
 
 		<meta name="viewport" content="width=800, user-scalable=no">
                 $url
+
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-                <link rel="stylesheet" type="text/css" href="css/ccigw.css"/>
+                
   		
                 $link
                 <script type="application/javascript" src="js/bootstrap.js"></script>

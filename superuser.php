@@ -9,7 +9,7 @@ require_once('dblib/db_user.php');
 require_once("userlist.php");
 require_once 'include/common.php';
 //require_once('/form/form_admin.php');
-$css = array('layout.css');
+$css = '';
 
 $js = array('group5js/check.js');
 getHeader("Superuser", $css, $js, '', 0);

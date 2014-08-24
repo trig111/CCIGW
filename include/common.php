@@ -181,13 +181,13 @@ function send_activation_email($username,$userpass,$verifycode,$email){
         
        
         
-        $css=array('layout.css', 'slideshow.css');
+        //$css=array('layout.css', 'slideshow.css');
 
-        $js=array('jquery-1.3.1.min.js','meny.js');
+        $js='';
         $url=$host.$url;
         //echo'lalalalalal';
         //sleep (4);
-        getHeader("Home",$css,$js,$url,2);
+        getHeader("Home",'',$js,$url,2);
         output_page_menu();
         echo <<<zzeof
         <div class="redirect" align=center>$message please wait to redirect to the $to page</div>
