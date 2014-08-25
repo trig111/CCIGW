@@ -3,64 +3,65 @@ if(!isset($_SESSION))
     { 
         session_start(); 
     }
-require_once 'include/common.php';
-require_once('include/PHPMailer/class.phpmailer.php');
-//var_dump($_POST);
-//if(isset($_POST['email'])&&isset($_POST['title'])&&isset($_POST['comment'])){
-////    if(empty($_POST['email'])||$_POST['title']||$_POST['comment']){
-////        echo"missing one or more filed";
-////    }
-//    $email=  fix_str($_POST['email']); 
-//    $title=fix_str($_POST['email']); 
-//    $comment=fix_str($_POST['email']);
-//        $to ="notify.ccigw@gmail.com";
-////		$headers = 'From: ccigw feedback' . "\r\n" .
-////			'Reply-To: ' . $email . "\r\n";
-//			
-//		$message = "Name: $name \n" .
-//					"Email: $email \n" .
-//					
-//					"Subject: $comment\n" .
-//					"Message: \n\n";
-//					
-//					
+require_once("include/demoframe.php");
+require_once("include/common.php");
+
+
+
+$css=array('datepicker.css',);
+
+$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js');
+getHeader("Events", $css, $js, '' , 0);
+
+output_page_menu();
+
+echo <<< zzeof
+           
+//<script type="text/javascript">
+// 
+//function change_category(action){
 //
-//		if(mail($to, $title, $message)) echo"yes";
-//                else"no";
+//  
+//    var url="categroty_action_script.php"; 
+//    if(action=="add") var key =document.getElementById("addCategory").value;
+//    else if(action=="delete") var key= $( "#myselect" ).val();
+//    else var key= -1;
 //    
+//  $.post(url,{action:action,key:key},function(data){
+//        $("select").empty();
+//    $("select").append(data);
+//  });
 //}
-//echo"lalalal";
+//
+//
+//
+//$(document).ready(change_category('show'));
+//</script> 
+            
+<select id="myselect">
+</select>
+ <input type="text" id="addCategory" value=""/><button type="button" onclick="javascript:change_category('add');">add</button>
 
+<br />
+<button type="button" onclick="javascript:change_category('delete');">delete</button>
+<br />
 
+<input size="20" type="text" value="" class="form_datetime" readonly>
+ 
+<script type="text/javascript">
 
+    $(".form_datetime").datepicker({
+    language:'zh-CN',
+    format:"dd-mm-yyyy",
+        todayBtn: 'linked',
+        todayHighlight: true,
+        autoclose: true,
+        startDate: '+0d'
+        
+    });
+</script>   
 
+zzeof;
 
-$mail = new PHPMailer;
-$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
-$mail->Host = "smtp.gmail.com";
-$mail->Port = 465; // or 587
-$mail->IsSMTP();                                      // Set mailer to use SMTP
-//$mail->Host = 'localhost';  // Specify main and backup server
-$mail->SMTPAuth = true;                               // Enable SMTP authentication
-$mail->Username = 'notify.ccigw@gmail.com';                            // SMTP username
-$mail->Password = 'liu11121adminadmin';                           // SMTP password
-//$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
-$mail->IsHTML(true);                                  // Set email format to HTML
-
-$mail->From = '499811099@qq.com';
-$mail->FromName = '499811099@qq.com';
-$mail->AddAddress('notify.ccigw@gmail.com', '499811099@qq.com');  // Add a recipient    
-
-$mail->Subject = 'Here is the subject';
-$mail->Body    = 'lalalalalallala';
-$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-if(!$mail->Send()) {
-   echo 'Message could not be sent.';
-   echo 'Mailer Error: ' . $mail->ErrorInfo;
-   exit;
-}
-
-echo 'Message has been sent';
+getFooter();
 ?>
-

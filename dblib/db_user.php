@@ -459,7 +459,7 @@ $sql="UPDATE db_user SET status=1,identifier=NULL,expiry_time=NULL WHERE usernam
 
 			$row = $st->fetch();
 
-			return $row;
+			return $row['accessid'];
                         
 		}
 

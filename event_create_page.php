@@ -12,7 +12,7 @@ require_once('event_action.php');
 
 $css='';
 //$js=array('meny.js', 'group5js/check.js');
-$js='';
+$js=array('tinymce/tinymce.min.js');
 //require_once('/form/form_admin.php');
 getHeader("Events", $css, $js, '' , 0);
 
@@ -40,6 +40,8 @@ tinymce.init({
     echo'<form action="event_action.php" method="POST">';
     
      echo  '<h1>','<input type="text" name="event_title" size=80 value="Event title">' , '</h1> ';
+     
+     
      echo '<div > <table > <tr> <td>',
              '<textarea type="text" name="event_body"  cols="80" rows="20" >Event content</textarea>' ,
      '</td></tr></table></div>';
