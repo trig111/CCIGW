@@ -19,13 +19,14 @@ output_page_menu();
 
 //display_admin_form();
 
+
 $event_handle = new Db_events();
-    
-        
+$num  = $event_handle->get_num_of_events();    
+echo $num;
     echo '<div class="page-header">
               <h1>Events</h1>
               </div>';
-    foreach( $event_handle->show_events_list(0, 50) as $aEvent)
+    foreach( $event_handle->show_events_list(0, 5) as $aEvent)
     {
 
     echo '

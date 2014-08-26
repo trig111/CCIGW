@@ -354,11 +354,7 @@ class Db_events {
     //
     //may edited later based on the view and controller
     public function show_events_list( $offset, $pagesize ) {
-
-
-
-
-        try{
+             try{
 
 
             $sql='SELECT * FROM db_events LIMIT :offset,:pagesize';
@@ -648,4 +644,18 @@ class Db_events {
 
     }
 }
+
+    public function get_num_of_events(){
+        try{
+            $sql="SELECT COUNT( * ) FROM  `db_events`";
+            $st = $this->db_connection_handle->prepare( $sql );
+            $result = $st->execute();
+            return $result;
+        }
+
+        catch( PDOException $e ) {
+            return $e->getMessage();
+         }
+    }
+
 ?>
