@@ -3,24 +3,27 @@
 require_once('dblib/db_events.php');
 
 $event_handle = new Db_events();
-
-// if(array_key_exists('page', $_GET)){
-// 	$num  = $event_handle->get_num_of_events();    
-// }
 $num  = $event_handle->get_num_of_events();    
 
+if(array_key_exists('pg', $_GET)){
+	$page =  $_GET['pg'] ;
+}
+
+if ($page<1) {
+	$page =1 ;
+}
 
 // echo $num;
 //events_per_page
-$pagesize=3;
+$pagesize=5;
 
 $last = ceil($num/$pagesize);
+
 // echo $last;
 if($last<1){
   $last = 1;
 }
 //page number
-$page =3;
 
 $current = ($page -1)* $pagesize;
     echo '<div class="page-header">
@@ -39,11 +42,11 @@ $current = ($page -1)* $pagesize;
 }
 
 echo '<ul class="pagination">',
-              '<li><a href="#">&laquo;</a></li>';
+              '<li><a href="events.php?pg=',$page-1,'">&laquo;</a></li>';
 for($i=0; $i<$last; $i++){
     echo '<li><a href="events.php?pg=',$i+1,'">',$i+1,'</a></li>';
 }
-echo '<li><a href="#">&raquo;</a></li>',
+echo '<li><a href="events.php?pg=',$page+1,'">&raquo;</a></li>',
           '</ul>';
 
 
