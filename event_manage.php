@@ -74,9 +74,10 @@ ZZZEOF;
      
     }
     }
-    else if(strcmp($action,'edit')==0){
-        $event_handle->delete_events($event_id);
+    else if(strcmp($action,'del')==0){
+        $result=$event_handle->delete_events($event_id);
         
+        header("Location: admin_events.php");
     }
  }
  getFooter();
