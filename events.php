@@ -21,12 +21,28 @@ output_page_menu();
 
 
 $event_handle = new Db_events();
+
+
+
 $num  = $event_handle->get_num_of_events();    
-echo $num;
+// echo $num;
+$last = ceil($num/10);
+// echo $last;
+if($last<1){
+  $last = 1;
+}
+//page number
+$page =2;
+
+//events_per_page
+$pagesize=3;
+
+
+$current = ($page -1)* $pagesize;
     echo '<div class="page-header">
               <h1>Events</h1>
               </div>';
-    foreach( $event_handle->show_events_list(0, 5) as $aEvent)
+    foreach( $event_handle->show_events_list($current, $pagesize) as $aEvent)
     {
 
     echo '
@@ -36,10 +52,15 @@ echo $num;
                      Panel content
              </div>
       </div> ';
-
 }
 
-
+echo '<ul class="pagination">',
+              '<li><a href="#">&laquo;</a></li>';
+for($i=0; $i<$last; $i++){
+    echo '<li><a href="#">',$i+1,'</a></li>';
+}
+echo '<li><a href="#">&raquo;</a></li>',
+          '</ul>';
 
 getFooter();
 

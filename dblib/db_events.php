@@ -643,19 +643,22 @@ class Db_events {
         }
 
     }
-}
+
 
     public function get_num_of_events(){
         try{
-            $sql="SELECT COUNT( * ) FROM  `db_events`";
+            $sql='SELECT COUNT( * ) FROM  db_events';
             $st = $this->db_connection_handle->prepare( $sql );
-            $result = $st->execute();
-            return $result;
+            $st->execute();
+            $st->setFetchMode(PDO::FETCH_NUM);
+            $result=$st->fetch();
+            return $result[0];
         }
 
         catch( PDOException $e ) {
             return $e->getMessage();
          }
+     }
     }
 
 ?>
