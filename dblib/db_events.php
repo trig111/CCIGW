@@ -69,9 +69,9 @@ class Db_events {
     //
     //
     //
-    public function delete_events( Events $eventsdelete ) {
+    public function delete_events( $eventsdelete ) {
         $events_array=array(
-            ':eventsid'          =>$eventsdelete->eventsid
+            ':eventsid'          =>$eventsdelete
         );
 
         try{
@@ -384,6 +384,37 @@ class Db_events {
 
         }
     }
+    
+   
+    public function admin_show_events_list( $offset, $pagesize ) {
+
+
+
+
+        try{
+           $sql='SELECT eventsid,categoryname,subject,username,readaccess,maxmember,createtime,lastedit FROM db_events,db_user,id_category WHERE db_events.uid=db_user.uid and db_events.categoryid=id_category.categoryid LIMIT :offset,:pagesize';
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
+            $st->bindParam( ':pagesize', $pagesize, PDO::PARAM_INT );
+            $st->execute();
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            $result=array();
+
+
+            while ( $row = $st->fetch() ) {
+                array_push( $result, $row );
+            }
+            return $result;
+        }
+
+
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+    }
+    
     //
     //
     //

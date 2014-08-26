@@ -97,7 +97,7 @@ if (isset($_POST['submit_modify'])) {
         header("Location: superuser.php");
     }
     
-}elseif (isset ($_POST['delete_event']))
+}elseif (isset ($_POST['delete_event']))//need to edit
 {
     if ( isset($_POST['checkbox_events']))
     {

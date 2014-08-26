@@ -19,12 +19,14 @@ output_page_menu();
 
 
 
- if ( !(isset($_GET["eventsid"]) && is_numeric($_GET["eventsid"]) && count($_GET) === 1 ) ){
+ if ( !(isset($_GET["eventsid"]) ||!isset($_GET["action"]))){
      echo'<h1>400 Bad request!</h1>'; // if the GET request is not a valid request
  }
  else{
-    
+    $action=fix_str($_GET["action"]);
     $event_id = fix_str($_GET["eventsid"]);// for infection
+    if(strcmp($action,'edit')==0){
+    
     $event_handle = new Db_events();
     $user_handle = new Db_user();
     $aEvent = $event_handle->show_single_event($event_id);
@@ -70,6 +72,11 @@ output_page_menu();
               
 ZZZEOF;
      
+    }
+    }
+    else if(strcmp($action,'edit')==0){
+        $event_handle->delete_events($event_id);
+        
     }
  }
  getFooter();
