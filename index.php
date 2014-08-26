@@ -9,7 +9,7 @@ require_once 'dblib/db_events.php';
 require_once 'dblib/db_news.php';
 $css='';
 //$js=array();
-$js=array('jquery-1.3.1.min.js');
+$js=array();
 
 
 getHeader("Home",$css,$js,'',0);
