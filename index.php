@@ -116,7 +116,7 @@ for ( $i = 0 ; $i < 2 ; $i ++ )
 }
 
 echo '</table></div>';
-*/			
+	*/		
 echo <<<zzeof
 
 <div class="jumbotron">
@@ -128,17 +128,22 @@ echo <<<zzeof
         <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
-    
+zzeof;
 
-<?php for ( $i = 0 ; $i < 2 ; $i ++ ) { ?>
+for ( $i = 0 ; $i < 2 ; $i ++ ) { 
 
-
+echo <<<zzeof
+  
     <div class="container">
       <div class="row">
         <div class="col-md-6">
           <h2>News</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="newspage.php?newsid=<?php $news_list[$i]["newsid"]; ?>" role="button">View details &raquo;</a></p>
+zzeof;
+
+        echo  '<p><a class="btn btn-default" href="newspage.php?newsid=',$news_list[$i]['newsid'],'" role="button">View details &raquo;</a></p>';
+
+echo <<<zzeof
         </div>
         <div class="col-md-6">
           <h2>Upcoming Events</h2>
@@ -149,8 +154,9 @@ echo <<<zzeof
       <br>
       <hr>
 
-<?php } ?>
 zzeof;
+ } 
+
 getFooter();
 
 ?>
