@@ -10,54 +10,53 @@ require_once("include/common.php");
 require_once('event_action.php');
 
 
-$css='';
-//$js=array('meny.js', 'group5js/check.js');
-$js=array('tinymce/tinymce.min.js');
+$css=array('datepicker.css',);
+$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 //require_once('/form/form_admin.php');
 getHeader("Events", $css, $js, '' , 0);
 
 output_page_menu();
-
-
-
-    
     
     $event_handle = new Db_events();
     $user_handle = new Db_user();
     
      //print_r($aEvent);
-    echo '<script type="text/javascript">
-tinymce.init({
-    selector: "textarea",
-    plugins: [
-        "advlist autolink lists link image charmap print preview anchor",
-        "searchreplace visualblocks code fullscreen",
-        "insertdatetime media table contextmenu paste"
-    ],
-    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-});
-</script> ';
-    echo'<form action="event_action.php" method="POST">';
+echo <<< ZZEOF
     
-     echo  '<h1>','<input type="text" name="event_title" size=80 value="Event title">' , '</h1> ';
+    <form action="event_action.php" method="POST">
+    <h1><input type="text" name="event_title" size=80 value="Event title"></h1>
      
-     
-     echo '<div > <table > <tr> <td>',
-             '<textarea type="text" name="event_body"  cols="80" rows="20" >Event content</textarea>' ,
-     '</td></tr></table></div>';
-     
-     echo '<input type="submit" name="submit_new_event" value="Submit" />';
+     <fieldset>
+         <legend>Category</legend>
+        Select:  <select id="myselect" name="categoryid" onchange="change_content()">
+            
+                    </select>
+     <input type="text" id="addCategory" name ="event_category" value=""/><button type="button" onclick="change_category('add');">ADD</button>
+     &nbsp;&nbsp;<button type="button" onclick="change_category('delete');">DEL</button>
+    </fieldset>
+ 
+     <fieldset>
+         <legend>Time Period</legend>
+    Start Time:<input size="20" type="text"  name="event_starttime" value="" class="form_datetime" readonly><br />
+    End Time: <input size="20" type="text" name="event_endtime" value="" class="form_datetime" readonly>
+       
+    </fieldset>
+  
+    Maximum member:<input size="20" type="text" value="999"  name="event_maxmember" ><br />
     
-     echo '<input type="hidden" name="event_uid" value="', $user_handle->get_uid_by_name($_SESSION['username'])  , '">';
-     //echo '<input type="hidden" name="event_uid" value="', 1 , '">';
-     echo '</form>';
+     <div ><table > <tr> <td>
+     <textarea type="text" name="event_body"  cols="80" rows="20" >Event content</textarea>
+     </td></tr></table></div>
+
+     <input type="submit" name="submit_new_event" value="Submit" />
+    
+     <input type="hidden" name="event_uid" value=" {$user_handle->get_uid_by_name($_SESSION['username'])}">
+     
+     </form>
+ZZEOF;
      
      
-     
-     
-     // begin to showreply 
-     
-     //print_r( $event_handle->show_corresponding_reply($this_event_id));
+//print_r( $event_handle->show_corresponding_reply($this_event_id));
 
  
  // replay form

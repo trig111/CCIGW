@@ -526,7 +526,7 @@ class Db_events {
             $st->execute( $user_array );
             $row = $st->fetch();
 
-            return $row;
+            return $row['categoryname'];
         }
         catch ( PDOException $e ) {
             return $e->getMessage();

@@ -9,10 +9,8 @@ require_once("include/demoframe.php");
 require_once("include/common.php");
 require_once('event_action.php');
 
-//do_page_prequisites();
-$css='';
-//$js=array('meny.js', 'group5js/check.js');
-$js=array('tinymce/tinymce.min.js');
+$css=array('datepicker.css',);
+$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 //require_once('/form/form_admin.php');
 getHeader("Events", $css, $js, '' , 0);
 
@@ -23,51 +21,56 @@ output_page_menu();
 
  if ( !(isset($_GET["eventsid"]) && is_numeric($_GET["eventsid"]) && count($_GET) === 1 ) ){
      echo'<h1>400 Bad request!</h1>'; // if the GET request is not a valid request
- }else
- {
-    $this_event_id = $_GET["eventsid"];
-    $event_id = fix_str($this_event_id);// for infection
+ }
+ else{
+    
+    $event_id = fix_str($_GET["eventsid"]);// for infection
     $event_handle = new Db_events();
     $user_handle = new Db_user();
-    $aEvent = $event_handle->show_single_event($this_event_id);
+    $aEvent = $event_handle->show_single_event($event_id);
+    
     if ( empty($aEvent)){
         echo'<h1>404 Page not found!</h1>';
-    }else{
-     //print_r($aEvent);
-      echo '<script type="text/javascript">
-tinymce.init({
-    selector: "textarea",
-    plugins: [
-        "advlist autolink lists link image charmap print preview anchor",
-        "searchreplace visualblocks code fullscreen",
-        "insertdatetime media table contextmenu paste"
-    ],
-    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-});
-</script> ';
-    echo'<form action="event_action.php" method="POST">';
+    }
+    else{
+    $categoryname=$event_handle->show_corresponding_category($aEvent['categoryid']);
+   
+ echo <<< ZZZEOF
+   <form action="event_action.php" method="POST">
     
-     echo  '<h1>','<input type="text" name="event_title" size=80 value="', $aEvent["subject"]  , '">' , '</h1> ';
-     echo '<div > <table > <tr> <td>',
-             '<textarea type="text" name="event_body"  cols="80" rows="20" >', $aEvent["body"]  , '</textarea>' ,
-     '</td></tr></table></div>';
+     <h1><input type="text" name="event_title" size=80 value="{$aEvent['subject']}"></h1>
+     <fieldset>
+         <legend>Category</legend>
+        Select:  <select id="myselect" name="categoryid" onchange="change_content()">
+            
+                    </select>
+     <input type="text" id="addCategory" name ="event_category" value="$categoryname"/><button type="button" onclick="change_category('add');">ADD</button>
+     &nbsp;&nbsp;<button type="button" onclick="change_category('delete');">DEL</button>
+    </fieldset>
+ 
+     <fieldset>
+         <legend>Time Period</legend>
+    Start Time:<input size="20" type="text"  name="event_starttime" value="{$aEvent['startime']}" class="form_datetime" readonly><br />
+    End Time: <input size="20" type="text" name="event_endtime" value="{$aEvent['endtime']}" class="form_datetime" readonly>
+       
+    </fieldset>
+  
+    Maximum member:<input size="20" type="text" value="{$aEvent['maxmember']}"  name="event_maxmember" ><br />
+      <table > <tr> <td>
+   <textarea type="text" name="event_body"  cols="80" rows="20" > {$aEvent['body']}</textarea>
+     </td></tr></table>
      
-     echo '<input type="submit" name="submit_modify" value="Modify" />';
-     echo '<input type="hidden" name="event_id" value="',$this_event_id,'"/>';
-     //echo '<input type="hidden" name="event_uid" value="', $user_handle->get_uid_by_name($_SESSION['username'])  , '">';
-     echo '<input type="hidden" name="event_uid" value="', 1 , '">';
-     echo '</form>';
+     <input type="submit" name="submit_modify" value="Modify" />
+     <input type="hidden" name="event_id" value="$event_id"/>
+    <input type="hidden" name="event_uid" value=" {$aEvent['uid']}">
      
-     echo '<div >',
-           'createtime:',  $aEvent["createtime"] ,' lastedit:',$aEvent["lastedit"]
-     ,'</div>';
+     </form>
      
+     <div >createtime:{$aEvent['createtime']} lastedit:{$aEvent['lastedit']}</div>
+              
+ZZZEOF;
      
-     // begin to showreply 
-     
-     //print_r( $event_handle->show_corresponding_reply($this_event_id));
     }
  }
- // replay form
-getFooter();
-?>
+ getFooter();
+ ?>

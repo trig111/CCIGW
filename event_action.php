@@ -11,23 +11,35 @@ $aEvent = new Events();
 
 
 if (isset($_POST['submit_modify'])) {
-    //print_r($_POST);
-    if ( isset($_POST['event_title']) && isset($_POST['event_body']) && isset($_POST['event_id'])
-            && isset($_POST['event_uid']))
+   
+    if ( isset($_POST['event_uid']) &&isset($_POST['event_title']) && isset($_POST['event_body']) && isset($_POST['event_id'])&& isset($_POST['categoryid']))
+            
     {
-        $_POST['event_title'] = fix_str($_POST['event_title']); // html injection
-        //$_POST['event_body'] = fix_str($_POST['event_body']);
-        $_POST['event_id'] = fix_str($_POST['event_id']);
-        $_POST['event_uid'] = fix_str($_POST['event_uid']);
-        //print_r($_POST);
-        $categoryarray=$event_handle->show_category_list();
-        $aEvent->categoryid=$categoryarray[0]['categoryid'];
-        $aEvent->uid=$_POST['event_uid'];
-        $aEvent->eventsid=$_POST['event_id'];
-        $aEvent->body=$_POST['event_body'];
-        $aEvent->subject=$_POST['event_title'];
-        $result= $event_handle->update_events($aEvent);
+        $event_uid= fix_str($_POST['event_uid']);
+      $event_id= fix_str($_POST['event_id']);
+        $event_body = fix_str($_POST['event_body']);
+        $event_title = fix_str($_POST['event_title']);
+         $categoryid = fix_str($_POST['categoryid']);
+         $event_starttime=fix_str($_POST['event_starttime']);
+         $event_endtime=fix_str($_POST['event_endtime']);
+         $event_maxmember=fix_str($_POST['event_maxmember']);
+        $aEvent->eventsid=$event_id;
+        $aEvent->subject=$event_title;
+        $aEvent->readaccess=0;
+        $aEvent->body=$event_body;
+        $aEvent->categoryid=$categoryid;
+        $aEvent->uid=$event_uid;
+        $aEvent->maxmember=$event_maxmember;
+        if(!empty($event_starttime))$aEvent->startime=$event_starttime;
+        if(!empty($event_endtime))$aEvent->endtime=$event_endtime;
+        if(!empty($event_maxmember))$aEvent->maxmember=$event_maxmember;
+        $result=$event_handle->update_events($aEvent);
+        
         header("Location: superuser.php");
+        
+        
+        //print_r($_POST);
+     
         
     }
  
@@ -62,17 +74,25 @@ if (isset($_POST['submit_modify'])) {
     }
 } elseif( isset($_POST['submit_new_event']))
 {
-    if ( isset($_POST['event_uid']) && isset($_POST['event_body']) && isset($_POST['event_title']))
+    if ( isset($_POST['event_uid']) && isset($_POST['event_body']) && isset($_POST['event_title'])&& isset($_POST['categoryid']))
     {
-        //$_POST['this_event_id'] = fix_str($_POST['this_event_id']);
-        //$_POST['event_body'] = fix_str($_POST['event_body']);
-        //$_POST['event_title'] = fix_str($_POST['event_title']);
-        $categoryarray=$event_handle->show_category_list();
-        $aEvent->subject=$_POST['event_title'];
-        $aEvent->readaccess=20;
-        $aEvent->body=$_POST['event_body'];
-        $aEvent->categoryid=$categoryarray[0]['categoryid'];
-        $aEvent->uid=$_POST['event_uid'];
+        $event_uid = fix_str($_POST['event_uid']);
+        $event_body = fix_str($_POST['event_body']);
+        $event_title = fix_str($_POST['event_title']);
+         $categoryid = fix_str($_POST['categoryid']);
+         $event_starttime=fix_str($_POST['event_starttime']);
+         $event_endtime=fix_str($_POST['event_endtime']);
+         $event_maxmember=fix_str($_POST['event_maxmember']);
+        //$categoryarray=$event_handle->show_category_list();
+        $aEvent->subject=$event_title;
+        $aEvent->readaccess=0;
+        $aEvent->body=$event_body;
+        $aEvent->categoryid=$categoryid;
+        $aEvent->uid=$event_uid;
+        $aEvent->maxmember=$event_maxmember;
+        if(!empty($event_starttime))$aEvent->startime=$event_starttime;
+        if(!empty($event_endtime))$aEvent->endtime=$event_endtime;
+        if(!empty($event_maxmember))$aEvent->maxmember=$event_maxmember;
         $result=$event_handle->post_events($aEvent);
         header("Location: superuser.php");
     }

@@ -23,7 +23,8 @@ if(isset($_POST['action'],$_POST['key'])){
     }
     
     $result=$de->show_category_list();
-    foreach ($result as $key)echo'<option value ="',$key['categoryid'],'">',$key['categoryname'],'</option>';
+    
+    foreach ($result as $key)echo'<option value ="',$key['categoryid'],'"','id="',$key['categoryname'],'">',$key['categoryname'],'</option>';
 }
 
 
