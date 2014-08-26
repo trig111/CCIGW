@@ -9,9 +9,9 @@ INSTRUCTIONS:
 
 $DB_FIRST_ADMIN_ONLY=FALSE;
 
- $DBNAME="ccigw";
+ $DBNAME="CCIGW";
  $DBUSER="root";
- $DBPASS="root";
+ $DBPASS="daohao4bgun";
 //$DBNAME="liu11121_ccigw";
 //$DBUSER="liu11121";
 //$DBPASS="adminadmin";
