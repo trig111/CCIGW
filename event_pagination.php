@@ -1,74 +1,50 @@
 <?php
+
 require_once('dblib/db_events.php');
 
-$sql = "SELECT COUNT(eventsid) FROM `db_events`";
-$row = mysqli_fetch_row($query);
+$event_handle = new Db_events();
 
-$rows = $row[0];
+// if(array_key_exists('page', $_GET)){
+// 	$num  = $event_handle->get_num_of_events();    
+// }
+$num  = $event_handle->get_num_of_events();    
 
-$page_rows = 10;
 
-$last = ceil($rows/$page_rows);
+// echo $num;
+//events_per_page
+$pagesize=3;
 
-if($last < 1){
-	$last = 1;
+$last = ceil($num/$pagesize);
+// echo $last;
+if($last<1){
+  $last = 1;
+}
+//page number
+$page =3;
+
+$current = ($page -1)* $pagesize;
+    echo '<div class="page-header">
+              <h1>Events</h1>
+              </div>';
+    foreach( $event_handle->show_events_list($current, $pagesize) as $aEvent)
+    {
+
+    echo '
+       <div class="panel panel-default">
+                    <div class="panel-heading"><a href="eventpage.php?eventsid=' ,$aEvent["eventsid"],'" > ', $aEvent['subject'] , '</a></div>
+            <div class="panel-body">
+                     Panel content
+             </div>
+      </div> ';
 }
 
-$pagenum = 1;
-
-if(isset($_GET['pn'])){
-	$pagenum = preg_replace('#[^0-9]#', '', $_GET['pn']);
+echo '<ul class="pagination">',
+              '<li><a href="#">&laquo;</a></li>';
+for($i=0; $i<$last; $i++){
+    echo '<li><a href="events.php?pg=',$i+1,'">',$i+1,'</a></li>';
 }
+echo '<li><a href="#">&raquo;</a></li>',
+          '</ul>';
 
-if ($pagenum < 1) { 
-    $pagenum = 1; 
-} else if ($pagenum > $last) { 
-    $pagenum = $last; 
-}
 
-$limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
-
-$sql = "SELECT `eventsid`, `subject`, `body`, `categoryid`, `createtime`, `startime`, `endtime`, `maxmember`, `lastedit` FROM `db_events` ORDER BY eventsid DESC $limit";
-
-$textline1 = "Testimonials (<b>$rows</b>)";
-$textline2 = "Page <b>$pagenum</b> of <b>$last</b>";
-
-$paginationCtrls = '';
-
-if($last != 1){
-
-	if ($pagenum > 1) {
-        $previous = $pagenum - 1;
-		$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$previous.'">Previous</a> &nbsp; &nbsp; ';
-		
-		for($i = $pagenum-4; $i < $pagenum; $i++){
-			if($i > 0){
-		        $paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
-			}
-	    }
-    }
-	
-	$paginationCtrls .= ''.$pagenum.' &nbsp; ';
-	
-	for($i = $pagenum+1; $i <= $last; $i++){
-		$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
-		if($i >= $pagenum+4){
-			break;
-		}
-	}
-	
-    if ($pagenum != $last) {
-        $next = $pagenum + 1;
-        $paginationCtrls .= ' &nbsp; &nbsp; <a href="'.$_SERVER['PHP_SELF'].'?pn='.$next.'">Next</a> ';
-    }
-}
-$list = '';
-while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){
-	$eventsid = $row["eventsid"];
-	$subject = $row["subject"];
-	$body = $row["body"];
-	$createtime = $row["createtime"];
-	$createtime = strftime("%b %d, %Y", strtotime($createtime));
-	$list .= '<p><a href="events.php?id='.$eventsid.'">'.$subjecy.' Testimonial</a> - Click the link to view this testimonial<br>Written '.$createtime.'</p>';
-}
 ?>
