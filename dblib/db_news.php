@@ -164,4 +164,20 @@ class Db_news {
 
 
     }
+
+    public function get_num_of_news(){
+         try{
+            $sql='SELECT COUNT( * ) FROM  db_news';
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->execute();
+            $st->setFetchMode(PDO::FETCH_NUM);
+            $result=$st->fetch();
+            return $result[0];
+        }
+
+        catch( PDOException $e ) {
+            return $e->getMessage();
+         }
+     }
+    
 }
