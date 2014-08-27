@@ -12,13 +12,12 @@ if(!isset($_SESSION))
 require_once 'include/common.php';
 require_once("include/demoframe.php");
 
-
-//$css=array('ccigw.css', 'bootstrap.css');
+echo '<link href="css/login.css" rel="stylesheet">';
 
 $js=array('group5js/check.js');
 getHeader("Home",'',$js,'',0);
 output_page_menu();
-echo <<< zzeof
+/*echo <<< zzeof
 <h1>Login</h1>
 <div class="responsive-container">
     <div class="dummy"></div>
@@ -26,7 +25,7 @@ echo <<< zzeof
     <div class="form-container">
         <div class="centerer"></div>
         
-        <form clss="login_and_signup" name="login" method="post" action="login.php" onSubmit="return doLoginCheck();">
+        <form class="login_and_signup" name="login" method="post" action="login.php" onSubmit="return doLoginCheck();">
 
     <fieldset>
     	
@@ -69,6 +68,36 @@ echo <<< zzeof
 
 
 
+zzeof;
+*/
+
+
+
+
+echo <<<zzeof
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Login</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                    alt="">
+                <form class="form-signin" name="login" method="post" action="login.php" onSubmit="return doLoginCheck();">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>
+                <input type="password" class="form-control" name="userpass" id="userpass" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit">
+                    Sign in</button>
+                <label class="checkbox pull-left">
+                    <input type="checkbox" value="remember-me">
+                    Remember me
+                </label>
+                <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                </form>
+            </div>
+            <a href="tryregister.php" class="text-center new-account">Create an account </a>
+        </div>
+    </div>
+</div>
 zzeof;
 getFooter();
 
