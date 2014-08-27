@@ -137,7 +137,7 @@ class Db_events {
     //
     //
     //
-    //function show_event_list(){}
+    //function _event_list(){}
     //
     //
     //

@@ -167,7 +167,30 @@ function send_activation_email($username,$userpass,$verifycode,$email){
         
     }
     
-    
+    function pagination($num, $pagesize){
+        if(array_key_exists('pg', $_GET) && is_numeric($_GET['pg'])){
+                         $current_pages =  $_GET['pg'] ;
+         }else{
+        header('Location:index.php');
+        }   
+
+        $offset = ($current_pages -1)* $pagesize;
+
+        $total_pages = ceil($num/$pagesize);
+
+        if($total_pages<1){
+          $total_pages = 1;
+        }
+
+        if ($current_pages<2) {
+            $current_pages =1 ;
+        }elseif ($current_pages>$total_pages) {
+            $current_pages = $total_pages;
+        }
+        $result=array($current_pages,$total_pages,$offset);
+
+        return $result;
+    }
 
 
     

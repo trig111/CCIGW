@@ -92,7 +92,7 @@ echo <<<ZZEOF
           <ul class="nav navbar-nav">
             <li class="active"><a href="index.php">Home</a></li>
             <li><a href="about.php">About</a></li>
-            <li><a href="events.php">Events</a></li>
+            <li><a href="events.php?pg=1">Events</a></li>
             <li><a href="news.php">News</a></li>
             <li><a href="contact.php">Contact Us</a></li>
           </ul>

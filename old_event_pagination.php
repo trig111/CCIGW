@@ -5,27 +5,28 @@ require_once('dblib/db_events.php');
 $event_handle = new Db_events();
 $num  = $event_handle->get_num_of_events();    
 
-if(array_key_exists('pg', $_GET)){
+if(array_key_exists('pg', $_GET) && is_numeric($_GET['pg'])){
 	$page =  $_GET['pg'] ;
+}else{
+  header('Location:index.php');
 }
-
-if ($page<1) {
-	$page =1 ;
-}
-
-// echo $num;
 //events_per_page
 $pagesize=5;
 
+$current = ($page -1)* $pagesize;
+
 $last = ceil($num/$pagesize);
 
-// echo $last;
 if($last<1){
   $last = 1;
 }
-//page number
 
-$current = ($page -1)* $pagesize;
+if ($page<2) {
+	$page =1 ;
+}elseif ($page>$last) {
+    $page = $last;
+}
+
     echo '<div class="page-header">
               <h1>Events</h1>
               </div>';
