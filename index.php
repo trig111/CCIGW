@@ -27,7 +27,6 @@ echo <<<zzeof
           <li data-target="#ccigwdemo" data-slide-to="0" class="active"></li>
           <li data-target="#ccigwdemo" data-slide-to="1"></li>
           <li data-target="#ccigwdemo" data-slide-to="2"></li>
-          <li data-target="#ccigwdemo" data-slide-to="3"></li>
         </ol>
 
         <div class="carousel-inner">
@@ -41,10 +40,6 @@ echo <<<zzeof
         <h3>Learn how to make you own dumplings!</h3>
       </div>
       </div>
-      <div class="item"><img src="images/ccigwdemo4.jpg" alt="" class="img-responsive">   
-      <div class="carousel-caption">
-        <h3>Watch him perform</h3>
-      </div></div>
       
       <div class="item"><img src="images/ccigwdemo6.jpg" alt="" class="img-responsive">   
       <div class="carousel-caption">
