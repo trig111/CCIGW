@@ -189,20 +189,7 @@ $sql="UPDATE db_user SET userpass=:userpass WHERE username=:username";
 			$st->setFetchMode( PDO::FETCH_ASSOC );
 			$st->execute( $user_array );
 			$row = $st->fetch();
-			//                        $userdetails->uid=$row[0];
-			//   $userdetails->accessid=$row[1];
-			//   $userdetails->username=$row[2];
-			//   $userdetails->userpass=$row[3];
-			//   $userdetails->email=$row[4];
-			//   $userdetails->firstname=$row[5];
-			//   $userdetails->lastname=$row[6];
-			//   $userdetails->gender=$row[7];
-			//   $userdetails->phonenumber=$row[8];
-			//   $userdetails->address=$row[9];
-			//   $userdetails->status=$row[10];
-			//   $userdetails->lastlogin=$row[11];
-			//   $userdetails->identifier=$row[12];
-			//   $userdetails->expiry_time=$row[13];
+			
 			return $row;
 		}
 		catch ( PDOException $e ) {
