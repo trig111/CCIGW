@@ -61,8 +61,11 @@ zzeof;
 //upcoming evetns
 $news_handle = new Db_news();
 $event_handle = new Db_events();
-$news_list = $news_handle->show_all_news(0, 2);
-$event_list = $event_handle->show_events_list(0, 2);
+$num_news = $news_handle -> get_num_of_news();
+$num_events = $event_handle -> get_num_of_events();
+$news_list = $news_handle->show_all_news($num_news-2, 2);
+$event_list = $event_handle->show_events_list($num_events-2, 2);
+
 
 echo <<<zzeof
 
@@ -84,7 +87,7 @@ echo <<<zzeof
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h2>News</h2>
+          <h2>Latest News:{$news_list[$i]['subject']}</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
 zzeof;
 
@@ -93,9 +96,9 @@ zzeof;
 echo <<<zzeof
         </div>
         <div class="col-md-6">
-          <h2>Upcoming Events</h2>
+          <h2>Latest Event:{$event_list[$i]['subject']}}</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="eventpage.php?eventsid={$event_list[$i]['eventsid']}" role="button">View details &raquo;</a></p>
        </div>
        
       <br>
