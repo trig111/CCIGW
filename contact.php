@@ -49,7 +49,7 @@ output_page_menu();
 
 
 	echo <<<ZZEOF
-            <h4>40px</h4>
+   
 
 		<h1>Contact Us</h1>
 		
