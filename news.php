@@ -38,11 +38,11 @@ $page_key = pagination($num,$pagesize);
     }
 
     echo '<ul class="pagination">',
-                  '<li><a href="news.php?pg=',$page_key[0]-1,'">&laquo;</a></li>';
+                  '<li><a href="news.php?pg=',$page_key[3],'">&laquo;</a></li>';
     for($i=0; $i<$page_key[1]; $i++){
         echo '<li><a href="news.php?pg=',$i+1,'">',$i+1,'</a></li>';
     }
-    echo '<li><a href="news.php?pg=',$page_key[0]+1,'">&raquo;</a></li>',
+    echo '<li><a href="news.php?pg=',$page_key[4],'">&raquo;</a></li>',
               '</ul>';
 // echo <<<zzeof
 
@@ -54,17 +54,6 @@ $page_key = pagination($num,$pagesize);
 //   </select>
 
 // zzeof;
-
-// foreach( $news_list as $a_news )
-// {
-//     //print_r($a_news);
-//     echo '<tr>';
-//         echo '<a href="newspage.php?newsid=', $a_news['newsid'], '" class="newsLink" id="firstNews">',
-//                 $a_news['subject'],'</a></tr>';
-        
-// }
-
-// 	echo '</table></div>';
 
 getFooter();
 
