@@ -22,7 +22,7 @@ echo <<<zzeof
 
 	<div class="container"></div>
 
-	 <div id="ccigwdemo" class="carousel slide">
+	 <div id="ccigwdemo" class="carousel slide" style="width: 1600px; hight:700px; margin: 0 auto">
         <ol class="carousel-indicators">
           <li data-target="#ccigwdemo" data-slide-to="0" class="active"></li>
           <li data-target="#ccigwdemo" data-slide-to="1"></li>
