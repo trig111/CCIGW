@@ -253,8 +253,8 @@ class Db_events {
             ':uid'=>$eventsreg->uid,
             //':registertime'=>$eventsreg->registertime,
             ':numberofpeople'=>$eventsreg->numberofpeople,
-            ':price'=>$eventsreg->price,
-            ':remarks'=>$eventsreg->remarks,
+            //':price'=>$eventsreg->price,
+            ':remarks'=>$eventsreg->remarks
             //':lastedit'=>$eventsreg->lastedit
         );
 
@@ -289,7 +289,7 @@ class Db_events {
             ':uid'=>$eventsreg->uid,
             ':registertime'=>$eventsreg->registertime,
             ':numberofpeople'=>$eventsreg->numberofpeople,
-            ':price'=>$eventsreg->price,
+            //':price'=>$eventsreg->price,
             ':remarks'=>$eventsreg->remarks
             //':lastedit'=>$eventsreg->lastedit
         );
@@ -413,7 +413,7 @@ class Db_events {
     
     //
     //
-    //
+    //seems that have the problem
     public function show_single_event( $eventsid ) {
 
         $user_array=array(
@@ -424,11 +424,35 @@ class Db_events {
             $sql="SELECT * FROM db_events WHERE eventsid=:eventsid";
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
-            $st->setFetchMode( PDO::FETCH_ASSOC );
             $st->execute( $user_array );
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            
             $row = $st->fetch();
 
             return $row;
+        }
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+    }
+    
+       public function show_single_event_name( $eventsid ) {
+
+        
+        try{
+
+            $sql="SELECT subject FROM db_events WHERE eventsid=:eventsid";
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
+            
+            
+            $st->execute( );
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            $row = $st->fetch();
+
+            return $row['subject'];
         }
         catch ( PDOException $e ) {
             return $e->getMessage();

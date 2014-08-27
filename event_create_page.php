@@ -10,7 +10,7 @@ require_once("include/common.php");
 require_once('event_action.php');
 
 
-$css=array('datepicker.css',);
+$css=array('datepicker.css');
 $js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 //require_once('/form/form_admin.php');
 getHeader("Events", $css, $js, '' , 0);
