@@ -131,21 +131,6 @@ class Db_events {
     }
 
 
-
-
-    //
-    //
-    //
-    //
-    //function _event_list(){}
-    //
-    //
-    //
-    //function show_single_event(){}
-    //
-    //
-    //
-    //
     public function add_reply( Events $replydata ) {
 
         $evets_array=array(
@@ -389,7 +374,36 @@ class Db_events {
 
 
         try{
-           $sql='SELECT eventsid,categoryname,subject,username,readaccess,maxmember,createtime,lastedit FROM db_events,db_user,id_category WHERE db_events.uid=db_user.uid and db_events.categoryid=id_category.categoryid LIMIT :offset,:pagesize';
+           $sql='SELECT eventsid,categoryname,subject,username,readaccess,maxmember,createtime,lastedit FROM db_events,db_user,id_category WHERE db_events.uid=db_user.uid and db_events.categoryid=id_category.categoryid ORDER BY eventsid DESC LIMIT :offset,:pagesize';
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
+            $st->bindParam( ':pagesize', $pagesize, PDO::PARAM_INT );
+            $st->execute();
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            $result=array();
+
+
+            while ( $row = $st->fetch() ) {
+                array_push( $result, $row );
+            }
+            return $result;
+        }
+
+
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+    }
+    
+    public function client_show_events_list( $offset, $pagesize ) {
+
+
+
+
+        try{
+           $sql='SELECT eventsid,db_events.uid as uid,categoryname,subject,username,createtime FROM db_events,db_user,id_category WHERE db_events.uid=db_user.uid and db_events.categoryid=id_category.categoryid ORDER BY eventsid DESC LIMIT :offset,:pagesize';
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
@@ -417,15 +431,17 @@ class Db_events {
     //seems that have the problem
     public function show_single_event( $eventsid ) {
 
-        $user_array=array(
-            ':eventsid'          =>$eventsid
-        );
+//        $user_array=array(
+//            ':eventsid'          =>$eventsid
+//        );
         try{
 
-            $sql="SELECT * FROM db_events WHERE eventsid=:eventsid";
+            $sql="SELECT subject, readaccess, body,createtime, db_events.uid as uid,username,startime, endtime, maxmember,lastedit FROM db_events,db_user WHERE eventsid=:eventsid and db_user.uid=db_events.uid";
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
-            $st->execute( $user_array );
+             $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
+            //$st->execute( $user_array );
+             $st->execute();
             $st->setFetchMode( PDO::FETCH_ASSOC );
             
             $row = $st->fetch();
@@ -528,19 +544,21 @@ class Db_events {
     //
     //
     //
-    public function show_corresponding_reply( $eventsid ) {
+    public function show_corresponding_reply( $eventsid ,$offset,$pagesize) {
 
 
 //        $user_array=array(
 //            ':$eventsid'          =>(int)$eventsid
-//        );
+//        );          
         try{
 
-
-            $sql='SELECT * FROM db_evtreply where eventsid=:eventsid';
+            
+            $sql='SELECT db_evtreply.uid as uid,username,body,replytime,lastedit FROM db_evtreply,db_user where eventsid=:eventsid and db_evtreply.uid=db_user.uid LIMIT :offset,:pagesize';
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
+            $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
+            $st->bindParam( ':pagesize', $pagesize, PDO::PARAM_INT );
             $st->execute();
             $st->setFetchMode( PDO::FETCH_ASSOC );
             $result=array();
@@ -560,6 +578,36 @@ class Db_events {
 
     }
 
+    
+     public function show_corresponding_last_reply( $eventsid ) {
+
+
+//        $user_array=array(
+//            ':$eventsid'          =>(int)$eventsid
+//        );
+        try{
+            $sql='SELECT username, MAX(replytime) as lastreply FROM db_evtreply,db_user where eventsid=:eventsid and eventsreplyid=(select MAX(eventsreplyid) from db_evtreply where eventsid=:eventsid) and db_evtreply.uid=db_user.uid';
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
+            $st->execute();
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            
+
+
+             $row = $st->fetch() ;
+               
+            
+            return $row;
+        }
+
+
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+
+    }
     //
     //
     //
@@ -586,6 +634,8 @@ class Db_events {
         }
 
     }
+    
+    
     public function add_category( Events $categoryinfo ) {
 
 
@@ -705,6 +755,22 @@ class Db_events {
         try{
             $sql='SELECT COUNT( * ) FROM  db_events';
             $st = $this->db_connection_handle->prepare( $sql );
+            $st->execute();
+            $st->setFetchMode(PDO::FETCH_NUM);
+            $result=$st->fetch();
+            return $result[0];
+        }
+
+        catch( PDOException $e ) {
+            return $e->getMessage();
+         }
+     }
+     
+     public function get_num_of_evtreplys($eventsid){
+        try{
+            $sql='SELECT COUNT( * ) FROM  db_evtreply where eventsid=:eventsid ';
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
             $st->execute();
             $st->setFetchMode(PDO::FETCH_NUM);
             $result=$st->fetch();

@@ -10,10 +10,10 @@ require_once("include/demoframe.php");
 function is_legal_access($uid){
     //if(!isset($uid)||empty($uid)) return false;
     if(is_user_logged_in()){
-        if(is_admin()) return true;
-        else{
+        //if(is_admin()) return true;
+        
             if($_SESSION['uid']==$uid) return true;
-        }
+        
     }
     return false;
     
@@ -224,7 +224,7 @@ function send_activation_email($username,$userpass,$verifycode,$email){
         
     }
     
-    function pagination($num, $pagesize){
+    function pagination($num, $pagesize,$to){
         if(array_key_exists('pg', $_GET) && is_numeric($_GET['pg'])){
                          $current_pages =  $_GET['pg'] ;
          }else{
@@ -261,16 +261,16 @@ function send_activation_email($username,$userpass,$verifycode,$email){
          
 
          
-         $pagefooter='<ul class="pagination"><li><a href="events.php?pg='.$prev.'">&laquo;</a></li>';
+         $pagefooter='<ul class="pagination"><li><a href="'.$to.'pg='.$prev.'">&laquo;</a></li>';
          
 	for($i=1; $i<=$total_pages; $i++){
-            if($i==$current_pages)$pagefooter.='<li class="active"><a href="events.php?pg='.$i.'">'.$i.'<span class="sr-only"></span></a></li>';
+            if($i==$current_pages)$pagefooter.='<li class="active"><a href="'.$to.'pg='.$i.'">'.$i.'<span class="sr-only"></span></a></li>';
             
-	    else $pagefooter.='<li><a href="events.php?pg='.$i.'">'.$i.'</a></li>';
+	    else $pagefooter.='<li><a href="'.$to.'pg='.$i.'">'.$i.'</a></li>';
 	}
-	$pagefooter.='<li><a href="events.php?pg='.$next.'">&raquo;</a></li></ul>';
+	$pagefooter.='<li><a href="'.$to.'pg='.$next.'">&raquo;</a></li></ul>';
 
-        $result=array($offset,$pagefooter);
+        $result=array('offset'=>$offset,'pagefooter'=>$pagefooter);
 
         return $result;
     }

@@ -7,7 +7,6 @@ if (!isset($_SESSION)) {
 require_once('dblib/db_events.php');
 require_once('dblib/db_user.php');
 require_once("include/demoframe.php");
-require_once("include/common.php");
 require_once('event_action.php');
 
 //do_page_prequisites();
@@ -24,47 +23,78 @@ output_page_menu();
 if (!(isset($_GET["eventsid"]) && is_numeric($_GET["eventsid"]) && count($_GET) === 1 )) {
     echo'<h1>400 Bad request!</h1>'; // if the GET request is not a valid request
 // simply check 
-} else {
-    
-    
-    $this_event_id = fix_str($_GET["eventsid"]);
-    $event_id = fix_str($this_event_id); // for infection
-    $event_handle = new Db_events();
-    $user_handle = new Db_user();
-    $aEvent = $event_handle->show_single_event($this_event_id);
-    if ( empty($aEvent)) { // if the event id is not found in database
-        echo'<h1>404 Page not found!</h1>';
-    } else {
+}
+$eventsid = fix_str($_GET["eventsid"]);
+$event_handle = new Db_events();
+$aEvent = $event_handle->show_single_event($eventsid);
+
+if(empty($aEvent)) {
+    //redirect
+}
+ if(is_legal_access($aEvent['uid'])){
+     $is_editable='';
+ }
 
 
-        if (isset($_SESSION['username'])) {
-            $temp = fix_str($_SESSION['username']);
-            $temp = $user_handle->get_uid_by_name($temp);
-            $temp = (int) $temp;
-        } else
-            $temp = NULL;
-        //print_r($aEvent);
-        echo '<h1>', $aEvent["subject"], '</h1> ';
-        echo '<div id="eventBox"> <table > <tr> <td>',
-        $aEvent["body"]
-        , '</td></tr></table></div>';
+echo<<< zzeof
+<div style="width: 70%;margin:0 auto;">
+ <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">{$aEvent['subject']}</h3>
+  </div>
+  <div class="panel-body">
+    <fieldset>
+         <legend>Time Period</legend>
+    Start Time:{$aEvent['startime']} ><br />
+    End Time: {$aEvent['endtime']} 
+       
+    </fieldset>
+    <br />
+    <fieldset>
+        <legend> Attendance Allowance</legend>
+    Maximum member:{$aEvent['maxmember']}<br />
+    </fieldset>
+    <br />
+    <legend> Body</legend>
+    {$aEvent['body']}
+  </div>
+  <div class="panel-footer">
+     by {$aEvent['username']} &nbsp;&nbsp; | &nbsp;&nbsp; created at : {$aEvent['createtime']} &nbsp;&nbsp; | &nbsp;&nbsp; lastedit at : {$aEvent['lastedit']}
+  </div>
+</div>
 
-        echo '<div >',
-        'createtime:', $aEvent["createtime"], ' lastedit:', $aEvent["lastedit"]
-        , '</div>';
+zzeof;
+     
+ 
+    $pagesize = 8;
+require_once('include/common.php');
+$num  = $event_handle->get_num_of_evtreplys($eventsid);
+var_dump($num);
+$page_key = pagination($num,$pagesize,"eventpage.php?eventsid=$eventsid&");
+var_dump($page_key);
 
+if($num!=0){
 
-        // begin to showreply 
-        //print_r( $event_handle->show_corresponding_reply($this_event_id));
-
-        $this_reply_list = $event_handle->show_corresponding_reply($this_event_id);
-        echo '</br></br>';
+        $this_reply_list = $event_handle->show_corresponding_reply($eventsid,$page_key['offset'],$pagesize);
+        var_dump($this_reply_list);
+        echo '<br /><br />';
         foreach ($this_reply_list as $aReply) {
-            echo ' <div> <table  width="600" style = " border: 1px solid black" > <tr><td> ', "Edited by ", $user_handle->get_name_by_uid($aReply['uid']),
-            "   At:", $aReply['replytime'],
-            ':</td></tr><tr><td >', $aReply['body'],
-            '</td></tr> <tr><td></table></div></br>';
+            echo <<<zzeof
+      <div class="panel panel-success">
+        <div class="panel-body">
+            {$aReply['body']}
+        </div>
+        <div class="panel-footer">
+            by {$aReply['username']} &nbsp;&nbsp; | &nbsp;&nbsp; created at : {$aReply['replytime']} &nbsp;&nbsp; | &nbsp;&nbsp; lastedit at : {$aReply['lastedit']}
+        </div>
+      </div>      
+     <br />       
+zzeof;
         }
+}
+            
+            
+          
 
         // here is to add new reply
         // need session to query user name here 
@@ -93,12 +123,12 @@ tinymce.init({
         ;
 
         echo '<input type="submit" name="submit_reply" value="Submit" /></form>';
-        echo '<br/><br/><br/><br/>';
+        echo '<br/><br/><br/><br/><div/>';
         //echo "111111".$user_handle->get_uid_by_name($_SESSION['username']) ;
         //var_dump($_SESSION['username']);
         //var_dump($result);
-    }
-}
+    
+echo $page_key['pagefooter'];
 // replay form
 getFooter();
 ?>
