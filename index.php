@@ -8,7 +8,7 @@ require_once 'include/common.php';
 require_once 'dblib/db_events.php';
 require_once 'dblib/db_news.php';
 $css='';
-//$js=array();
+
 $js=array();
 
 
@@ -22,12 +22,11 @@ echo <<<zzeof
 
 	<div class="container"></div>
 
-	 <div id="ccigwdemo" class="carousel slide">
+	 <div id="ccigwdemo" class="carousel slide" style="width: 1600px; hight:700px; margin: 0 auto">
         <ol class="carousel-indicators">
           <li data-target="#ccigwdemo" data-slide-to="0" class="active"></li>
           <li data-target="#ccigwdemo" data-slide-to="1"></li>
           <li data-target="#ccigwdemo" data-slide-to="2"></li>
-          <li data-target="#ccigwdemo" data-slide-to="3"></li>
         </ol>
 
         <div class="carousel-inner">
@@ -41,10 +40,6 @@ echo <<<zzeof
         <h3>Learn how to make you own dumplings!</h3>
       </div>
       </div>
-      <div class="item"><img src="images/ccigwdemo4.jpg" alt="" class="img-responsive">   
-      <div class="carousel-caption">
-        <h3>Watch him perform</h3>
-      </div></div>
       
       <div class="item"><img src="images/ccigwdemo6.jpg" alt="" class="img-responsive">   
       <div class="carousel-caption">
@@ -63,60 +58,15 @@ echo <<<zzeof
 
 zzeof;
 
-//Show the body on the home page
-/*echo '
-		<ul class="slideshow">
-				<li class="show">
-					<a href="http://www.msn.com">
-						<img src="images/ccigwdemo1.jpg" width="800" height="300" title="Enter the Dragon" alt="A yound girl 
-						performs a Chinese dance."/>
-					</a>
-				</li>
-				<li>
-					<a href="http://www.msn.com">
-						<img src="images/ccigwdemo2.jpg" width="800" height="300" title="DIY Dumplings" alt="Learn how to make you 
-						own dumplings!"/>
-					</a>
-				</li>
-				<li>
-					<a href="http://www.msn.com">
-						<img src="images/ccigwdemo4.jpg" width="800" height="300" title="God of Furtune" alt="Watch him perform"/>
-					</a>
-				</li>
-				<li>
-					<a href="http://www.msn.com">
-						<img src="images/ccigwdemo5.jpg" width="800" height="300" title="Chinese Dance" alt="A youth 
-						performs a Chinese dance."/>
-					</a>
-				</li>
-				<li>
-					<a href="http://www.msn.com">
-						<img src="images/ccigwdemo6.jpg" width="800" height="300" title="Children Art" alt="Art Display"/>
-					</a>
-				</li>
-			</ul>';
-*/
-
-
 //upcoming evetns
 $news_handle = new Db_news();
 $event_handle = new Db_events();
-$news_list = $news_handle->show_all_news(0, 2);
-$event_list = $event_handle->show_events_list(0, 2);
-/*echo '<div id="news"><table><tr><td><h6>News</h6></td><td><h6>Upcoming Events</h6></td>';
-for ( $i = 0 ; $i < 2 ; $i ++ ) 
-{
-    echo  '<tr><td>',
-    
-           '<a href="newspage.php?newsid=', $news_list[$i]["newsid"] ,
-          '" > ', $news_list[$i]['subject'], '</a></td>',
-           '<td><a href="eventpage.php?eventsid=', $event_list[$i]["eventsid"] ,
-            '" > ', $event_list[$i]['subject'] , ' </a></td></tr>' ;
+$num_news = $news_handle -> get_num_of_news();
+$num_events = $event_handle -> get_num_of_events();
+$news_list = $news_handle->show_all_news($num_news-2, 2);
+$event_list = $event_handle->show_events_list($num_events-2, 2);
 
-}
 
-echo '</table></div>';
-	*/		
 echo <<<zzeof
 
 <div class="jumbotron">
@@ -137,7 +87,7 @@ echo <<<zzeof
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h2>News</h2>
+          <h2>Latest News:{$news_list[$i]['subject']}</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
 zzeof;
 
@@ -146,9 +96,9 @@ zzeof;
 echo <<<zzeof
         </div>
         <div class="col-md-6">
-          <h2>Upcoming Events</h2>
+          <h2>Latest Event:{$event_list[$i]['subject']}}</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="eventpage.php?eventsid={$event_list[$i]['eventsid']}" role="button">View details &raquo;</a></p>
        </div>
        
       <br>

@@ -39,11 +39,11 @@ $page_key = pagination($num,$pagesize);
     }
 
 	echo '<ul class="pagination">',
-	              '<li><a href="events.php?pg=',$page_key[0]-1,'">&laquo;</a></li>';
+	              '<li><a href="events.php?pg=',$page_key[3],'">&laquo;</a></li>';
 	for($i=0; $i<$page_key[1]; $i++){
 	    echo '<li><a href="events.php?pg=',$i+1,'">',$i+1,'</a></li>';
 	}
-	echo '<li><a href="events.php?pg=',$page_key[0]+1,'">&raquo;</a></li>',
+	echo '<li><a href="events.php?pg=',$page_key[4],'">&raquo;</a></li>',
 	          '</ul>';
 getFooter();
 

@@ -230,7 +230,6 @@ function send_activation_email($username,$userpass,$verifycode,$email){
          }else{
         header('Location:index.php');
         }   
-
         $offset = ($current_pages -1)* $pagesize;
 
         $total_pages = ceil($num/$pagesize);
@@ -239,12 +238,28 @@ function send_activation_email($username,$userpass,$verifycode,$email){
           $total_pages = 1;
         }
 
-        if ($current_pages<2) {
-            $current_pages =1 ;
-        }elseif ($current_pages>$total_pages) {
-            $current_pages = $total_pages;
-        }
-        $result=array($current_pages,$total_pages,$offset);
+        //prev and next
+        if ( $current_pages -1 <1 ) {
+          $prev = 1;
+         }elseif ($current_pages-1> $total_pages) {
+          $prev = $total_pages;
+         }else{
+          $prev = $current_pages -1;
+         }
+
+         if ( $current_pages +1 <1 ) {
+          $next = 1;
+         }elseif ($current_pages +1> $total_pages) {
+          $next = $total_pages;
+         }else{
+          $next = $current_pages +1;
+         }
+
+         if($_GET['pg'] < 1 || $_GET['pg'] > $total_pages){
+                    header('Location:index.php');
+         }
+
+        $result=array($current_pages,$total_pages,$offset,$prev,$next);
 
         return $result;
     }

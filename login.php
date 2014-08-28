@@ -7,7 +7,6 @@ if(!isset($_SESSION))
 require_once 'include/common.php';
 require_once 'dblib/db_user.php';
 
-
 if(!isset($_SESSION['username'])){// if not logged in
 
 if (!(array_key_exists('username', $_POST)&& array_key_exists('userpass', $_POST)))
@@ -16,6 +15,8 @@ if (!(array_key_exists('username', $_POST)&& array_key_exists('userpass', $_POST
   header('location:trylogin.php');
   exit(0);
 }
+
+
 //preventing html injection
 $username = fix_str($_POST['username']);
 $userpass = fix_str($_POST['userpass']);
