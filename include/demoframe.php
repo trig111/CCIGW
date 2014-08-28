@@ -8,7 +8,7 @@ NOTES
 
 //header part(name,css name, javascript name, redirect url,redirect secds)
 function getHeader($title,$css = array(), $js = array()){
-       $url= htmlspecialchars($url);
+       //$url= htmlspecialchars($url);
 
 	$title = htmlspecialchars($title);
 
@@ -58,7 +58,7 @@ function output_page_menu()
 {
 $temp='';
 $login = array();
-  if (is_user_logged_in())
+  if (isset($_SESSION['username']))
   {
     $login['url'] = 'logout.php';
     $login['label'] = 'Logout';
