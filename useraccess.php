@@ -31,7 +31,7 @@ if (isset($_SESSION['username'])){
     
     $du=new Db_user();
     //var_dump($_SESSION['username']);
-    $result=$du->show_single_user_access($username);
+    $result=$du->show_single_user_access_and_uid($username);
     //var_dump($result);
     
    if($result['accessid']>=3){

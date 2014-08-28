@@ -8,7 +8,7 @@ class Eventsreginfo {
 	private $reginfo = array();
 
 	function __construct() {
-		$this->reginfo=array( 'regid'=>0, 'eventsid'=>0, 'uid'=>0, 'registertime'=>NULL, 'numberofpeople'=>0, 'price'=>0, 'remarks'=>'',
+		$this->reginfo=array( 'regid'=>0, 'eventsid'=>0, 'uid'=>0, 'registertime'=>NULL, 'numberofpeople'=>0, 'remarks'=>'',
                     'lastedit'=>NULL
 		);
 

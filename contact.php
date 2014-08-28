@@ -44,7 +44,7 @@ else{
 $css='';
 
 $js=array('group5js/check.js');
-getHeader("Contact Us",$css,$js,'',0);
+getHeader("Contact Us",$css,$js);
 output_page_menu();
 
 

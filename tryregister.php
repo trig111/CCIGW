@@ -12,7 +12,7 @@ require_once("include/demoframe.php");
 $css='';
 
 $js=array('group5js/check.js','group5js/checkName.js');
-getHeader("Home",$css,$js,'',0);
+getHeader("Home",$css,$js);
 output_page_menu();
 echo <<< zzeof
 

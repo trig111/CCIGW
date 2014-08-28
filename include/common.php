@@ -7,6 +7,63 @@ require_once('include/PHPMailer/class.phpmailer.php');
 include("include/PHPMailer/class.smtp.php"); 
 require_once("include/demoframe.php");
 
+function is_legal_access($uid){
+    //if(!isset($uid)||empty($uid)) return false;
+    if(is_user_logged_in()){
+        if(is_admin()) return true;
+        else{
+            if($_SESSION['uid']==$uid) return true;
+        }
+    }
+    return false;
+    
+}
+
+//checking whether user is logged in
+function is_user_logged_in()
+{
+  return isset($_SESSION['username']);
+}
+
+function is_admin(){
+    if($_SESSION['accessid']<4)return false;
+    else return true;
+}
+
+function clean($method,$keys){
+    if(strcmp($method,'post')==0){
+        if(!isset($_POST))return false;
+        if(empty($keys)){
+            foreach($_POST as $key => $value){
+                $_POST[$key]=  fix_str($_POST[$key]);
+            }
+        }
+        else{
+            foreach($keys as $key => $value){
+                $_POST[$key]=  fix_str($_POST[$key]);
+            }
+        }
+    }
+    if(strcmp($method,'get')==0){
+        if(!isset($_POST))return false;
+        if(empty($keys)){
+            foreach($_GET as $key => $value){
+                $_GET[$key]=  fix_str($_GET[$key]);
+            }
+        }
+        else{
+            foreach($keys as $key => $value){
+                $_GET[$key]=  fix_str($_POST[$key]);
+            }
+        }
+   
+    }
+     return true;
+}
+function utf8_strlen($str){
+   return mb_strlen($str,'utf8');
+}
+
 //preventing sql injection, any keywords in this array can not be added to database
 function isDataIllegal()
 
@@ -197,23 +254,33 @@ function send_activation_email($username,$userpass,$verifycode,$email){
     
     
     // for page auto-redirecting
-    function redirect($message,$url,$to){
-        //do_page_prerequisites();
+    function redirect($message,$url,$to,$sec,$status){
         $url=  fix_str($url);
-        $host= 'http://'.$_SERVER['HTTP_HOST'];
-        
-       
-        
-        //$css=array('layout.css', 'slideshow.css');
-
+        $host= 'http://'.$_SERVER['HTTP_HOST'].'/';
         $js='';
         $url=$host.$url;
-        //echo'lalalalalal';
-        //sleep (4);
-        getHeader("Home",'',$js,$url,2);
+        $sec=$sec*1000;
+        getHeader("redirect",'','');
         output_page_menu();
+        if($status)$status='';
+        else $status="<strong><h1>Oops...Error Occured!</h1></strong><br/>";
         echo <<<zzeof
-        <div class="redirect" align=center>$message please wait to redirect to the $to page</div>
+        <script type="text/javascript">
+
+            function delayer(){
+            window.location = "$url";
+        }
+        $(document).ready(function(){
+            setTimeout('delayer()', $sec);
+        });
+
+        </script>
+        <div class= redirect_and_error>
+            <p>$status $message</p>
+             <br /><br /><br /><br />
+             <strong>IF your browser does not support the redirection , click <u><a href="$url">here</a></u> to redirect to the $to page </strong>   
+        </div> 
+   
 zzeof;
         getFooter();
         

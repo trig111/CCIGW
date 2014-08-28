@@ -12,7 +12,7 @@ require_once 'include/common.php';
 $css = '';
 
 $js = array('group5js/check.js');
-getHeader("Superuser", $css, $js, '', 0);
+getHeader("Superuser", $css, $js);
 output_page_menu();
 if (!isset($_SESSION['username'])) {
     redirect('<h1>Your are currently not logged in</h1> ', "/login.php", 'Login');
@@ -20,7 +20,7 @@ if (!isset($_SESSION['username'])) {
     $this_user_name = fix_str($_SESSION['username']);
 
     $user_handle = new Db_user();
-    $this_access = $user_handle->show_single_user_access($this_user_name);
+    $this_access = $user_handle->show_single_user_access_and_uid($this_user_name)['accessid'];
     if ($this_access < 3) { // what if a normal usr try to access the super user page
         echo 'Nice try, but you are not a superuser! :D ';
     } else {

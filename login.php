@@ -68,7 +68,7 @@ if(!isBoolOrString($result)){
         exit();
 }
 else if($result===FALSE){
-    //if no record is matched then redirec to login page
+    //if no record is matched then redirect to login page
     
          redirect('username or password is not correct, try again!', $url,'login');
         
@@ -94,7 +94,11 @@ else{
     //else update users info and log him of her in
     
     $lastlogin=date("Y-m-d H:i:s");
-   $result=$du->update_user_info_when_login($username);
+   $result=$du->update_user_info_when_login($username);//need to check more
+   $result=$du->show_single_user_access_and_id($username);
+   $accessid=$result['accessid'];
+   $uid=$result['uid'];
+   
    if(!isBoolOrString($result)){
         $url='/trylogin.php';
          redirect($result, $url,'login');
@@ -103,6 +107,8 @@ else{
     }
      $_SESSION['username']=$username;
      $_SESSION['lastlogin']=$lastlogin;
+     $_SESSION['accessid']=$accessid;
+     $_SESSION['uid']=$uid;
     
        $url='/index.php';
          redirect('you have logged in successfully', $url,'home');

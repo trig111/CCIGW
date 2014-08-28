@@ -260,7 +260,7 @@ class Db_events {
 
         try{
 
-            $sql= "INSERT INTO db_regevt (`eventsid`, `uid`, `registertime`, `numberofpeople`, `price`, `remarks`, `lastedit`) VALUES (:eventsid,:uid,now(),:numberofpeople,:price,:remarks,NULL)";
+            $sql= "INSERT INTO db_regevt (`eventsid`, `uid`, `registertime`, `numberofpeople`, `remarks`) VALUES (:eventsid,:uid,now(),:numberofpeople,:remarks)";
             $st = $this->db_connection_handle->prepare( $sql );
 
             $result = $st->execute( $evets_array );
@@ -284,10 +284,10 @@ class Db_events {
 
         $evets_array=array(
 
-            ':regid'=>$eventsreg->regid,
+            //':regid'=>$eventsreg->regid,
             ':eventsid'=>$eventsreg->eventsid,
             ':uid'=>$eventsreg->uid,
-            ':registertime'=>$eventsreg->registertime,
+            //':registertime'=>now(),
             ':numberofpeople'=>$eventsreg->numberofpeople,
             //':price'=>$eventsreg->price,
             ':remarks'=>$eventsreg->remarks
@@ -303,7 +303,7 @@ class Db_events {
 
 
 
-            $sql="UPDATE db_regevt SET eventsid=:eventsid,uid=:uid,registertime=:registertime,numberofpeople=:numberofpeople,price=:price,remarks=remarks,lastedit=now() WHERE regid=:regid";
+            $sql="UPDATE db_regevt SET eventsid=:eventsid,uid=:uid,registertime=now(),numberofpeople=:numberofpeople,remarks=remarks WHERE eventsid=:eventsid and uid=:uid";
 
             $st = $this->db_connection_handle->prepare( $sql );
 
@@ -324,14 +324,15 @@ class Db_events {
 
     //
     //
-    function cancel_register( Eventsreginfo $eventsreg ) {
+    function cancel_register($eventsid,$uid ) {
         $evets_array=array(
-            ':regid' =>$eventsreg->regid
+            ':eventsid' =>$eventsid,
+            ':uid'      =>$uid
             //
         );
 
         try{
-            $sql= "DELETE FROM db_regevt WHERE regid=:regid";
+            $sql= "DELETE FROM db_regevt WHERE eventsid=:eventsid and uid=:uid";
 
 
             $st = $this->db_connection_handle->prepare( $sql );

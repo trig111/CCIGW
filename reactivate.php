@@ -19,7 +19,7 @@ $username= fix_str($_GET['username']);
 $css='';
 
 $js='';
-getHeader("Home",$css,$js,'',0);
+getHeader("Home",$css,$js);
 output_page_menu();
 echo <<< zzeof
     

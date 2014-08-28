@@ -10,7 +10,7 @@ $css=array('bootstrap.css','ccigw.css');
 
 $js=array('jquery-1.3.1.min.js','meny.js','group5js/check.js','bootstrap.js');
 
-getHeader("News",$css,$js,'',0);
+getHeader("News",$css,$js);
 output_page_menu();
 
 $news_handle = new Db_news();

@@ -19,7 +19,7 @@ if(isset($_SESSION['username'])&&!isset($_GET['logout'])&&!isset($_GET['cancel']
    
 
 
-getHeader("Home",'','','',0);
+getHeader("Home",'','');
 output_page_menu();
     
     //give user a option to decide whether to logged out or cancel
@@ -40,6 +40,8 @@ else if(isset($_GET['logout'])) {
     //if user is logout then redirect to home page
         unset($_SESSION['username']);
         unset($_SESSION['lastlogin']);
+        unset($_SESSION['accessid']);
+        unset($_SESSION['uid']);
         redirect('now you are logged out!',$url,'home');
 
         exit();

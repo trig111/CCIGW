@@ -31,7 +31,7 @@ echo $username;
 $css='';
 
 $js=array('group5js/check.js');
-getHeader("Home",$css,$js,'',0);
+getHeader("Home",$css,$js);
 
 output_page_menu();
 

@@ -12,7 +12,7 @@ $css='';
 $js=array();
 
 
-getHeader("Home",$css,$js,'',0);
+getHeader("Home",$css,$js);
 
 
 output_page_menu();

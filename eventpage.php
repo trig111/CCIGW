@@ -15,7 +15,7 @@ $css = '';
 //$js=array('meny.js', 'group5js/check.js');
 $js = array('tinymce/tinymce.min.js');
 //require_once('/form/form_admin.php');
-getHeader("Events", $css, $js, '', 0);
+getHeader("Events", $css, $js);
 output_page_menu();
 
 

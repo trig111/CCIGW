@@ -113,6 +113,46 @@ $sql="UPDATE IGNORE db_user SET accessid=:accessid,username=:username,email=:ema
 
 		}
 	}
+        
+        public function update_user_info_necessary( $uid,$firstname,$lastname,$gender,$phonenumber,$address ) {
+
+		$user_array=array(
+			':uid'          =>$uid,
+			//':accessid'     =>$userupdate->accessid,
+			//':username'     =>$userupdate->username,
+			//':userpass'     =>sha1($userupdate->userpass),
+			//':email'        =>$userupdate->email,
+			':firstname'    =>$firstname,
+			':lastname'     =>$lastname,
+			':gender'       =>$gender,
+			':phonenumber'  =>$phonenumber,
+			':address'      =>$address
+			//':status'       =>$userupdate->status,
+                        //':created'      =>$userupdate->created,
+			//':lastlogin'    =>$userupdate->lastlogin,
+			//':identifier'   =>$userupdate->identifier,
+			//':expiry_time'  =>$userupdate->expiry_time
+		);
+                
+                        
+		try{
+
+                        
+
+$sql="UPDATE IGNORE db_user SET firstname=:firstname,lastname=:lastname,gender=:gender,phonenumber=:phonenumber,address=:address WHERE uid=:uid";
+
+
+			$st = $this->db_connection_handle->prepare( $sql );
+
+			$result = $st->execute( $user_array );
+                        
+			return $result;
+		}
+		catch ( PDOException $e ) {
+			return $e->getMessage();
+
+		}
+	}
 
 
         public function reset_user_pass($username,$userpass ) {
@@ -429,13 +469,13 @@ $sql="UPDATE db_user SET status=1,identifier=NULL,expiry_time=NULL WHERE usernam
         }
 	//public function set_db_access(){}
 	//public function delete_db_access(){}
-	public function show_single_user_access($username){
+	public function show_single_user_access_and_uid($username){
              $user_array = array( ':username' => $username );
 
             try{
 
 
-			$sql='SELECT accessid FROM db_user where username=:username';
+			$sql='SELECT accessid,uid FROM db_user where username=:username';
 		
 			$st = $this->db_connection_handle->prepare( $sql );
 			$st->execute( $user_array );
@@ -446,7 +486,7 @@ $sql="UPDATE db_user SET status=1,identifier=NULL,expiry_time=NULL WHERE usernam
 
 			$row = $st->fetch();
 
-			return $row['accessid'];
+			return $row;
                         
 		}
 

@@ -10,7 +10,7 @@ require_once("include/demoframe.php");
 $css='';
 
 $js=array('group5js/check.js');
-getHeader("About",$css,$js,'',0);
+getHeader("About",$css,$js);
 output_page_menu();
 
 echo <<<ZZEOF

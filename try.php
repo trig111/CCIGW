@@ -11,7 +11,7 @@ require_once("include/common.php");
 $css=array('datepicker.css',);
 
 $js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','datepicker_category_setting.js');
-getHeader("Events", $css, $js, '' , 0);
+getHeader("Events", $css, $js);
 
 output_page_menu();
 

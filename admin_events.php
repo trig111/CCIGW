@@ -12,7 +12,7 @@ $js = array('jquery.dataTables.min.js');
 $de = new Db_events();
 $result=$de->admin_show_events_list(0,100);
 //var_dump($result);
-getHeader("Superuser", $css, $js, '', 0);
+getHeader("Superuser", $css, $js);
 output_page_menu();
 echo <<<ZZEOF
 <table id="datatables" class="display" border="2">

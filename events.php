@@ -10,7 +10,7 @@ require_once('dblib/db_events.php');
 
 $js=array('group5js/check.js');
 
-getHeader("Events",'',$js,'',0);
+getHeader("Events",'',$js);
 
 output_page_menu();
 

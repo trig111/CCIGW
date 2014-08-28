@@ -7,7 +7,7 @@ NOTES
 ******************************/
 
 //header part(name,css name, javascript name, redirect url,redirect secds)
-function getHeader($title,$css = array(), $js = array(),$url,$sec){
+function getHeader($title,$css = array(), $js = array()){
        $url= htmlspecialchars($url);
 
 	$title = htmlspecialchars($title);
@@ -22,7 +22,7 @@ function getHeader($title,$css = array(), $js = array(),$url,$sec){
   foreach ($js as $jsFile)
     $script .= '<script type="application/javascript" src="js/'.$jsFile.'"></script>';
   }
-  if($url!='')$url='<meta http-equiv="refresh" content="'.$sec.';url='.$url.'"/>'; 
+  //if($url!='')$url='<meta http-equiv="refresh" content="'.$sec.';url='.$url.'"/>'; 
                     
 
 	echo <<<ZZEOF
@@ -35,7 +35,7 @@ function getHeader($title,$css = array(), $js = array(),$url,$sec){
 		<title>CCIGW - $title</title>
 
 		<meta name="viewport" content="width=800, user-scalable=no">
-                $url
+                <!--$url-->
 
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
                 $link
@@ -178,9 +178,5 @@ ZZEOF;
 
 
 }
-//checking whether user is logged in
-function is_user_logged_in()
-{
-  return isset($_SESSION['username']);
-}
+
 ?>

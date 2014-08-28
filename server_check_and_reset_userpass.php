@@ -26,7 +26,7 @@ if(isset($_GET['verify'])&&!isset($_POST['userpass'])&&!isset($_POST['repeat_pas
         $username=$array[0];
 
 $js=array('group5js/check.js','group5js/checkName.js');
-getHeader("Home",$css,$js,'',0);
+getHeader("Home",$css,$js);
 output_page_menu();
 
         echo <<< zzeof

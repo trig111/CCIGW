@@ -16,7 +16,7 @@ require_once("include/demoframe.php");
 //$css=array('ccigw.css', 'bootstrap.css');
 
 $js=array('group5js/check.js');
-getHeader("Home",'',$js,'',0);
+getHeader("Home",'',$js);
 output_page_menu();
 echo <<< zzeof
 <h1>Login</h1>

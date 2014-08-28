@@ -1,4 +1,3 @@
-
 <?php
 if(!isset($_SESSION)) 
     { 
@@ -8,23 +7,22 @@ require_once('dblib/db_events.php');
 require_once('dblib/db_user.php');
 require_once("include/demoframe.php");
 require_once("include/common.php");
-
-$css=array();
+    
+    $css=array();
 $js=array();
 //require_once('/form/form_admin.php');
-getHeader("Events", $css, $js, '' , 0);
+getHeader("Events", $css, $js);
 
 output_page_menu();
+
     $event_handle = new Db_events();
     $user_handle = new Db_user();
-if(isset($_GET['eventsid'])){
-    
+if(isset($_GET['eventsid'])&&empty($_POST)){
 
     
-    
+    $eventsid=  fix_str($_GET['eventsid']) ;   
     $result=$user_handle->show_user_info( $_SESSION['username']);
-    $uid=$user_handle->get_uid_by_name($result['uid']);
-    $subject=$event_handle->show_single_event_name($uid);
+    $subject=$event_handle->show_single_event_name($eventsid);
     //var_dump($subject);
     $checked=array('','');
     if($result['gender']=='m')$checked[0]='checked';
@@ -32,7 +30,7 @@ if(isset($_GET['eventsid'])){
 
 echo <<< ZZEOF
     
-    <form action="client_register_event_action.php" method="POST">
+    <form action="server_register_event_action.php" method="POST">
     
     
     
@@ -44,7 +42,7 @@ echo <<< ZZEOF
 
                          <input  type="text"  value="$subject" readonly>
                           <input type="hidden" name="eventsid" value="$eventsid" readonly>
-                          <input type="hidden" name="uid" value="$uid" readonly><br />
+                          <input type="hidden" name="uid" value="{$result['uid']}" readonly><br />
 
                         number of people:(*)<br />
 
@@ -127,20 +125,9 @@ echo <<< ZZEOF
     
      </form>
 ZZEOF;
-}
-if(isset($_POST['eventsid'],$_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['$address'],$_POST['$numberofpeople'],$_POST['remarks'])){
-    //check_more
-    var_dump($_post);
-    $numberofpeople=  fix_str($_POST['numberofpeople']);
-    $remarks=  fix_str($_POST['remarks']);
-    $eventsid=  fix_str($_POST['eventsid']);
-    $uid= fix_str($_POST['uid']);
-    $firstname=fix_str($_POST['firstname']);
-    $lastname=fix_str($_POST['lastname']);
-    $gender=fix_str($_POST['gender']);
-    $phonenumber=fix_str($_POST['phonenumber']);
-    $address=fix_str($_POST['$address']);
-    
-}
 getFooter();
+}
+//var_dump($_POST);
+
+
 ?>
