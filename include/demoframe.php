@@ -6,6 +6,57 @@ NOTES
 
 ******************************/
 
+function getSidebarHeader(){
+    echo <<< zzeof
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                 <li class="sidebar-brand">
+                    <a href="#">
+                        ADMINISTRATION
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Manage HOME Page</a>
+                </li>
+                <li>
+                    <a href="#">Manage Users</a>
+                </li>
+                <li>
+                    <a href="#">Manage Events</a>
+                </li>
+                <li>
+                    <a href="#">Manage Registration</a>
+                </li>
+                <li>
+                    <a href="#">Manage News</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+zzeof;
+}
+
+function getSidebarFooter(){
+    echo <<<zzeof
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+zzeof;
+}
+
 //header part(name,css name, javascript name, redirect url,redirect secds)
 function getHeader($title,$css = array(), $js = array()){
        //$url= htmlspecialchars($url);

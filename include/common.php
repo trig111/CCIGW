@@ -258,8 +258,16 @@ function send_activation_email($username,$userpass,$verifycode,$email){
          if($_GET['pg'] < 1 || $_GET['pg'] > $total_pages){
                     header('Location:index.php');
          }
+         $pagefooter='<ul class="pagination"><li><a href="events.php?pg='.$prev.'">&laquo;</a></li>';
+         
+	for($i=1; $i<=$total_pages; $i++){
+            if($i==$current_pages)$pagefooter.='<li><a href="events.php?pg='.$i.'"><strong style="color:black">'.$i.'</strong></a></li>';
+            
+	    else $pagefooter.='<li><a href="events.php?pg='.$i.'">'.$i.'</a></li>';
+	}
+	$pagefooter.='<li><a href="events.php?pg='.$next.'">&raquo;</a></li></ul>';
 
-        $result=array($current_pages,$total_pages,$offset,$prev,$next);
+        $result=array($offset,$pagefooter);
 
         return $result;
     }

@@ -17,7 +17,7 @@ output_page_menu();
 
 $event_handle = new Db_events();
 $num  = $event_handle->get_num_of_events();    
-$pagesize = 3;
+$pagesize = 30;
 require_once('include/common.php');
 
 $page_key = pagination($num,$pagesize);
@@ -26,7 +26,7 @@ $page_key = pagination($num,$pagesize);
               <h1>Events</h1>
               </div>';
 
- foreach( $event_handle->show_events_list($page_key[2], $pagesize) as $aEvent)
+ foreach( $event_handle->show_events_list($page_key[0], $pagesize) as $aEvent)
     {
 
 	    echo '
@@ -38,13 +38,17 @@ $page_key = pagination($num,$pagesize);
 	      </div> ';
     }
 
-	echo '<ul class="pagination">',
-	              '<li><a href="events.php?pg=',$page_key[3],'">&laquo;</a></li>';
-	for($i=0; $i<$page_key[1]; $i++){
-	    echo '<li><a href="events.php?pg=',$i+1,'">',$i+1,'</a></li>';
-	}
-	echo '<li><a href="events.php?pg=',$page_key[4],'">&raquo;</a></li>',
-	          '</ul>';
+//	echo '<ul class="pagination">',
+//	              '<li><a href="events.php?pg=',$page_key[3],'">&laquo;</a></li>';
+//        $pre='<strong style="color:black">';
+//	for($i=1; $i<=$page_key[1]; $i++){
+//            if($i==$page_key[0])echo '<li><a href="events.php?pg=',$i,'">',$pre.$i,'</strong></a></li>';
+//            
+//	    else echo '<li><a href="events.php?pg=',$i,'">',$i,'</a></li>';
+//	}
+//	echo '<li><a href="events.php?pg=',$page_key[4],'">&raquo;</a></li>',
+//	          '</ul>';
+    echo $page_key[1];
 getFooter();
 
 ?>

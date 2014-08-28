@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
 }
 require_once("include/demoframe.php");
 require_once('dblib/db_events.php');
-$css = array('jquery.dataTables.min.css');
+$css = array('jquery.dataTables.min.css','simple-sidebar.css');
 
 $js = array('jquery.dataTables.min.js');
 
@@ -14,16 +14,17 @@ $result=$de->admin_show_events_list(0,100);
 //var_dump($result);
 getHeader("Superuser", $css, $js);
 output_page_menu();
+getSidebarHeader();
 echo <<<ZZEOF
 <table id="datatables" class="display" border="2">
 					<thead>
 						<tr>
-                                                        <th>checkbox</th>
-                                                        <th>eventsid</th>
+                                                        <th></th>
+                                                        <th>eid</th>
                                                         <th>category</th>
 							 <th>Titile</th>
 							 <th>Author</th>
-							 <th>readaccess</th>
+							 <th>access</th>
 							 <th>maxmember</th>
                                                          <th>createtime</th>
 							 <th>lastedit</th>
@@ -45,7 +46,7 @@ echo <<<ZZEOF
     <td>{$row['maxmember']}</td>
     <td>{$row['createtime']}</td>
     <td>{$row['lastedit']}</td>
-    <td><a href="event_manage.php?eventsid={$row['eventsid']}&action=edit">edit</a> | <a href="event_manage.php?eventsid={$row['eventsid']}&action=del">delete</a></td>
+    <td><a href="event_manage.php?eventsid={$row['eventsid']}&action=edit">edit</a> | <a href="event_manage.php?eventsid={$row['eventsid']}&action=del">del</a></td>
 </tr>
 
 ZZEOF;
@@ -58,11 +59,27 @@ echo <<<ZZEOF
 <script language="JavaScript">	
 $(document).ready( function () {
     $('#datatables').DataTable({
-      "paging": false  
+      "autoWidth": false,
+      "paging": false,
+      "autoWidth": false,
+      "columns": [
+    null,
+    null,
+    null,
+   { "width": "55%" },
+    null,
+    null,
+    null,
+    null,
+    { "width": "15%" },
+    null
+    ]
+      
    });
     
 } );
 </script>
 ZZEOF;
+getSidebarFooter();
 getFooter();
 ?>

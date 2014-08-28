@@ -6,12 +6,12 @@ if(!isset($_SESSION))
 
 require_once 'include/common.php';
 require_once 'dblib/db_user.php';
-
+var_dump($_POST);
 if(!isset($_SESSION['username'])){// if not logged in
 
-if (!(array_key_exists('username', $_POST)&& array_key_exists('userpass', $_POST)))
+if (!(array_key_exists('username', $_POST)||!array_key_exists('userpass', $_POST)))
 {
-  // if the inputs are null redirect to login page
+//if the inputs are null redirect to login page
   header('location:trylogin.php');
   exit(0);
 }
@@ -96,23 +96,25 @@ else{
     
     $lastlogin=date("Y-m-d H:i:s");
    $result=$du->update_user_info_when_login($username);//need to check more
-   $result=$du->show_single_user_access_and_id($username);
-   $accessid=$result['accessid'];
-   $uid=$result['uid'];
-   
    if(!isBoolOrString($result)){
         $url='/trylogin.php';
          redirect($result, $url,'login');
         
         exit();
     }
+   $result=$du->show_single_user_access_and_uid($username);
+   
+   $accessid=$result['accessid'];
+   $uid=$result['uid'];
+   
+   
      $_SESSION['username']=$username;
      $_SESSION['lastlogin']=$lastlogin;
      $_SESSION['accessid']=$accessid;
      $_SESSION['uid']=$uid;
     
        $url='/index.php';
-         redirect('you have logged in successfully', $url,'home');
+         redirect('you have logged in successfully','CCIGW/index.php','home',1,1);
         
         exit();
     
