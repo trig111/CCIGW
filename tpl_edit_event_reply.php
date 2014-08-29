@@ -61,7 +61,7 @@ output_page_menu();
    
  echo <<< ZZZEOF
 
-   <form action="server_event_reply_action.php" method="POST" class="form-horizontal" role="form">
+   <form action="server_reply_event_action.php" method="POST" class="form-horizontal" role="form">
     
      <fieldset>
         <legend>
@@ -91,6 +91,7 @@ output_page_menu();
         </div>
     </div>
     <input type="hidden" name="eventsid" value="{$result['eventsid']}"/>
+    <input type="hidden" name="eventsreplyid" value="{$result['eventsreplyid']}"/>
     <input type="hidden" name="uid" value=" {$result['uid']}">
      
      </form>

@@ -287,14 +287,17 @@ function send_activation_email($username,$userpass,$verifycode,$email){
     // for page auto-redirecting
     function redirect($message,$url,$to,$sec,$status){
         $url=  fix_str($url);
-        $host= 'http://'.$_SERVER['HTTP_HOST'].'/';
-        $js='';
-        $url=$host.$url;
+        $error_str='';
+        if(strcmp($url, $_SERVER['HTTP_REFERER'])!=0){
+            $host= 'http://'.$_SERVER['HTTP_HOST'].'/';
+            $url=$host.$url;
+        }
+        if(!$status)$error_str='<strong><h1>Oops...Error Occured!</h1></strong><br/>';
+            
+        
         $sec=$sec*1000;
-        getHeader("redirect",'','');
+        getHeader("redirect",array(),array());
         output_page_menu();
-        if($status)$status='';
-        else $status="<strong><h1>Oops...Error Occured!</h1></strong><br/>";
         echo <<<zzeof
         <script type="text/javascript">
 
@@ -307,7 +310,7 @@ function send_activation_email($username,$userpass,$verifycode,$email){
 
         </script>
         <div class= redirect_and_error>
-            <p>$status $message</p>
+            <p>$error_str $message</p>
              <br /><br /><br /><br />
              <strong>IF your browser does not support the redirection , click <u><a href="$url">here</a></u> to redirect to the $to page </strong>   
         </div> 

@@ -7,12 +7,12 @@ if(!isset($_SESSION))
 require_once("include/common.php");
 
 if(!is_user_logged_in()||!is_admin()){
-    redirect('illegal access!', 'index.php', 'home', 5,false);
+    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
 
 if(!clean('get',$keys=array())){
-    redirect('illegal access!', 'index.php', 'home', 5,false);
+    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
 //$error=array();

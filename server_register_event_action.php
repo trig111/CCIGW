@@ -20,13 +20,20 @@ $error=array();
 
     $event_handle = new Db_events();
     $user_handle = new Db_user();
-    if(isset($_POST['Submit'])){
-        if(clean('post',$keys=array())&& validate()){
+    if(isset($_POST['submit'])){
+        if(!clean('post',$keys=array())|| !validate()){
+            if(empty($error))$error['clean']='invalid post request';
+            redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+            exit();
+        }
         
             $result=$user_handle->update_user_info_necessary( $_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['address']);
         
-            if(!isBoolOrString($result))$error['sqlerror']=$result;
-            else{
+            if(!isBoolOrString($result)){
+                 redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                 exit();
+            }
+            
                 require_once("dblib/eventsreginfo.class.php");
                 $newreginfo = new Eventsreginfo(); 
                 $newreginfo->remarks=$_POST['remarks'];
@@ -34,27 +41,33 @@ $error=array();
                 $newreginfo->uid=$_POST['uid'];
                 $newreginfo->numberofpeople=$_POST['numberofpeople'];
                 $result=$event_handle->register_event( $newreginfo );
-                if(!isBoolOrString($result))$error['sqlerror']=$result;
-                else {
-                    redirect('your registration now is completed', 'index.php', 'home', 1,true);
-                    exit();
-                }
+            if(!isBoolOrString($result)){
+                redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                exit();
             }
+                
+            redirect('your registration now is completed', 'events.php?pg=1', 'events', 1,true);
+            exit();
+                
+            
         
-        }
-        // error page ->redirect
-        redirect(implode("<br />", $error), 'CCIGW/index.php', 'home', 5,false);
-        exit();
     }
    
     
-      if(isset($_POST['Modify'])){
-        if(clean('post',$keys=array())&& validate()){
+      if(isset($_POST['modify'])){
+        if(!clean('post',$keys=array())|| !validate()){
+            if(empty($error))$error['clean']='invalid post request';
+            redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+            exit();
+            
+        }
         
             $result=$user_handle->update_user_info_necessary( $_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['address']);
         
-            if(!isBoolOrString($result))$error['sqlerror']=$result;
-            else{
+            if(!isBoolOrString($result)){
+                 redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                 exit();
+            }
                 require_once("dblib/eventsreginfo.class.php");
                 $newreginfo = new Eventsreginfo(); 
                 $newreginfo->remarks=$_POST['remarks'];
@@ -62,46 +75,50 @@ $error=array();
                 $newreginfo->uid=$_POST['uid'];
                 $newreginfo->numberofpeople=$_POST['numberofpeople'];
                 $result=$event_handle->update_registration( $newreginfo );
-                if(!isBoolOrString($result))$error['sqlerror']=$result;
-                else {
-                    redirect('your registration now is completed', 'index.php', 'home', 1,true);
-                    exit();
+                if(!isBoolOrString($result)){
+                 redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                 exit();
                 }
-            }
+               
+            redirect('your registration now is completed', 'events.php?pg=1', 'Events', 1,true);
+            exit();
+                
+            
         
-        }
-        // error page ->redirect
-        redirect(implode("<br />", $error), 'CCIGW/index.php', 'home', 5,false);
-        exit();
-    }
+     }
+     
     
     
-    if(isset($_GET['Delete'])&&clean('get',$keys=array())){
-        if(!is_numeric(($_POST['eventsid']))){
+    if(isset($_GET['delete'])&&clean('get',$keys=array())){
+        if(!is_numeric($_POST['eventsid'])||$_POST['eventsid']<1){
             $error['eventsid']='invalid eventsid';
-        }
-         if(!is_numeric($_POST['uid'])){
-            $error['uid']='invalid uid';
-        }
-        if(empty($error)){
-            $result=$event_handle->cancel_register($_POST['eventsid'], $_POST['uid']);
-            if(!isBoolOrString($result))$error['sqlerror']=$result;
-            else {
-                if(is_admin()){
-                    redirect("the registration now is canceled", $url, $to, 1,true);
-                    exit();
-                }
-                else {
-                    redirect("your registration now is canceled", $url, $to,1, true);
-                    exit();
-                }  
-            }
-        }
-        else{
-            redirect(implode("<br />", $error), $url, $to, 5,false);
+             redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
             exit();
         }
-    }
+         if(!is_numeric($_POST['uid'])||$_POST['uid']<1){
+            $error['uid']='invalid uid';
+             redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+            exit();
+        }
+        
+            $result=$event_handle->cancel_register($_POST['eventsid'], $_POST['uid']);
+            if(!isBoolOrString($result)){
+                 redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                 exit();
+                }
+//            if(is_admin()){
+//                redirect("the registration now is canceled", $url, $to, 1,true);
+//                exit();
+//            }
+//            else {
+                redirect("your registration now is canceled",'events.php?pg=1', 'Events', 1,true);
+                exit();
+            } 
+            
+        
+        
+        
+    
     
     function validate(){
         global $error;

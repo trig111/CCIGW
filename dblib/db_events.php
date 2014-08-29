@@ -162,7 +162,7 @@ class Db_events {
 
 
 
-    public function delete_reply( Events $replydelete ) {
+    public function delete_reply(  $replydelete ) {
 
         $evets_array=array(
             ':eventsreplyid' =>$replydelete->Geteventsreply( 'eventsreplyid' )

@@ -6,18 +6,18 @@ if(!isset($_SESSION))
     
 require_once("include/common.php");
 
-if(!is_user_logged_in()||!is_admin()){
-    redirect('illegal access!', 'index.php', 'home', 5,false);
+if(!is_user_logged_in()){
+    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
 
 if(!clean('get',$keys=array())){
-    redirect('illegal access!', 'index.php', 'home', 5,false);
+    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
 $error=array();
 if(!validate()){
-    redirect(implode("<br />", $error), 'CCIGW/index.php', 'home', 5,false);//should redirect to prev page
+    redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);//should redirect to prev page
     exit();
 }
 
@@ -25,12 +25,17 @@ require_once('dblib/db_events.php');
 $de= new Db_events();
 $result=$de->show_single_event( $_GET['eventsid']);
 if(!isArrayOrString($result)){
-    redirect($result, 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);//should redirect to perv page
     exit();
 }
 
 if(empty($result)){
-    redirect('404 NOT FOUND', 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'Events', 5,false);//should redirect to perv page
+    exit();
+}
+
+if(is_legal_access($result['uid']||!is_admin())){
+    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
 //require_once("include/demoframe.php");
@@ -61,18 +66,18 @@ echo <<< zzeof
   
     Maximum member:<input size="20" type="text" value="{$result['maxmember']}"  name="maxmember" ><br />
       <table > <tr> <td>
-   <textarea type="text" name="event_body"  cols="80" rows="20" > {$result['body']}</textarea>
+   <textarea type="text" name="body"  cols="80" rows="20" > {$result['body']}</textarea>
      </td></tr></table>
      
      <input type="submit" name="modify" value="Modify" />
-     <input type="hidden" name="eventsid" value="$event_id"/>
+     <input type="hidden" name="eventsid" value="{$result['eventsid']}"/>
     <input type="hidden" name="uid" value=" {$result['uid']}">
      
      </form>
      
-     <div >createtime:{$result['createtime']} lastedit:{$result['lastedit']}</div>
-zzeof;
      
+zzeof;
+//var_dump($result);  
 getFooter();
  function validate(){
      global $error;
