@@ -46,7 +46,7 @@ output_page_menu();
      
      // begin to showreply 
      
-     //print_r( $event_handle->show_corresponding_reply($this_event_id));
+     
     }
      
      

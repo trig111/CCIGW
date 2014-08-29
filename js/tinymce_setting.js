@@ -1,5 +1,6 @@
 +function ($) {
   'use strict';
+  
   tinymce.init({
         selector: "textarea",
         plugins: [

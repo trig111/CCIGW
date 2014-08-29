@@ -436,7 +436,7 @@ class Db_events {
 //        );
         try{
 
-            $sql="SELECT subject, readaccess, body,createtime, db_events.uid as uid,username,startime, endtime, maxmember,lastedit FROM db_events,db_user WHERE eventsid=:eventsid and db_user.uid=db_events.uid";
+            $sql="SELECT eventsid,subject, readaccess, body,createtime, db_events.uid as uid,username,startime, endtime, maxmember,lastedit FROM db_events,db_user WHERE eventsid=:eventsid and db_user.uid=db_events.uid";
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
              $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
@@ -469,7 +469,7 @@ class Db_events {
             $st->setFetchMode( PDO::FETCH_ASSOC );
             $row = $st->fetch();
 
-            return $row['subject'];
+            return $row;
         }
         catch ( PDOException $e ) {
             return $e->getMessage();
@@ -544,7 +544,7 @@ class Db_events {
     //
     //
     //
-    public function show_corresponding_reply( $eventsid ,$offset,$pagesize) {
+    public function show_corresponding_reply_list( $eventsid ,$offset,$pagesize) {
 
 
 //        $user_array=array(
@@ -553,7 +553,7 @@ class Db_events {
         try{
 
             
-            $sql='SELECT db_evtreply.uid as uid,username,body,replytime,lastedit FROM db_evtreply,db_user where eventsid=:eventsid and db_evtreply.uid=db_user.uid LIMIT :offset,:pagesize';
+            $sql='SELECT eventsreplyid,db_evtreply.uid as uid,username,body,replytime,lastedit FROM db_evtreply,db_user where eventsid=:eventsid and db_evtreply.uid=db_user.uid LIMIT :offset,:pagesize';
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
@@ -578,6 +578,41 @@ class Db_events {
 
     }
 
+    
+    public function show_single_reply( $eventsreplyid) {
+
+
+//        $user_array=array(
+//            ':$eventsid'          =>(int)$eventsid
+//        );          
+        try{
+
+            
+            $sql='SELECT db_evtreply.uid as uid,username,body,replytime,lastedit FROM db_evtreply,db_user where eventsreplyid=:eventsreplyid and db_evtreply.uid=db_user.uid';
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':eventsreplyid', $eventsreplyid, PDO::PARAM_INT );
+            $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
+            $st->bindParam( ':pagesize', $pagesize, PDO::PARAM_INT );
+            $st->execute();
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            $result=array();
+
+
+            while ( $row = $st->fetch() ) {
+                array_push( $result, $row );
+            }
+            return $result;
+        }
+
+
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+
+    }
+    
     
      public function show_corresponding_last_reply( $eventsid ) {
 
@@ -774,7 +809,7 @@ class Db_events {
             $st->execute();
             $st->setFetchMode(PDO::FETCH_NUM);
             $result=$st->fetch();
-            return $result[0];
+            return $result;
         }
 
         catch( PDOException $e ) {

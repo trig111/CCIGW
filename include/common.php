@@ -26,7 +26,7 @@ function is_user_logged_in()
 }
 
 function is_admin(){
-    if($_SESSION['accessid']<4)return false;
+    if($_SESSION['accessid']<3)return false;
     else return true;
 }
 
@@ -124,6 +124,11 @@ function isDataIllegal()
     // it will return a error message which is a string
     function isBoolOrString($result){
         if(is_bool($result))return TRUE;
+        else return FALSE;
+    }
+    
+    function isArrayOrString($result){
+        if(is_array($result))return TRUE;
         else return FALSE;
     }
     

@@ -42,14 +42,14 @@ zzeof;
  foreach( $event_handle->client_show_events_list($page_key['offset'], $pagesize) as $aEvent)
     {
         $total_replies=$event_handle->get_num_of_evtreplys($aEvent['eventsid']);
-        if(!is_last_reply($total_replies,$aEvent['eventsid'])) $lastreply_str="{$aEvent['username']} <br /> {$aEvent['createtime']}";
+        if(!is_last_reply($total_replies[0],$aEvent['eventsid'])) $lastreply_str="{$aEvent['username']} <br /> {$aEvent['createtime']}";
         
             echo <<< zzeof
              <tr>
                <th>[{$aEvent['categoryname']}]</th>"
                <th><a href="eventpage.php?eventsid={$aEvent['eventsid']}&pg=1" >{$aEvent['subject']}</a></th>
 	      <th>{$aEvent['username']} <br /> {$aEvent['createtime']}</th>
-              <th>$total_replies</th>
+              <th>$total_replies[0]</th>
               <th>$lastreply_str</th>
               </tr>
             

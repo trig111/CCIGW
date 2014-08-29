@@ -86,7 +86,7 @@ function getHeader($title,$css = array(), $js = array()){
 		<title>CCIGW - $title</title>
 
 		<meta name="viewport" content="width=800, user-scalable=no">
-                <!--$url-->
+                
 
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
                 $link

@@ -56,9 +56,7 @@ tinymce.init({
      
      
      
-     // begin to showreply 
-     
-     //print_r( $event_handle->show_corresponding_reply($this_event_id));
+   
 
  
  // replay form

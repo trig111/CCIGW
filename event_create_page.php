@@ -56,9 +56,10 @@ echo <<< ZZEOF
 ZZEOF;
      
      
-//print_r( $event_handle->show_corresponding_reply($this_event_id));
+
 
  
  // replay form
 getFooter();
+
 ?>

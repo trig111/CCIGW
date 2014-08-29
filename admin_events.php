@@ -46,7 +46,7 @@ echo <<<ZZEOF
     <td>{$row['maxmember']}</td>
     <td>{$row['createtime']}</td>
     <td>{$row['lastedit']}</td>
-    <td><a href="event_manage.php?eventsid={$row['eventsid']}&action=edit">edit</a> | <a href="event_manage.php?eventsid={$row['eventsid']}&action=del">del</a></td>
+    <td><a href="tpl_edit_event.php?eventsid={$row['eventsid']}">edit</a> | <a href="server_event_action.php?eventsid={$row['eventsid']}&action=delete">del</a></td>
 </tr>
 
 ZZEOF;

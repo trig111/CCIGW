@@ -6,15 +6,14 @@ if(!isset($_SESSION))
 require_once("include/common.php");
     
     $uid= isset($_POST['uid']) ? fix_str($_POST['uid']) : fix_str($_GET['uid']);
-    var_dump($uid);
-    if(!is_legal_access($uid)){
+    if(!is_legal_access($uid)||!is_admin()){
         redirect('illegal access!', 'index.php', 'home', 5,false);
         exit();
     }
     
 require_once('dblib/db_events.php');
 require_once('dblib/db_user.php');
-require_once("include/demoframe.php");
+//require_once("include/demoframe.php");
 
 
 $error=array();
@@ -93,7 +92,7 @@ $error=array();
                     exit();
                 }
                 else {
-                    redirect("your registration now is canceled", $url, $to, true);
+                    redirect("your registration now is canceled", $url, $to,1, true);
                     exit();
                 }  
             }

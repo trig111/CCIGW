@@ -198,7 +198,7 @@ function events_demo(){
             $evt->Seteventsreply('uid',2);
             
           $de->add_reply($evt );
-         $result=$de->show_corresponding_reply(2);
+         $result=$de->show_corresponding_reply_list(2);
           echo'<pre>',print_r($result),'</pre>';
         echo'</br></br>';
         
@@ -208,14 +208,14 @@ function events_demo(){
             $evt->Seteventsreply('uid',2);
             $evt->Seteventsreply('replytime', $result[0]['replytime']);
              $de->update_reply( $evt );
-         $result=$de->show_corresponding_reply(2);
+         $result=$de->show_corresponding_reply_list(2);
           echo'<pre>',print_r($result),'</pre>';
         echo'</br></br>';
         
           $evt->Seteventsreply('eventsreplyid', $result[1]['eventsreplyid']);
            $de-> delete_reply($evt);
        
-         $result=$de->show_corresponding_reply(2);
+         $result=$de->show_corresponding_reply_list(2);
           echo'<pre>',print_r($result),'</pre>';
         echo'</br></br>';
     

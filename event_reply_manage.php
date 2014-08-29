@@ -10,7 +10,7 @@ require_once("include/common.php");
 require_once('event_action.php');
 
 $css=array('datepicker.css',);
-$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
+$js=array('tinymce/tinymce.min.js','tinymce_setting.js');
 //require_once('/form/form_admin.php');
 getHeader("Events", $css, $js);
 
@@ -19,23 +19,23 @@ output_page_menu();
 
 
 
- if ( !(isset($_GET["eventsid"]) ||!isset($_GET["action"]))){
+ if ( !(isset($_GET["eventsreplyid"]) ||!isset($_GET["action"]))){
      echo'<h1>400 Bad request!</h1>'; // if the GET request is not a valid request
  }
  else{
     $action=fix_str($_GET["action"]);
-    $eventsid = fix_str($_GET["eventsid"]);// for infection
+    $eventsreplyid = fix_str($_GET["eventsreplyid"]);// for infection
     if(strcmp($action,'edit')==0){
     
     $event_handle = new Db_events();
-    $user_handle = new Db_user();
-    $aEvent = $event_handle->show_single_event($eventsid);
+    //$user_handle = new Db_user();
+    $aEvent = $event_handle->show_single_reply( $eventsreplyid);
     
     if ( empty($aEvent)){
         echo'<h1>404 Page not found!</h1>';
     }
     else{
-    $categoryname=$event_handle->show_corresponding_category($aEvent['categoryid']);
+    //$categoryname=$event_handle->show_corresponding_category($aEvent['categoryid']);
    
  echo <<< ZZZEOF
    <form action="event_action.php" method="POST">
@@ -82,3 +82,4 @@ ZZZEOF;
  }
  getFooter();
  ?>
+
