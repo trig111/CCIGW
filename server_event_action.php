@@ -6,7 +6,7 @@ if(!isset($_SESSION))
 require_once 'include/common.php';
 
 $uid= isset($_POST['uid']) ? fix_str($_POST['uid']) : fix_str($_GET['uid']);
-    if(is_legal_access($uid)||!is_admin()){
+    if(!is_legal_access($uid)||!is_admin()){
         redirect('illegal access!', 'index.php', 'Home', 5,false);
         exit();
     }
