@@ -165,7 +165,7 @@ class Db_events {
     public function delete_reply(  $replydelete ) {
 
         $evets_array=array(
-            ':eventsreplyid' =>$replydelete->Geteventsreply( 'eventsreplyid' )
+            ':eventsreplyid' =>$replydelete
             //
         );
 
@@ -264,7 +264,7 @@ class Db_events {
     }
 
 
-
+//sql cascade pain of ass need to modify later
     function update_registration( Eventsreginfo $eventsreg ) {
 
         $evets_array=array(
@@ -286,12 +286,12 @@ class Db_events {
         try{
 
 
-
-
-            $sql="UPDATE db_regevt SET eventsid=:eventsid,uid=:uid,registertime=now(),numberofpeople=:numberofpeople,remarks=remarks WHERE eventsid=:eventsid and uid=:uid";
+            $sql='UPDATE db_regevt SET registertime=now(),numberofpeople=:numberofpeople,remarks=:remarks WHERE eventsid=:eventsid and uid=:uid';
 
             $st = $this->db_connection_handle->prepare( $sql );
 
+
+            
             $result = $st->execute( $evets_array );
 
             return $result;
@@ -436,7 +436,7 @@ class Db_events {
 //        );
         try{
 
-            $sql="SELECT eventsid,subject, readaccess, body,createtime, db_events.uid as uid,username,startime, endtime, maxmember,lastedit FROM db_events,db_user WHERE eventsid=:eventsid and db_user.uid=db_events.uid";
+            $sql="SELECT eventsid,subject,categoryid, readaccess, body,createtime, db_events.uid as uid,username,startime, endtime, maxmember,lastedit FROM db_events,db_user WHERE eventsid=:eventsid and db_user.uid=db_events.uid";
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
              $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
@@ -493,6 +493,33 @@ class Db_events {
              $st->bindParam( ':regid', $regid, PDO::PARAM_INT );
             $st->setFetchMode( PDO::FETCH_ASSOC );
             $st->execute();
+            $row = $st->fetch();
+
+            return $row;
+        }
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+
+
+    }
+    
+      public function check_is_user_regevt( $uid,$eventsid ) {
+
+//        $user_array=array(
+//            ':$regid'          =>$regid
+//        );
+        try{
+
+            $sql="SELECT regid,count(*) as count FROM db_regevt WHERE eventsid=:eventsid and uid=:uid";
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+             $st->bindParam( ':uid', $uid, PDO::PARAM_INT );
+             $st->bindParam( ':eventsid', $eventsid, PDO::PARAM_INT );
+            
+            $st->execute();
+            $st->setFetchMode( PDO::FETCH_ASSOC );
             $row = $st->fetch();
 
             return $row;
@@ -588,21 +615,17 @@ class Db_events {
         try{
 
             
-            $sql='SELECT db_evtreply.uid as uid,username,body,replytime,lastedit FROM db_evtreply,db_user where eventsreplyid=:eventsreplyid and db_evtreply.uid=db_user.uid';
+            $sql='SELECT db_evtreply.uid as uid,eventsid,username,body,replytime,lastedit FROM db_evtreply,db_user where eventsreplyid=:eventsreplyid and db_evtreply.uid=db_user.uid';
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':eventsreplyid', $eventsreplyid, PDO::PARAM_INT );
-            $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
-            $st->bindParam( ':pagesize', $pagesize, PDO::PARAM_INT );
-            $st->execute();
+          
+            
             $st->setFetchMode( PDO::FETCH_ASSOC );
-            $result=array();
-
-
-            while ( $row = $st->fetch() ) {
-                array_push( $result, $row );
-            }
-            return $result;
+            $st->execute();
+            $row = $st->fetch();
+                
+            return $row;
         }
 
 
@@ -661,7 +684,7 @@ class Db_events {
             $st->execute( $user_array );
             $row = $st->fetch();
 
-            return $row['categoryname'];
+            return $row;
         }
         catch ( PDOException $e ) {
             return $e->getMessage();

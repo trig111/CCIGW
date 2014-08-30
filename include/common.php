@@ -35,6 +35,7 @@ function clean($method,$keys){
         if(!isset($_POST))return false;
         if(empty($keys)){
             foreach($_POST as $key => $value){
+                if(strcmp($key,'body')==0)continue;
                 $_POST[$key]=  fix_str($_POST[$key]);
             }
         }
@@ -48,6 +49,7 @@ function clean($method,$keys){
         if(!isset($_POST))return false;
         if(empty($keys)){
             foreach($_GET as $key => $value){
+                if(strcmp($key,'body')==0)continue;
                 $_GET[$key]=  fix_str($_GET[$key]);
             }
         }
@@ -288,6 +290,7 @@ function send_activation_email($username,$userpass,$verifycode,$email){
     function redirect($message,$url,$to,$sec,$status){
         $url=  fix_str($url);
         $error_str='';
+        //var_dump($_SERVER['HTTP_REFERER']);
         if(strcmp($url, $_SERVER['HTTP_REFERER'])!=0){
             $host= 'http://'.$_SERVER['HTTP_HOST'].'/';
             $url=$host.$url;

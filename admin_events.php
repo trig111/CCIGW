@@ -16,6 +16,7 @@ getHeader("Superuser", $css, $js);
 output_page_menu();
 getSidebarHeader();
 echo <<<ZZEOF
+
 <table id="datatables" class="display" border="2">
 					<thead>
 						<tr>
@@ -62,22 +63,13 @@ $(document).ready( function () {
       "autoWidth": false,
       "paging": false,
       "autoWidth": false,
-      "columns": [
-    null,
-    null,
-    null,
-   { "width": "55%" },
-    null,
-    null,
-    null,
-    null,
-    { "width": "15%" },
-    null
-    ]
+    "scrollX": "150%"
       
    });
     
 } );
+
+
 </script>
 ZZEOF;
 getSidebarFooter();

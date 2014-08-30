@@ -21,10 +21,11 @@ $pagesize = 30;
 require_once('include/common.php');
 
 $page_key = pagination($num,$pagesize,'events.php?');
-
+$newpost='';
+if(is_admin()) $newpost='<div class="col-md-3 col-md-offset-10"><button type="button" class="btn btn-default btn-lg"><a href="tpl_post_event.php">Post New Event</a></button></div>';
  echo <<<zzeof
     <div class="page-header"><h1>Events</h1></div>
-   
+   $newpost
                   <table class="table table-striped">
             <thead>
                 <tr>
@@ -38,7 +39,7 @@ $page_key = pagination($num,$pagesize,'events.php?');
               <tbody>
 zzeof;
 
-
+//better to check more
  foreach( $event_handle->client_show_events_list($page_key['offset'], $pagesize) as $aEvent)
     {
         $total_replies=$event_handle->get_num_of_evtreplys($aEvent['eventsid']);

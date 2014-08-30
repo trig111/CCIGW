@@ -15,7 +15,7 @@ $error=array();
 $pagesize=8;
 
 if(!validate()){
-    redirect(implode("<br />", $error), 'CCIGW/index.php', 'home', 5,false);
+    redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'home', 5,false);
     exit();
 }
 
@@ -26,24 +26,24 @@ $aEvent = $event_handle->show_single_event($_GET['eventsid']);
 
 if(!isArrayOrString($aEvent)){
     
-    redirect($aEvent, 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect($aEvent, $_SERVER['HTTP_REFERER'], 'event', 5,false);//should redirect to perv page
     exit();
 }
 
 if(empty($aEvent)){
-    redirect('404 NOT FOUND', 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'event', 5,false);//should redirect to perv page
     exit();
 }
 $num  = $event_handle->get_num_of_evtreplys($_GET['eventsid']);
 
 if(!isArrayOrString($num)){
     
-    redirect($num, 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect($num, $_SERVER['HTTP_REFERER'], 'Event', 5,false);//should redirect to perv page
     exit();
 }
 
 if(empty($num)){
-    redirect('404 NOT FOUND', 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'event', 5,false);//should redirect to perv page
     exit();
 }
 
@@ -52,14 +52,39 @@ $page_key = pagination($num[0],$pagesize,"eventpage.php?eventsid={$_GET['eventsi
 $this_reply_list = $event_handle->show_corresponding_reply_list($_GET['eventsid'],$page_key['offset'],$pagesize);
 if(!isArrayOrString($this_reply_list)){
     
-    redirect($this_reply_list, 'index.php', 'home', 5,false);//should redirect to perv page
+    redirect($this_reply_list, $_SERVER['HTTP_REFERER'], 'home', 5,false);//should redirect to perv page
     exit();
 }
 
-if($num[0]>0&&empty($this_reply_list)){
-    redirect('404 NOT FOUND', 'index.php', 'home', 5,false);//should redirect to perv page
-    exit();
+//if(empty($this_reply_list)){
+//    redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'event', 5,false);//should redirect to perv page
+//    exit();
+//}
+$evtreg_str=array('<button type="button" class="btn btn-info btn-lg" disabled>Register The Event</button>','<button type="button" class="btn btn-warning btn-lg" disabled>Cancel Registeration</button>');
+if(is_user_logged_in()){
+            $regid=$event_handle->check_is_user_regevt( $_SESSION['uid'],$_GET['eventsid'] );
+            
+            if(!isArrayOrString($regid)){
+                
+                redirect($regid, $_SERVER['HTTP_REFERER'], 'home', 5,false);//should redirect to perv page
+                exit();
+            }
+
+            if(empty($regid)){
+                redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'event', 5,false);//should redirect to perv page
+                exit();
+            }
+            //$evtreg_str=array('<button type="button" class="btn btn-info btn-lg" disabled>Register The Event</button>&nbsp;&nbsp;&nbsp;&nbsp;','<button type="button" class="btn btn-warning btn-lg" disabled>Cancel Registeration</button>');
+            if($regid['count']==0){
+                $evtreg_str[0]='<button type="button" class="btn btn-info btn-lg"><a href="tpl_new_eventRegistration.php?eventsid='.$_GET['eventsid'].'">Register The Event</a></button>';
+            }
+            else {
+                
+                $evtreg_str[0]='<button type="button" class="btn btn-info btn-lg"><a href="tpl_edit_eventRegistration.php?eventsid='.$_GET['eventsid'].'&regid='.$regid['regid'].'">Edit The Registeration</a></button>';
+                $evtreg_str[1]='<button type="button" class="btn btn-warning btn-lg"><a href="server_register_event_action.php?action=delete&eventsid='.$_GET['eventsid'].'&uid='.$_SESSION['uid'].'">Cancel Registeration</a></button>&nbsp;&nbsp;&nbsp;&nbsp;';
+            }
 }
+//$evtreg_str=  implode('', $evtreg_str);
 //require_once("include/demoframe.php");
 $css = array();
 $js = array('tinymce/tinymce.min.js','tinymce_setting.js');
@@ -68,6 +93,7 @@ output_page_menu();
 
 //var_dump($aEvent);
 $is_editable='';
+
  if(is_legal_access($aEvent['uid'])){
      $is_editable=' &nbsp;&nbsp; | &nbsp;&nbsp; <a href="'.'tpl_edit_event.php?eventsid='.$aEvent['eventsid'].'">edit</a>';
  }
@@ -86,7 +112,7 @@ echo<<< zzeof
   <div class="panel-body">
     <fieldset>
          <legend>Time Period</legend>
-    Start Time:{$aEvent['startime']} ><br />
+    Start Time:{$aEvent['startime']} <br />
     End Time: {$aEvent['endtime']} 
        
     </fieldset>
@@ -102,7 +128,14 @@ echo<<< zzeof
   <div class="panel-footer">
      by {$aEvent['username']} &nbsp;&nbsp; | &nbsp;&nbsp; created at : {$aEvent['createtime']} &nbsp;&nbsp; | &nbsp;&nbsp; lastedit at : {$aEvent['lastedit']}$is_editable
   </div>
+  
 </div>
+
+  <div class="row">
+  
+  <div class="col-md-3 col-md-offset-6">$evtreg_str[0]</div>
+  <div class="col-md-3">$evtreg_str[1]</div>
+  </div>        
 
 zzeof;
      
@@ -111,12 +144,12 @@ if($num[0]>0){
         echo '<br /><br />';
         foreach ($this_reply_list as $aReply) {
             $is_editable='';
-            if(is_legal_access($aEvent['uid'])){
-                $is_editable=' &nbsp;&nbsp; | &nbsp;&nbsp; <a href="'.'event_manage.php?eventsid='.$aEvent['eventsid'].'&action=edit">edit</a>';
+            if(is_legal_access($aReply['uid'])||is_admin()){
+                $is_editable=' &nbsp;&nbsp; | &nbsp;&nbsp; <a href="'.'tpl_edit_event_reply.php?eventsreplyid='.$aReply['eventsreplyid'].'">edit</a>';
             }
 
             if(is_admin()){
-                $is_editable.=' &nbsp;&nbsp; | &nbsp;&nbsp; <a href="'.'event_manage.php?eventsid='.$aEvent['eventsid'].'&action=del">delete</a>';
+                $is_editable.=' &nbsp;&nbsp; | &nbsp;&nbsp; <a href="'.'server_reply_event_action.php?eventsreplyid='.$aReply['eventsreplyid'].'&action=delete">delete</a>';
             }
             echo <<<zzeof
       <div class="panel panel-success">
@@ -138,7 +171,7 @@ if(is_user_logged_in()){
     
     echo <<< zzeof
 
-     <form action="server_event_reply_action.php" method="POST" class="form-horizontal">
+     <form action="server_reply_event_action.php" method="POST" class="form-horizontal">
 
          <fieldset>
             <legend>
@@ -152,7 +185,7 @@ if(is_user_logged_in()){
         </div>
         <div class="form-group">
             <div class="col-sm-offset-0 col-sm-10">
-                <button type="submit" class="btn btn-default" name="Submit">Submit</button>
+                <button type="submit" class="btn btn-default" name="submit">Submit</button>
             </div>
         </div>
         <input type="hidden" name="eventsid" value="{$_GET["eventsid"]}"/>
@@ -161,7 +194,7 @@ if(is_user_logged_in()){
          </form>
 zzeof;
 }
-    
+echo '</div>';    
 echo $page_key['pagefooter'];
 
 getFooter();

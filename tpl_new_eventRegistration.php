@@ -26,26 +26,35 @@ output_page_menu();
 require_once ("dblib/db_events.php");
 require_once ("dblib/db_user.php");
 
-    $user_handle= new Db_user();
 
-      $event_handle = new Db_events(); 
+    $event_handle = new Db_events();  
+    $user_handle =new Db_user();
     $result=$user_handle->show_user_info( $_SESSION['username']);
-    $regresult=$event_handle->show_single_register($_GET['regid'] );
-    if($regresult['uid']!=$result['uid']||!is_legal_access($result['uid'])&&!is_admin()){
+    
+    if(!is_legal_access($result['uid'])&&!is_admin()){
         redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
         exit();
     }
-    if(!isArrayOrString($result)||!isArrayOrString($regresult)){
+    if(!isArrayOrString($result)){
         redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
         exit();
     }
     
-    if(empty($result)||empty($regresult)){
+    if(empty($result)){
        redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
         exit();
     }
     
     $subject=$event_handle->show_single_event_name($_GET['eventsid']);
+    if(!isArrayOrString($subject)){
+        redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+        exit();
+    }
+    
+    if(empty($subject)){
+       redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+        exit();
+    }
     $checked=array('','');
     if($result['gender']=='m')$checked[0]='checked';
     else $checked[1]='checked';
@@ -65,14 +74,14 @@ echo <<< ZZEOF
                          <input  type="text"  value="{$subject['subject']}" readonly>
                           <input type="hidden" name="eventsid" value="{$_GET['eventsid']}">
                           <input type="hidden" name="uid" value="{$result['uid']}" ><br />
-                          <input type="hidden" name="regid" value="{$regresult['regid']}" ><br />
+                       
 
                         number of people:(*)<br />
 
-                         <input name="numberofpeople" type="text" value="{$regresult['numberofpeople']}"><br />
+                         <input name="numberofpeople" type="text"><br />
                         remarks(optional):<br />
 
-                         <input name="remarks" type="text" value="{$regresult['remarks']}"><br />
+                         <input name="remarks" type="text"><br />
                           
                            
                 
@@ -137,9 +146,9 @@ echo <<< ZZEOF
                   </fieldset> 
 
                     <br />
-                        <input type="submit" name="modify" value="Modify">
+                        <input type="submit" name="submit" value="Submit">
 
-                        <input type="reset" name="Reset" value="Reset"></td>
+                        <input type="reset" name="reset" value="Reset"></td>
 
                        <br /><br /> 
     
@@ -154,7 +163,6 @@ getFooter();
      global $error;
  
      if(!is_numeric($_GET['eventsid'])||$_GET['eventsid']<1) $error['eventsid']="invaild eventsid!";
-     if(!is_numeric($_GET['regid'])||$_GET['regid']<1) $error['regid']="invaild regid!";
      if(empty($error))return true;
      else return false;
      

@@ -6,15 +6,15 @@ if(!isset($_SESSION))
     
 require_once("include/common.php");
 
-if(!is_user_logged_in()||!is_admin()){
+if(!is_user_logged_in()||!is_admin()){//now the event only can be post by admin
     redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
 
-if(!clean('get',$keys=array())){
-    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
-    exit();
-}
+//if(!clean('get',$keys=array())){
+//    redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+//    exit();
+//}
 //$error=array();
 //require_once("include/demoframe.php");
 $css=array('datepicker.css');

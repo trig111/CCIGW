@@ -24,26 +24,33 @@ if(!validate()){
 }
 
 require_once('dblib/db_events.php');
-$de= new Db_user();
-$result=$de->show_single_reply( $_POST['eventsreplyid']);
+$de= new Db_events();
+$result=$de->show_single_reply( $_GET['eventsreplyid']);
+
 if(!isArrayOrString($result)){
+    //var_dump($result);
     redirect($result, 'index.php', 'home', 5,false);//should redirect to perv page
     exit();
 }
 
 if(empty($result)){
+    
     redirect('404 NOT FOUND', 'index.php', 'home', 5,false);//should redirect to perv page
     exit();
 }
 
-if(!is_legal_access($result['uid'])||!is_admin()){
+if(!is_legal_access($result['uid'])&&!is_admin()){
+ 
+   
     redirect('illegal access!', 'index.php', 'home', 5,false);
     exit();
+    
 }
-
 $title=$de->show_single_event_name($result['eventsid']);
+
 if(!isArrayOrString($title)){
-    redirect($result, 'index.php', 'home', 5,false);//should redirect to perv page
+  
+    redirect($title, 'index.php', 'home', 5,false);//should redirect to perv page
     exit();
 }
 
@@ -52,7 +59,7 @@ if(empty($title)){
     exit();
 }
 
-require_once("include/demoframe.php");
+//require_once("include/demoframe.php");
 $css=array('datepicker.css',);
 $js=array('tinymce/tinymce.min.js','tinymce_setting.js');
 getHeader("Edit event reply", $css, $js);
@@ -69,29 +76,29 @@ output_page_menu();
         </legend>
         <div class="form-group">
             <label class="col-sm-2 control-label">Post at:</label>
-            <div class="col-sm-10">
-                <input type="text" name="replytime" class="form-control" value="{result['replytime']}" readonly>
+            <div class="col-sm-3">
+                <input type="text" name="replytime" class="form-control" value="{$result['replytime']}" readonly>
             </div>
         </div>
-            lastedit
+            
         <div class="form-group">
             <label class="col-sm-2 control-label">Lastedit:</label>
-            <div class="col-sm-10">
-                <input type="text" name="lastedit" class="form-control" value="{result['lastedit']}" readonly>
+            <div class="col-sm-3">
+                <input type="text" name="lastedit" class="form-control" value="{$result['lastedit']}" readonly>
             </div>
         </div>
      </fieldset> 
      <br/>
-     <div class="form-group">
-        <textarea class="form-control" rows="8"></textarea>
+     <div class="form-group col-sm-8">
+        <textarea class="form-control" rows=8 name="body">{$result['body']}</textarea>
     </div>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-8">
             <button type="submit" class="btn btn-default" name="modify">Modify</button>
         </div>
     </div>
     <input type="hidden" name="eventsid" value="{$result['eventsid']}"/>
-    <input type="hidden" name="eventsreplyid" value="{$result['eventsreplyid']}"/>
+    <input type="hidden" name="eventsreplyid" value="{$_GET['eventsreplyid']}"/>
     <input type="hidden" name="uid" value=" {$result['uid']}">
      
      </form>

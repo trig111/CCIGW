@@ -6,7 +6,9 @@ if(!isset($_SESSION))
 require_once("include/common.php");
     
     $uid= isset($_POST['uid']) ? fix_str($_POST['uid']) : fix_str($_GET['uid']);
-    if(!is_legal_access($uid)||!is_admin()){
+    
+    if(!is_legal_access($uid)&&!is_admin()){
+        //var_dump($uid);
         redirect('illegal access!', 'index.php', 'home', 5,false);
         exit();
     }
@@ -21,6 +23,7 @@ $error=array();
     $event_handle = new Db_events();
     $user_handle = new Db_user();
     if(isset($_POST['submit'])){
+        //var_dump($uid);
         if(!clean('post',$keys=array())|| !validate()){
             if(empty($error))$error['clean']='invalid post request';
             redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
@@ -68,20 +71,26 @@ $error=array();
                  redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
                  exit();
             }
+            if(empty($result)){
+                redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                 exit();
+            }
                 require_once("dblib/eventsreginfo.class.php");
                 $newreginfo = new Eventsreginfo(); 
                 $newreginfo->remarks=$_POST['remarks'];
                 $newreginfo->eventsid=$_POST['eventsid'];
                 $newreginfo->uid=$_POST['uid'];
                 $newreginfo->numberofpeople=$_POST['numberofpeople'];
+                //var_dump($newreginfo);
                 $result=$event_handle->update_registration( $newreginfo );
                 if(!isBoolOrString($result)){
                  redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
                  exit();
                 }
-               
-            redirect('your registration now is completed', 'events.php?pg=1', 'Events', 1,true);
+                
+               redirect('your registration now is updated', 'events.php?pg=1', 'events', 1,true);
             exit();
+
                 
             
         
@@ -89,19 +98,19 @@ $error=array();
      
     
     
-    if(isset($_GET['delete'])&&clean('get',$keys=array())){
-        if(!is_numeric($_POST['eventsid'])||$_POST['eventsid']<1){
+    if(isset($_GET['action'])&&clean('get',$keys=array())&&strcmp($_GET['action'],'delete')==0){
+        if(!is_numeric($_GET['eventsid'])||$_GET['eventsid']<1){
             $error['eventsid']='invalid eventsid';
              redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
             exit();
         }
-         if(!is_numeric($_POST['uid'])||$_POST['uid']<1){
+         if(!is_numeric($_GET['uid'])||$_GET['uid']<1){
             $error['uid']='invalid uid';
              redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
             exit();
         }
         
-            $result=$event_handle->cancel_register($_POST['eventsid'], $_POST['uid']);
+            $result=$event_handle->cancel_register($_GET['eventsid'], $_GET['uid']);
             if(!isBoolOrString($result)){
                  redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
                  exit();

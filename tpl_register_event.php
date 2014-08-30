@@ -4,7 +4,7 @@ if(!isset($_SESSION))
         session_start(); 
     }
 require_once("include/common.php");
-if(!is_user_logged_in()||!is_admin()){
+if(!is_user_logged_in()&&!is_admin()){
     redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
@@ -24,14 +24,16 @@ $js=array();
 getHeader("Register Events", $css, $js);
 output_page_menu();
 require_once ("dblib/db_events.php");
+require_once ("dblib/db_user.php");
 
-
-    $event_handle = new Db_events();   
+    $user_handle= new Db_user();
+       
     $result=$user_handle->show_user_info( $_SESSION['username']);
     if(!isArrayOrString($result)){
         redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
         exit();
     }
+    $event_handle = new Db_events();
     $subject=$event_handle->show_single_event_name($_GET['eventsid']);
     $checked=array('','');
     if($result['gender']=='m')$checked[0]='checked';
@@ -123,7 +125,7 @@ echo <<< ZZEOF
                   </fieldset> 
 
                     <br />
-                        <input type="submit" name="Submit" value="Submit">
+                        <input type="submit" name="submit" value="Submit">
 
                         <input type="reset" name="Reset" value="Reset"></td>
 

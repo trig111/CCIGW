@@ -62,7 +62,7 @@ class Db_news {
             ':uid' =>$newevents->uid,
             ':readaccess' =>$newevents->readaccess,
             ':subject'=>$newevents->subject,
-            ':createtime' =>$newevents->createtime,
+            //':createtime' =>$newevents->createtime,
             ':body'=>$newevents->body,
             ':categoryid' =>$newevents->categoryid
 
@@ -71,7 +71,7 @@ class Db_news {
         try{
 
 
-            $sql="UPDATE db_news SET uid=:uid,readaccess=:readaccess,subject=:subject,createtime=:createtime,body=:body,categoryid=:categoryid,lastedit=now() WHERE newsid=:newsid";
+            $sql="UPDATE db_news SET uid=:uid,readaccess=:readaccess,subject=:subject,body=:body,categoryid=:categoryid,lastedit=now() WHERE newsid=:newsid";
 
 
             $st = $this->db_connection_handle->prepare( $sql );
@@ -118,7 +118,7 @@ class Db_news {
 //        );
         try{
 
-            $sql="SELECT * FROM db_news WHERE newsid=:newsid";
+            $sql="SELECT newsid,subject,db_news.categoryid as categoryid,categoryname,readaccess, body,createtime,db_news.uid as uid,username,lastedit FROM db_news,db_user,id_category WHERE newsid=:newsid and db_news.uid=db_user.uid and id_category.categoryid=db_news.categoryid";
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':newsid', $newsid, PDO::PARAM_INT );
@@ -134,14 +134,14 @@ class Db_news {
         }
     }
 
-    public function show_all_news( $offset, $pagesize ) {
+    public function client_show_news_list( $offset, $pagesize ) {
 
 
 
         try{
 
 
-            $sql='SELECT * FROM db_news LIMIT :offset,:pagesize';
+            $sql='SELECT newsid FROM db_news LIMIT :offset,:pagesize';
 
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
@@ -179,5 +179,27 @@ class Db_news {
             return $e->getMessage();
          }
      }
-    
+     public function show_corresponding_category( $categoryid ) {
+
+        $user_array=array(
+            ':categoryid'          =>$categoryid
+        );
+
+        try{
+
+            $sql="SELECT categoryname FROM id_category WHERE categoryid=:categoryid";
+
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            $st->execute( $user_array );
+            $row = $st->fetch();
+
+            return $row;
+        }
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+
+    }
 }

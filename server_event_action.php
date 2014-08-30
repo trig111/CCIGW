@@ -6,7 +6,7 @@ if(!isset($_SESSION))
 require_once 'include/common.php';
 
 $uid= isset($_POST['uid']) ? fix_str($_POST['uid']) : fix_str($_GET['uid']);
-    if(is_legal_access($uid)||!is_admin()){
+    if(!is_legal_access($uid)&&!is_admin()){
         redirect('illegal access!', 'index.php', 'Home', 5,false);
         exit();
     }
@@ -32,7 +32,7 @@ if (isset($_POST['modify'])) {
         $aEvent->maxmember=$_POST['maxmember'];
         $aEvent->startime=$_POST['startime'];
         $aEvent->endtime=$_POST['endtime'];
-        $aEvent->maxmember=$_POST['maxmember'];
+        //$aEvent->maxmember=$_POST['maxmember'];
         $result=$event_handle->update_events($aEvent);
         if(!isBoolOrString($result)){
             
@@ -60,7 +60,7 @@ elseif( isset($_POST['submit']))
         $aEvent->maxmember=$_POST['maxmember'];
         $aEvent->startime=$_POST['startime'];
         $aEvent->endtime=$_POST['endtime'];
-        $aEvent->maxmember=$_POST['maxmember'];
+        //$aEvent->maxmember=$_POST['maxmember'];
         $result=$event_handle->post_events($aEvent);
         if(!isBoolOrString($result)){
             
@@ -105,7 +105,7 @@ function validate(){
             $error['maxmember']='invalid maxmember';
         }  
         
-         if ((utf8_strlen($_POST['body']) < 4)) {
+         if ((utf8_strlen($_POST['body']) < 11)) {
              $error['body'] = 'invalid length of body';
         }
           if(!is_numeric($_POST['categoryid'])||$_POST['categoryid']<1){

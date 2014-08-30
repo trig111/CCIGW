@@ -6,7 +6,7 @@ if(!isset($_SESSION))
 require_once 'include/common.php';
 
 $uid= isset($_POST['uid']) ? fix_str($_POST['uid']) : fix_str($_GET['uid']);
-   if(!is_legal_access($uid)||!is_admin()){
+   if(!is_legal_access($uid)&&!is_admin()){
     redirect('illegal access!', 'index.php', 'home', 5,false);
     exit();
 }
@@ -20,6 +20,7 @@ if (isset($_POST['modify'])) {
 
     if(!clean('post',$keys=array())||!validate()||!is_numeric($_POST['eventsreplyid'])||$_POST['eventsreplyid']<1){
         if(empty($error))$error['eventsreplyid_or_clean']='invalid eventsreplyid or post request';
+//        var_dump($_POST);
         redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'Events', 5,false);
         exit();
     }
@@ -96,7 +97,7 @@ function validate(){
         }
         
         
-         if ((utf8_strlen($_POST['body']) < 4)) {
+         if ((utf8_strlen($_POST['body']) < 11)) {
              $error['body'] = 'invalid length of body';
          }
 

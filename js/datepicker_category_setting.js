@@ -32,7 +32,7 @@ function choose_selected(){
  
 $(document).ready(function(){
    change_category('show');
-   setTimeout(function(){choose_selected();},1000);
+   setTimeout(function(){choose_selected();},200);
 });
 
 $(document).ready(function() {

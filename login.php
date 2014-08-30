@@ -6,7 +6,7 @@ if(!isset($_SESSION))
 
 require_once 'include/common.php';
 require_once 'dblib/db_user.php';
-var_dump($_POST);
+
 if(!isset($_SESSION['username'])){// if not logged in
 
 if (!(array_key_exists('username', $_POST)||!array_key_exists('userpass', $_POST)))
