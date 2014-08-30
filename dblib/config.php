@@ -9,12 +9,12 @@ INSTRUCTIONS:
 
 $DB_FIRST_ADMIN_ONLY=FALSE;
 
-//$DBNAME="CCIGW";
-//$DBUSER="root";
-//$DBPASS="daohao4bgun";
-   $DBNAME="CCIGW";
-   $DBUSER="root";
-   $DBPASS="root";
+$DBNAME="CCIGW";
+$DBUSER="root";
+$DBPASS="daohao4bgun";
+   // $DBNAME="CCIGW";
+   // $DBUSER="root";
+   // $DBPASS="root";
 //$DBNAME="liu11121_ccigw";
 //$DBUSER="liu11121";
 //$DBPASS="adminadmin";

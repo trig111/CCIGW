@@ -34,6 +34,7 @@ if(!isArrayOrString($result)){
     exit();
 }
 
+<<<<<<< HEAD
 if(empty($result)){
     redirect('404 NOT FOUND', 'index.php', 'Home', 5,false);
     exit();
@@ -55,8 +56,16 @@ if(is_admin()){
 zzeof;
  $panel=array('panel panel-primary','panel panel-success','panel panel-info','panel panel-warning','panel panel-danger');
  $i=0;
+=======
+
+$pagesize = 3;
+require_once('include/common.php');
+
+$page_key = pagination($num,$pagesize,'news.php?');
+>>>>>>> 6e6dc0d1f22bb84442e4ea255be007597e1c2ba7
 
 
+<<<<<<< HEAD
 
 
 foreach($result as $aNews){
@@ -97,7 +106,27 @@ zzeof;
 
 echo $page_key['pagefooter'];
 echo'</div>';
+=======
+ foreach( $news_handle->show_all_news($page_key['offset'], $pagesize) as $a_news )
+    {
+      echo <<<zzeof
+            <div class="panel panel-default">
+                         <div class="panel-heading"><a href="newspage.php?newsid={$a_news['newsid']}" > {$a_news['subject']}</a></div>
+zzeof;
+  $result = $news_handle->show_single_news($a_news['newsid']);
+echo <<<zzeof
+                 <div class="panel-body">
+                        {$result['body']}
+                  </div>
+           </div> 
+zzeof;
 
+    }
+
+
+>>>>>>> 6e6dc0d1f22bb84442e4ea255be007597e1c2ba7
+
+echo $page_key['pagefooter'];
 getFooter();
 
  function validate(){
