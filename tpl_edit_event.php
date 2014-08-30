@@ -36,7 +36,6 @@ if(empty($result)){
 }
 $categoryname=$de->show_corresponding_category($result['categoryid']);
 
-<<<<<<< HEAD
 if(!isArrayOrString($categoryname)){
     redirect($categoryname, $_SERVER['HTTP_REFERER'], 'Events', 5,false);//should redirect to perv page
     exit();
@@ -49,9 +48,6 @@ if(empty($categoryname)){
 
 if(!is_legal_access($result['uid'])&&!is_admin()){
     
-=======
-if(!is_legal_access($result['uid']||!is_admin())){
->>>>>>> 6e6dc0d1f22bb84442e4ea255be007597e1c2ba7
     redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
     exit();
 }
