@@ -27,7 +27,7 @@ output_page_menu();
 require_once('dblib/db_news.php');
 $news_handle = new Db_news();
 $num = $news_handle -> get_num_of_news();
-$page_key = pagination($num,$pagesize,'news.php?');
+$page_key = pagination($num[0],$pagesize,'news.php?');
 $result=$news_handle->client_show_news_list( $page_key['offset'], $pagesize );
 if(!isArrayOrString($result)){
     redirect($result, 'index.php', 'Home', 5,false);
@@ -46,7 +46,7 @@ if(is_admin()){
     
 }
  echo<<<zzeof
-<div style="width: 70%;margin:0 auto;">
+<div style="width: 80%;margin:0 auto;">
 <div class="page-header" ><h1>News</h1></div>
 <div class="row">
 <div class="col-md-3 col-md-offset-8">$newpost</div>

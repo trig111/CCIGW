@@ -88,11 +88,11 @@ class Db_news {
 
     }
 
-    public function delete_news( News $newevents ) {
+    public function delete_news(  $newevents ) {
 
 
         $events_array=array(
-            ':newsid'          =>$newevents->newsid
+            ':newsid'          =>$newevents
         );
 
         try{
@@ -141,7 +141,38 @@ class Db_news {
         try{
 
 
-            $sql='SELECT newsid FROM db_news LIMIT :offset,:pagesize';
+            $sql='SELECT newsid FROM db_news ORDER BY newsid DESC LIMIT :offset,:pagesize';
+
+            //$userdetails= new User();
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
+            $st->bindParam( ':pagesize', $pagesize, PDO::PARAM_INT );
+            $st->execute();
+            $st->setFetchMode( PDO::FETCH_ASSOC );
+            $result=array();
+
+
+            while ( $row = $st->fetch() ) {
+                array_push( $result, $row );
+            }
+            return $result;
+        }
+        catch ( PDOException $e ) {
+            return $e->getMessage();
+
+        }
+
+
+    }
+    
+     public function admin_show_news_list( $offset, $pagesize ) {
+
+
+
+        try{
+
+
+            $sql='SELECT newsid, db_news.uid, readaccess, username, createtime, subject, db_news.categoryid,categoryname, lastedit FROM db_news,db_user,id_category where db_news.uid=db_user.uid and db_news.categoryid=id_category.categoryid ORDER BY newsid DESC LIMIT :offset,:pagesize';
 
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
@@ -172,7 +203,7 @@ class Db_news {
             $st->execute();
             $st->setFetchMode(PDO::FETCH_NUM);
             $result=$st->fetch();
-            return $result[0];
+            return $result;
         }
 
         catch( PDOException $e ) {

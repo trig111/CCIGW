@@ -8,7 +8,7 @@ require_once 'dblib/db_user.php';
 require_once 'dblib/user.class.php';
 
 
-$url='/client_forget_pass_form.php';
+$url='client_forget_pass_form.php';
 
 if(isset($_POST['username'])&&isset($_POST['email']))
 {//in case of all the null inserted to database
@@ -30,7 +30,7 @@ if (!empty($username)&&!empty($email)) {
     $pattern="/^\w+$/";
     if(!preg_match($pattern,$username)|| strlen($username)<3 || strlen($username)>15 ){
      
-     redirect('invlid username format, $url','forget password');
+     redirect('invlid username format', $url,'forget password',5,false);
         
 
         exit();
@@ -45,7 +45,7 @@ if (!empty($username)&&!empty($email)) {
 
         
 
-        redirect('invalid email address!', $url,'forget password');
+        redirect('invalid email address!', $url,'forget password',5,false);
         
         exit();
 
@@ -57,7 +57,7 @@ if (!empty($username)&&!empty($email)) {
   }
      //checking potential sql injections
     if(!isDataIllegal()) {
-        redirect("illegal inputs", $url,'forget password');
+        redirect("illegal inputs", $url,'forget password',5,false);
         
         exit();
     }
@@ -72,25 +72,25 @@ if(!isBoolOrString($result)){
 }
 else if($result===FALSE){
     
-    redirect("username and email are not matched, try again!", $url,'forget password');
+    redirect("username and email are not matched, try again!", $url,'forget password',5,false);
         
         exit();   
 }
 else{
     //else r send to user a email with a reset cite
 	
-        $result=$du->show_user_info( $username );
+        $result=$du->show_user_info_by_name( $username );
         $pass=$result['userpass'];
 	
-      $x = sha1($username.'^'.$passwords);
+      $x = sha1($username.'^'.$pass);
 
        $String = base64_encode($username.",".$x);  
 
 
 
         
-       $url='/index.php'; 
-       redirect(" You need to reset your account via EMAIL...", $url,'home');
+       $url='index.php'; 
+       redirect(" You will receive a EMAIL soon to reassign a password...", $url,'home',3,true);
         
         
 

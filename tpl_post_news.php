@@ -13,12 +13,12 @@ if(!is_user_logged_in()||!is_admin()){//now the news only can be post by admin
 }
 
 $css=array('datepicker.css');
-$js=array('tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
+$js=array('tinymce/js/tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 getHeader("Post News", $css, $js);
 output_page_menu();
     
 echo <<< ZZEOF
-    
+    <div style="width:80%;margin:0 auto;">
     <form action="server_news_action.php" method="POST">
     <h1><input type="text" name="subject" size=80 placeholder="News title"></h1>
      
@@ -40,6 +40,7 @@ echo <<< ZZEOF
      <input type="hidden" name="uid" value=" {$_SESSION['uid']}">
      
      </form>
+     </div>
 ZZEOF;
      
 getFooter();

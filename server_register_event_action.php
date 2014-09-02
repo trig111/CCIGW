@@ -30,7 +30,7 @@ $error=array();
             exit();
         }
         
-            $result=$user_handle->update_user_info_necessary( $_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['address']);
+            $result=$user_handle->update_user_info_necessary( $_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['address'],$_POST['email']);
         
             if(!isBoolOrString($result)){
                  redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
@@ -65,7 +65,7 @@ $error=array();
             
         }
         
-            $result=$user_handle->update_user_info_necessary( $_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['address']);
+            $result=$user_handle->update_user_info_necessary( $_POST['uid'],$_POST['firstname'],$_POST['lastname'],$_POST['gender'],$_POST['phonenumber'],$_POST['address'],$_POST['email']);
         
             if(!isBoolOrString($result)){
                  redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
@@ -130,7 +130,7 @@ $error=array();
     
     
     function validate(){
-        global $error;
+        global $error, $user_handle ;
         if(!is_numeric(($_POST['eventsid']))){
             $error['eventsid']='invalid eventsid';
         }
@@ -146,9 +146,19 @@ $error=array();
              $error['lastname'] = 'invalid length of lastname';
         }
 
-//        if ((utf8_strlen($_POST['email']) > 50) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i',$_POST['email'])) {
-//                $error['email'] ='invalid format or length of email';
-//        }
+       
+        
+        if ((utf8_strlen($_POST['email']) > 50) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i',$_POST['email'])) {
+                $error['email'] ='invalid format or length of email';
+        }
+        $result= $user_handle ->check_email_integrity($_POST['uid'],$_POST['email']);
+        if(!isBoolOrString($result)){
+                 redirect($result, $_SERVER['HTTP_REFERER'], 'Events', 5,false);
+                 exit();
+        }
+        if(!$result){
+             $error['email_integrity'] = 'email_integrity failed,try an another email please!';
+        }
         if ((utf8_strlen($_POST['address']) >255) || (utf8_strlen($_POST['address']) <5 )) {
              $error['address'] = 'invalid length of address';
         }
@@ -158,7 +168,7 @@ $error=array();
         if (utf8_strlen($_POST['remarks']) >255) {
              $error['remarks'] = 'invalid length of remarks';
         }
-        if (utf8_strlen($_POST['phonenumber']) >30 || utf8_strlen($_POST['phonenumber']) <3 || !preg_match('/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/',$_POST['phonenumber'])) {
+        if (!preg_match('/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/',$_POST['phonenumber'])) {
              $error['phonenumber'] = 'invalid length or format of phonenumber';
         }
         if(!is_numeric($_POST['numberofpeople'])){

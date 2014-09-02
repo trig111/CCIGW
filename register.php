@@ -10,7 +10,7 @@ require_once 'dblib/user.class.php';
 
 
 
-if(isset($_POST['username'])&&isset($_POST['userpass'])&&isset($_POST['repeat_pass'])&&isset($_POST['repeat_pass'])
+if(isset($_POST['username'])&&isset($_POST['userpass'])&&isset($_POST['repeat_pass'])
     &&isset($_POST['email'])&&isset($_POST['gender'])&&isset($_POST['firstname'])&&isset($_POST['lastname'])
     &&isset($_POST['phonenumber'])&&isset($_POST['address']))
 {//in case of all the null inserted to database
@@ -28,7 +28,7 @@ $phonenumber= fix_str($_POST['phonenumber']);
 $address= fix_str($_POST['address']);
 
 global $url;
-$url='/tryregister.php';
+$url='tryregister.php';
 
 if (!empty($username)) {       
     //checking all the required fileds are not empty
@@ -36,7 +36,7 @@ if (!empty($username)) {
 
             || empty($userpass) || $repeat_pass != $userpass) {
         
-        redirect('missing one or more fileds', $url,'register');
+        redirect('missing one or more fileds', $url,'register',5,false);
 
         exit();
        
@@ -50,7 +50,7 @@ if (!empty($username)) {
     $pattern="/^\w+$/";
     if(!preg_match($pattern,$username)|| strlen($username)<3 || strlen($username)>15 ){
      
-     redirect('invlid username format, $url','register');
+     redirect('invalid username format, $url','register',5,false);
         
 
         exit();
@@ -58,14 +58,14 @@ if (!empty($username)) {
     //checking password's length
     if (strlen($userpass) < 6 || strlen($userpass) > 30) {
 
-      redirect("password's length should be >=6 and <=30", $url,'register');
+      redirect("password's length should be >=6 and <=30", $url,'register',5,false);
         
 
         exit();
 
     }
     if(strcmp($userpass, $repeat_pass)!=0){
-        redirect("inconsistent password and repeat password!", $url,'register');
+        redirect("inconsistent password and repeat password!", $url,'register',5,false);
         
 
         exit();
@@ -78,7 +78,7 @@ if (!empty($username)) {
 
         
 
-        redirect('invalid email address!', $url,'register');
+        redirect('invalid email address!', $url,'register',5,false);
         
         exit();
 
@@ -90,7 +90,7 @@ if (!empty($username)) {
         
         if (!preg_match($pattern,$phonenumber) ) {
         
-        redirect('invalid phonenumber!', $url,'register');
+        redirect('invalid phonenumber!', $url,'register',5,false);
         
         exit();
     }
@@ -101,7 +101,7 @@ if (!empty($username)) {
         //checking lastname format
         if (!preg_match($pattern,$lastname) ) {
         
-       redirect('invalid lastname!', $url,'register');
+       redirect('invalid lastname!', $url,'register',5,false);
         
         exit();
     }
@@ -112,7 +112,7 @@ if (!empty($username)) {
         //checking firstname format
         if (!preg_match($pattern,$firstname) ) {
         
-        redirect('invalid firstname!', $url,'register');
+        redirect('invalid firstname!', $url,'register',5,false);
         
         exit();
     }
@@ -120,7 +120,7 @@ if (!empty($username)) {
     }
     //checking address length
     if(strlen($address)>=255){
-        redirect("address'length should be <255", $url,'register');
+        redirect("address'length should be <255", $url,'register',5,false);
         
         exit();    
     }
@@ -128,7 +128,7 @@ if (!empty($username)) {
      }
      //checking potential sql injections
     if(!isDataIllegal()) {
-        redirect("illegal inputs", $url,'register');
+        redirect("illegal inputs", $url,'register',false);
         
         exit();
     }
@@ -143,7 +143,7 @@ if(!isBoolOrString($result)){
 }
 else if($result===FALSE){
     
-    redirect("username or email already exist, try again!", $url,'register');
+    redirect("username or email already exist, try again!", $url,'register',5,false);
         
         exit();   
 }
@@ -172,14 +172,14 @@ else{
 	$result=$du->add_new_user($newuser);
 //        $lastlogin=date("Y-m-d H:i:s");
         if(!isBoolOrString($result)){
-              redirect($result, $url,'register');
+              redirect($result, $url,'register',5,false);
         
         exit();
         }
 
         
-       $url='/index.php'; 
-       redirect("registration completed! You need to activate your account via EMAIL...", $url,'home');
+       $url='index.php'; 
+       redirect("registration completed! You need to activate your account via EMAIL...", $url,'home',3,true);
         
         
 

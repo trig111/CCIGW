@@ -68,7 +68,7 @@ elseif( isset($_POST['submit']))
             exit();
         }
                 
-        redirect('your (event) post now is submitted', $_SERVER['HTTP_REFERER'], 'Events', 1,true);//should redirect to prev page
+        redirect('your (event) post now is submitted', 'events.php?pg=1', 'Events', 1,true);//should redirect to prev page
         exit();
 }
 elseif(isset($_GET['action'])&&clean('get',$keys=array())&&strcmp($_GET['action'],'delete')==0){
@@ -118,7 +118,7 @@ function validate(){
         if ((strlen($_POST['endtime']) >20)) {
              $error['endtime'] = 'invalid length of startime';
         }
-        if (utf8_strlen($_POST['subject']) >25||utf8_strlen($_POST['subject']) <3) {
+        if (utf8_strlen($_POST['subject']) >50||utf8_strlen($_POST['subject']) <3) {
              $error['subject'] = 'invalid length of subject';
         }
         

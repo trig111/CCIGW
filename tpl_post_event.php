@@ -18,12 +18,12 @@ if(!is_user_logged_in()||!is_admin()){//now the event only can be post by admin
 //$error=array();
 //require_once("include/demoframe.php");
 $css=array('datepicker.css');
-$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
+$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/js/tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 getHeader("Post Event", $css, $js);
 output_page_menu();
     
 echo <<< ZZEOF
-    
+    <div style="width:80%;margin:0 auto;">
     <form action="server_event_action.php" method="POST">
     <h1><input type="text" name="subject" size=80 placeholder="Event title"></h1>
      
@@ -54,6 +54,7 @@ echo <<< ZZEOF
      <input type="hidden" name="uid" value=" {$_SESSION['uid']}">
      
      </form>
+     </div>
 ZZEOF;
      
 getFooter();

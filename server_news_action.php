@@ -37,7 +37,7 @@ if (isset($_POST['modify'])) {
             exit();
         }
                 
-        redirect('your (news) post now is updated', 'News.php?pg=1', 'News', 1,true);//should redirect to prev page
+        redirect('your (news) post now is updated', 'news.php?pg=1', 'News', 1,true);//should redirect to prev page
         exit();
         
     }
@@ -62,7 +62,7 @@ elseif( isset($_POST['submit']))
             exit();
         }
                 
-        redirect('your (news) post now is submitted', 'News.php?pg=1', 'News', 1,true);//should redirect to prev page
+        redirect('your (news) post now is submitted', 'news.php?pg=1', 'News', 1,true);//should redirect to prev page
         exit();
 }
 elseif(isset($_GET['action'])&&clean('get',$keys=array())&&strcmp($_GET['action'],'delete')==0){
@@ -79,7 +79,7 @@ elseif(isset($_GET['action'])&&clean('get',$keys=array())&&strcmp($_GET['action'
             exit();
         }
         
-        redirect("the (news) post now is deleted",'News.php?pg=1', 'News', 1,true);
+        redirect("the (news) post now is deleted",'news.php?pg=1', 'News', 1,true);
         exit();  
 }
 else{
@@ -104,7 +104,7 @@ function validate(){
             $error['categoryid']='invalid categoryid';
         } 
 
-        if (utf8_strlen($_POST['subject']) >25||utf8_strlen($_POST['subject']) <3) {
+        if (utf8_strlen($_POST['subject']) >50||utf8_strlen($_POST['subject']) <3) {
              $error['subject'] = 'invalid length of subject';
         }
         

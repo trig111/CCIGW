@@ -4,24 +4,25 @@ if(!isset($_SESSION))
         session_start(); 
     }
 require_once 'include/common.php';
-require_once("include/demoframe.php");
-//do_page_prerequisites();
+
+if(is_user_logged_in()){
+    redirect('you are logged in, to sign up a new account , you have to log out first', 'logout.php', 'Log Out', 3,false);
+        exit();
+}
 
 
-
-$css='';
+$css=array();
 
 $js=array('group5js/check.js','group5js/checkName.js');
 getHeader("Home",$css,$js);
 output_page_menu();
 echo <<< zzeof
-
+<div style="width:40%;margin:0 auto;">
 <h1>Register</h1>
-<div class="responsive-container">
+
     <div class="dummy"></div>
 
-    <div class="form-container">
-        <div class="centerer"></div>
+    
 <form name="register" class="login_and_signup" method="post" action="register.php" onSubmit="return doRegCheck();">
             <fieldset>
                 <table >
@@ -106,14 +107,13 @@ echo <<< zzeof
                         <input type="reset" name="Reset" value="Reset"></td>
 
                         </tr>
-  </div>
-</div>
+  
                
 </table>
  </fieldset>
 
 </form>
-
+</div>
 
 
 zzeof;

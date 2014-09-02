@@ -9,7 +9,7 @@ require_once("include/demoframe.php");
 
 
 global $url;
-$url='/index.php';
+$url='index.php';
 
 // check get variable is null or not
 if(isset($_GET['username'])&&!isset($_GET['reactivate'])&&!isset($_GET['cancel'])){
@@ -48,7 +48,7 @@ else if(isset($_GET['reactivate'])){
         $email=$du->get_user_email_by_username($username);
         $pattern = "/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/";
         if (!preg_match($pattern, $email)) {
-        redirect('error occured reactivation not completed! contact CCIGW TEAM', $url,'home');
+        redirect('error occured reactivation not completed! contact CCIGW TEAM', $url,'home',5,false);
         
         exit();
 
@@ -56,26 +56,26 @@ else if(isset($_GET['reactivate'])){
      $identifier=generateCode(4);
            $result=$du->regenerate_activation($username,$identifier);
            if(!isBoolOrString($result)){
-                redirect($result, $url,'home');
+                redirect($result, $url,'home',5,false);
         
                 exit();
            }
       send_activation_email($username,'only you know',$identifier,$email);
        
-      redirect('A new EMAIL has been sent to you !', $url,'home');
+      redirect('A new EMAIL has been sent to you !', $url,'home',1, true);
         
       exit();
         }
   }
 else if(isset($_GET['cancel'])){
     //if user don want to reactivate then redirect to home page
-    redirect('your account is not activated', $url,'home');
+    redirect('your account is not activated', $url,'home',5,false);
         
       exit();
 }
 else{
     //else any other conditions will all redirect to home page
-    redirect('illegal access!', $url,'home');
+    redirect('illegal access!', $url,'home',5 ,false);
         
       exit();
 }

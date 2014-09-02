@@ -19,19 +19,19 @@ function getSidebarHeader(){
                     </a>
                 </li>
                 <li>
-                    <a href="#">Manage HOME Page</a>
+                    <a href="admin_home.php">Manage HOME Page</a>
                 </li>
                 <li>
-                    <a href="#">Manage Users</a>
+                    <a href="admin_user.php?pg=1">Manage Users</a>
                 </li>
                 <li>
-                    <a href="#">Manage Events</a>
+                    <a href="admin_events.php?pg=1">Manage Events</a>
                 </li>
                 <li>
-                    <a href="#">Manage Registration</a>
+                    <a href="admin_registration.php?pg=1">Manage Registration</a>
                 </li>
                 <li>
-                    <a href="#">Manage News</a>
+                    <a href="admin_news.php?pg=1">Manage News</a>
                 </li>
             </ul>
         </div>
@@ -87,10 +87,11 @@ function getHeader($title,$css = array(), $js = array()){
 
 		<meta name="viewport" content="width=800, user-scalable=no">
                 
-
+                
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+                
                 $link
-  		
+  		<link rel="stylesheet" type="text/css" href="css/sticky-footer.css" />
                 
                 <script type="application/javascript" src="js/jquery-1.11.1.min.js"></script>
                 <script type="application/javascript" src="js/bootstrap.js"></script>
@@ -107,16 +108,18 @@ ZZEOF;
 //navgation part
 function output_page_menu()
 {
-$temp='';
+
 $login = array();
-  if (isset($_SESSION['username']))
+  if (isset($_SESSION['username'],$_SESSION['uid'],$_SESSION['accessid']))
   {
     $login['url'] = 'logout.php';
     $login['label'] = 'Logout';
-    
-    $temp= "useraccess.php";
+    $is_admin="";
+    $temp= "tpl_control_panel.php?uid={$_SESSION['uid']}&action=show";
     $controlpanel= '<li><a href='.$temp.'>Control Panel</a></li>';
-    
+    if($_SESSION['accessid']>=3){
+        $is_admin="<li><a href='admin_home.php'>Administration</a></li>";
+    }
   }
   else
   {
@@ -124,10 +127,12 @@ $login = array();
     $login['label'] = 'Login';
 //    $login['useraccess']="useraccess.php";
     $controlpanel="";
+     $is_admin="";
   }
 
 echo <<<ZZEOF
 <body>
+  <div id="wrap">
  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -148,6 +153,7 @@ echo <<<ZZEOF
             <li><a href="contact.php">Contact Us</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+           $is_admin
             $controlpanel
             <li><a href="{$login['url']}">{$login['label']}</a></li>
             <li><a href="tryregister.php">Sign Up</a></li>
@@ -160,51 +166,6 @@ echo <<<ZZEOF
 
 ZZEOF;
 
-/*
-echo <<<ZZEOF
-	<body>
-		<div class="header">
-			<div class="title">
-				<a href="index.php">
-				<img src="images/logo.jpg" border="0" alt="CCIGW" /></a>
-			</div>
-			<table>
-				<tr>
-					<td><a href="{$login['url']}">{$login['label']}</a></td>
-					<td><p> | </p></td>
-					<td><a href="tryregister.php">Sign Up</a></td>
-                                        
-ZZEOF;*/
-                                /*$controlpanel=''; 
-                                if(!empty($temp)) 
-                                $controlpanel= '<td><p> | </p></td><td><a href='.$temp.'>Control Panel</a></td>';
-                                */                
-                                               
-                              /*          
-echo <<<zzeof
-                                 $controlpanel     
-	
-		
-zzeof;*/
-
-/*
-</tr>
-			</table>
-		</div>
-		<div class="meny">
-			<h2>Menu</h2>
-			<ul>
-				<li><a href="index.php">Hme</a></li>
-				<li><a href="about.php">About</a></li>
-				<li><a href="events.php">Events</a></li>
-				<li><a href="news.php">News</a></li>
-				<li><a href="contact.php">Contact Us</a></li>
-			</ul>
-		</div>
-
-		<div class="meny-arrow"></div>
-
-		<div class="contents">*/
   
 }
 
@@ -214,10 +175,28 @@ zzeof;*/
 //footer part
 function getFooter(){
 	echo <<<ZZEOF
-			<div>				</div>
-			<small>
-				 Disclaimer: 60-334 GROUP 5 does not own the rights to any of the content including pictures on this website.
-			</small>
+    <br /><br /><br /><br /><br /></div>
+			<div id="footer" style="text-align: center;font-size: 150%;">
+      
+                        
+				<ul class="list-inline" style="margin: 0;padding: 0;">
+                <li style="padding-top: 20px;">
+                    <a href="http://www.windsorpie.com/portal.php" >Partner site</a>
+                  
+                </li>
+                <li style="padding-top: 20px;">
+                  <a href="mailto:notify.ccigw@gmail.com">Email Us</a>
+                </li>
+               
+                  <li="copy" style="float: right;padding-top: 20px;margin-right: 10px;color:#428bca;">
+                     2014 -CCIGW Team
+                  
+    </li>
+    </ul>
+			
+      
+    </div>
+			
                
                
 		

@@ -87,7 +87,7 @@ if(is_user_logged_in()){
 //$evtreg_str=  implode('', $evtreg_str);
 //require_once("include/demoframe.php");
 $css = array();
-$js = array('tinymce/tinymce.min.js','tinymce_setting.js');
+$js = array('tinymce/js/tinymce/tinymce.min.js','tinymce_setting.js');
 getHeader("Event reply list page", $css, $js);
 output_page_menu();
 
@@ -104,7 +104,7 @@ $is_editable='';
  
 
 echo<<< zzeof
-<div style="width: 70%;margin:0 auto;">
+<div style="width: 80%;margin:0 auto;">
  <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">{$aEvent['subject']}</h3>
@@ -181,7 +181,7 @@ if(is_user_logged_in()){
          </fieldset> 
          <br /> 
          <div class="form-group">
-            <textarea class="form-control" rows="8" name="body"></textarea>
+            <textarea class="form-control" rows="20" name="body"></textarea>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-0 col-sm-10">
@@ -202,7 +202,7 @@ getFooter();
  function validate(){
      global $error;
  
-     if(!is_numeric($_GET['eventsid'])||$_GET['eventsid']<1) $error['eventsreplyid']="invaild eventsid!";
+     if(!is_numeric($_GET['eventsid'])||$_GET['eventsid']<1) $error['eventsid']="invaild eventsid!";
      if(!is_numeric($_GET['pg'])||$_GET['pg']<1) $error['pg']='invalid page number!';
      if(empty($error))return true;
      else return false;
