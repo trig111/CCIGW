@@ -15,8 +15,6 @@ $DB_FIRST_ADMIN_ONLY=FALSE;
    $DBNAME="CCIGW";
    $DBUSER="root";
    $DBPASS="";
-//$DBNAME="liu11121_ccigw";
-//$DBUSER="liu11121";
-//$DBPASS="adminadmin";
+
 
 ?>

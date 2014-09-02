@@ -38,8 +38,8 @@
 | -------------------------------------------------------------------*/
 
 	
-	$config['img_path'] = 'http://'.$_SERVER['HTTP_HOST'].'/' .'images'; // Relative to domain name
-	$config['upload_path'] = 'http://'.$_SERVER['HTTP_HOST'].'/' .'images'; // Physical path. [Usually works fine like this]
+	$config['img_path'] = '/images'; // Relative to domain name
+	$config['upload_path'] = $_SERVER['DOCUMENT_ROOT'] . $config['img_path']; // Physical path. [Usually works fine like this]
 
 
 /*-------------------------------------------------------------------
@@ -59,7 +59,7 @@
 | Maximum image file size in kilobytes. This value can't exceed value set in php.ini.
 | Set to `0` if you want to use php.ini default:
 | 
-| $config['max_size'] = 0;
+| $config['max_size'] = 1024;
 | 
 | -------------------------------------------------------------------*/
 
@@ -116,7 +116,7 @@
 | -------------------------------------------------------------------*/
 
 	
-	$config['encrypt_name'] = FALSE;
+	$config['encrypt_name'] = TRUE;
 
 
 /*-------------------------------------------------------------------
@@ -128,7 +128,7 @@
 | -------------------------------------------------------------------*/
 
 
-	$config['overwrite'] = FALSE;
+	$config['overwrite'] = TRUE;
 	
 	
 /*-------------------------------------------------------------------

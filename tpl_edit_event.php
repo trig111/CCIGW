@@ -80,7 +80,7 @@ echo <<< zzeof
   
     Maximum member:<input size="20" type="text" value="{$result['maxmember']}"  name="maxmember" ><br />
       <table > <tr> <td>
-   <textarea type="text" name="body" rows="20" > {$result['body']}</textarea>
+   <textarea type="text" name="body"  cols="80" rows="20" > {$result['body']}</textarea>
      </td></tr></table>
      
      <input type="submit" name="modify" value="Modify" />
