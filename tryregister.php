@@ -20,97 +20,58 @@ echo <<< zzeof
 <div style="width:40%;margin:0 auto;">
 <h1>Register</h1>
 
-    <div class="dummy"></div>
+    <div class="form-group"></div>
 
     
 <form name="register" class="login_and_signup" method="post" action="register.php" onSubmit="return doRegCheck();">
-            <fieldset>
-                <table >
+      
 
-                    <tr>
-
-                        <td >Username：</td>
-
-                        <td><input name="username" type="text" id="username" onblur="checkNameAndEmail('name')"> </td>
-                        <div id="php100"></div>
-                    </tr>
-
-                    <tr>
-
-                        <td>Password(&gt;=6and&lt;=30)：</td>
-
-                        <td><input name="userpass" type="password" id="userpass"></td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Repeat Password：</td>
-
-                        <td><input name="repeat_pass" type="password" id="repeat_pass"></td>
-
-                    </tr>
-                    
-                     <tr>
-
-                        <td>Email:</td>
-
-                         <td><input name="email" type="text" id="email" onblur="checkNameAndEmail('email')"></td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>First Name：(optional)</td>
-
-                        <td><input name="firstname" type="text" id="firstname"></td>
-                    </tr>
-                    
-                     <tr>
-
-                        <td>Last Name：(optional)</td>
-
-                        <td><input name="lastname" type="text" id="lastname"></td>
-
-                    </tr>
+                    <input name="username" class="form-control" placeholder="Enter username" type="text" id="username" onblur="checkNameAndEmail('name')"> </td>
                         
-                         <td>Gender：
-                         <br/>    
+                    <br>
+                    <input name="userpass" class="form-control" placeholder="Enter Password(&gt;=6and&lt;=30):" type="password" id="userpass">
+
+                  <br>
+
+                    <input name="repeat_pass" type="password" id="repeat_pass" class="form-control" placeholder="Repeat Password:">
+
+              <br>
+
+                     <input name="email" class="form-control" placeholder="Email" type="text" id="email" onblur="checkNameAndEmail('email')">
+                    
+<br>
+
+                    <input name="firstname" type="text" class="form-control" placeholder="First Name：(optional)" id="firstname">
+                    
+<br>
+
+                    <input name="lastname" type="text" id="lastname" class="form-control" placeholder="Last Name：(optional)">
+
+                    <br>
+                        
+                         <label>Gender：</label>
+                             
                         <label><input type="radio" name="gender" value="m" checked >Male</label>
                         <label><input type="radio" name="gender" value="f">Female</label>
-                        </td>
+                      
 
-                    <tr>
+                      <br>
 
-                        <td>Phone Number(xxx-xxx-xxxx):(optional)</td>
+                    <input name="phonenumber" type="text" id="phonenumber" class="form-control" placeholder="Phone Number(xxx-xxx-xxxx):(optional)">
 
-                         <td><input name="phonenumber" type="text" id="phonenumber"></td>
-
-                    </tr>
                     
-                    <tr>
+<br>
+                    
 
-                        <td>Address:(optional)</td>
+                    <input name="address" type="text" id="address" class="form-control" placeholder="Address:(optional)">
 
-                         <td><input name="address" type="text" id="address"></td>
+                 
+<br>
+                      <button type="submit" class="btn btn-default" name="Submit" value="Submit">Submit</button>
 
-                    </tr>
-
-                   
-
-                    <tr>
-
-                        <td colspan="2" align="center">
-
-                        <input type="submit" name="Submit" value="Submit">
-
-                        <input type="reset" name="Reset" value="Reset"></td>
-
-                        </tr>
+                    <button type="reset" class="btn btn-default" name="Reset" value="Reset">Reset</button>
   
-               
-</table>
- </fieldset>
+
 
 </form>
 </div>

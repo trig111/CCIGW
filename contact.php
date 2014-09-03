@@ -54,47 +54,30 @@ output_page_menu();
 		<h1>Contact Us</h1>
 		
 		
-    		<div class="dummy"></div>
+    		<div class="form-group"></div>
 
     		
         		
 				<form name="commentform" class="login_and_signup" method="post" action="contact.php" >
-            	<fieldset>
-                <table >
+        
  
                     
-                    <tr>
-                        <td>Email:</td>
-                    <tr>
-                    <tr>
-                         <td><textarea rows="1" cols="50" name="email"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td>Title:</td>
-                    <tr>
-                    <tr>
-                         <td><textarea rows="1" cols="50" name="title"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td>Your Comment:</td>
-					</tr>
-					<tr>
-                        <td><textarea rows="4" cols="50" name="comment"></textarea></td>
-                    </tr>
-                   	 <tr>
+             
+                     <label> Email: </label>
+                   <textarea rows="1" cols="50" name="email" class="form-control"></textarea>
+                   
+                    <label>Title:</label>
+                    
+                        <textarea rows="1" cols="50" name="title" class="form-control"></textarea>
+                   
+                        <label>Your Comment:</label>
+	           <textarea rows="4" cols="50" name="comment" class="form-control"></textarea>
+            
+                    <button type="submit" class="btn btn-default" name="Submit" value="Submit">Submit</button>
 
-                        <td colspan="2" align="left">
-<br/><br/>
-                        <input type="submit" name="Submit" value="Submit">
+                    <button type="reset" class="btn btn-default" name="Reset" value="Reset">Reset</button>
 
-                        <input type="reset" name="Reset" value="Reset"></td>
-
-                    </tr>
-  				
-		
-               
-	</table>
- </fieldset>
+    
 
 </form>
 <br/><br/>
