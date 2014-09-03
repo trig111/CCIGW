@@ -6,7 +6,6 @@ if(!isset($_SESSION))
 require_once 'include/common.php';
 require_once 'dblib/db_user.php';
 
-require_once("include/demoframe.php");
 
 
      
@@ -16,21 +15,21 @@ if(isset($_GET['verify'])&&!isset($_POST['userpass'])&&!isset($_POST['repeat_pas
     $verify    = fix_str($_GET['verify']);
     $array = explode(',',base64_decode($verify));
     
-    
-    $result=$du->show_user_info( $username );
+    $username=$array[0];
+    $result=$du->show_user_info_by_name( $username );
     $pass=$result['userpass'];
     $checkCode = sha1($array[0].'^'.$pass);
     //compare not->exit
     if($array[1] === $checkCode){
         $css='';
-        $username=$array[0];
+       // $username=$array[0];
 
 $js=array('group5js/check.js','group5js/checkName.js');
 getHeader("Home",$css,$js);
 output_page_menu();
 
         echo <<< zzeof
-
+        <div style="width:40%;margin:0 auto;">
         <h1>Reset Password</h1>
         <div class="responsive-container">
             <div class="dummy"></div>
@@ -85,15 +84,15 @@ output_page_menu();
 
         </form>
 
-
+</div>
 
 zzeof;
 getFooter();
 exit();
     }
     else{
-        $url='/client_forget_pass_form.php';
-        redirect('verifyString is not correct,please request again!', $url,'Forget password');
+        $url='client_forget_pass_form.php';
+        redirect('verifyString is not correct,please request again!', $url,'Forget password',5,false);
              exit();
     }
 }
@@ -103,10 +102,10 @@ exit();
     $repeat_pass = fix_str($_POST['repeat_pass']);
     $username=fix_str($_POST['username']);
     //checking password's length
-    $url='/server_check_and_reset_userpass.php';
+    $url='server_check_and_reset_userpass.php';
     if (strlen($userpass) < 6 || strlen($userpass) > 30) {
 
-      redirect("password's length should be >=6 and <=30", $url,'reset password');
+      redirect("password's length should be >=6 and <=30", $url,'reset password',5,false);
         unset($_POST['userpass'],$_POST['repeat_pass']);
 
         exit();
@@ -114,7 +113,7 @@ exit();
     }
     
     if(strcmp($userpass, $repeat_pass)!=0){
-        redirect("inconsistent password and repeat password!", $url,'reset password');
+        redirect("inconsistent password and repeat password!", $url,'reset password',5,false);
         unset($_POST['userpass'],$_POST['repeat_pass']);
 
         exit();
@@ -128,17 +127,17 @@ exit();
 //    sleep(5);
      $result=$du->reset_user_pass($username,$userpass);
      
-     $url='/index.php';
+     $url='index.php';
         if($result===True){
-            redirect("password reset completed", $url,'home');
+            redirect("password reset completed", $url,'home',3,true);
             exit();
         }
     
 }
 else{// if $_GET[xxx]is null then redirect to home page
-    $url='/index.php';
+    $url='index.php';
   
-   redirect('illeagal access!', $url,'home');
+   redirect('illeagal access!', $url,'home',5,false);
              exit();
 }
 

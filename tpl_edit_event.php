@@ -53,11 +53,12 @@ if(!is_legal_access($result['uid'])&&!is_admin()){
 }
 //require_once("include/demoframe.php");
 $css=array('datepicker.css');
-$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
+$js=array('bootstrap-datepicker.js','bootstrap-datepicker.zh-CN.js','tinymce/js/tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 getHeader("Update Event", $css, $js);
 output_page_menu();
  
 echo <<< zzeof
+<div style="width:80%;margin:0 auto;">
 <form action="server_event_action.php" method="POST">
     
      <h1><input type="text" name="subject" size=80 value="{$result['subject']}"></h1>
@@ -87,7 +88,7 @@ echo <<< zzeof
     <input type="hidden" name="uid" value=" {$result['uid']}">
      
      </form>
-     
+     </div>
      
 zzeof;
 //var_dump($result);  

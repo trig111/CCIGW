@@ -15,8 +15,9 @@ output_page_menu();
 
 echo <<<ZZEOF
 
-	
+	<div style="width:40%;margin:0 auto;">
 		<div class="well">
+                <br /><br />
 		<p>Chinese Culture Institute of Great Windsor (CCIGW) is a non-profit organization.
 		 It was founded in February of 2005. Based on the Children's Singing and Dancing 
 		 Class, the institute now gives seven yearly running Chinese Culture related 
@@ -26,8 +27,8 @@ echo <<<ZZEOF
 			their children with Chinese tradition and culture. *<p>
 		
 		<small><a href="http://chinatownwiki.com/wiki/index.php?title=Chinese_Culture_Institute_of_Great_Windsor">*Wikipedia</a></small>
-		</div>
-		
+		<br /><br />
+		</div></div>
 ZZEOF;
 
 

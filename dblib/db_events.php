@@ -374,7 +374,7 @@ class Db_events {
 
 
         try{
-           $sql='SELECT eventsid,categoryname,subject,username,readaccess,maxmember,createtime,lastedit FROM db_events,db_user,id_category WHERE db_events.uid=db_user.uid and db_events.categoryid=id_category.categoryid ORDER BY eventsid DESC LIMIT :offset,:pagesize';
+           $sql='SELECT eventsid,categoryname,subject,username,readaccess,maxmember,startime,endtime FROM db_events,db_user,id_category WHERE db_events.uid=db_user.uid and db_events.categoryid=id_category.categoryid ORDER BY eventsid DESC LIMIT :offset,:pagesize';
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
@@ -543,7 +543,7 @@ class Db_events {
         try{
 
 
-            $sql='SELECT * FROM db_regevt LIMIT :offset,:pagesize';
+            $sql='SELECT regid,db_regevt.eventsid as eventsid ,subject, db_regevt.uid as uid ,username, registertime, numberofpeople,remarks FROM db_regevt,db_user,db_events WHERE db_user.uid=db_regevt.uid and db_regevt.eventsid=db_events.eventsid ORDER BY registertime DESC LIMIT :offset,:pagesize';
             //$userdetails= new User();
             $st = $this->db_connection_handle->prepare( $sql );
             $st->bindParam( ':offset', $offset, PDO::PARAM_INT );
@@ -816,13 +816,29 @@ class Db_events {
             $st->execute();
             $st->setFetchMode(PDO::FETCH_NUM);
             $result=$st->fetch();
-            return $result[0];
+            return $result;
         }
 
         catch( PDOException $e ) {
             return $e->getMessage();
          }
      }
+      public function get_num_of_registration(){
+        try{
+            $sql='SELECT COUNT( * ) FROM  db_regevt';
+            $st = $this->db_connection_handle->prepare( $sql );
+            
+            $st->execute();
+            $st->setFetchMode(PDO::FETCH_NUM);
+            $result=$st->fetch();
+            return $result;
+        }
+
+        catch( PDOException $e ) {
+            return $e->getMessage();
+         }
+     }
+    
      
      public function get_num_of_evtreplys($eventsid){
         try{

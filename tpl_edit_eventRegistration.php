@@ -29,7 +29,7 @@ require_once ("dblib/db_user.php");
     $user_handle= new Db_user();
 
       $event_handle = new Db_events(); 
-    $result=$user_handle->show_user_info( $_SESSION['username']);
+    $result=$user_handle->show_user_info( $_SESSION['uid']);
     $regresult=$event_handle->show_single_register($_GET['regid'] );
     if($regresult['uid']!=$result['uid']||!is_legal_access($result['uid'])&&!is_admin()){
         redirect('illegal access!', $_SERVER['HTTP_REFERER'], 'Events', 5,false);
@@ -51,7 +51,7 @@ require_once ("dblib/db_user.php");
     else $checked[1]='checked';
 
 echo <<< ZZEOF
-    
+    <div style="width:80%;margin:0 auto;">
     <form action="server_register_event_action.php" method="POST">
     
     
@@ -95,7 +95,7 @@ echo <<< ZZEOF
 
                         Email:<br />
 
-                         <input type="text" id="email" value="{$result['email']}" readonly><br />
+                         <input type="text" id="email" name="email" value="{$result['email']}" ><br />
 
                     
 
@@ -147,6 +147,7 @@ echo <<< ZZEOF
     
     
      </form>
+                       </div>
 ZZEOF;
 getFooter();
 

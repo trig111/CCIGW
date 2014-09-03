@@ -7,7 +7,7 @@ require_once 'include/common.php';
 require_once("include/demoframe.php");
 //do_page_prerequisites();
 global $url;
-    $url='/index.php';
+    $url='index.php';
     
 if(isset($_SESSION['username'])&&!isset($_GET['logout'])&&!isset($_GET['cancel'])){
     //if user is still logged in and logout variable is null as well as cancel
@@ -25,15 +25,19 @@ output_page_menu();
     //give user a option to decide whether to logged out or cancel
 
     echo <<< zzeof
+    <div style="width:40%;margin:0 auto;">
+    <br/><br/>
     <p>Dear $username,you have already logged in and the last time you logged in:@ $lastlogin</p>
     <form class="login_and_signup",action="logout.php" method="get">
-    <input type="submit" name="logout" value="logout">&nbsp&nbsp
+    <input type="submit" name="logout" value="logout">&nbsp;&nbsp;
     <input type="submit" name="cancel" value="cancel">
     </form>
-   
+   <br/><br/>
+            </div>
 zzeof;
 
 getFooter();
+
     exit();
 }
 else if(isset($_GET['logout'])) {
@@ -42,20 +46,20 @@ else if(isset($_GET['logout'])) {
         unset($_SESSION['lastlogin']);
         unset($_SESSION['accessid']);
         unset($_SESSION['uid']);
-        redirect('now you are logged out!',$url,'home');
+        redirect('now you are logged out!',$url,'home',1,true);
 
         exit();
         
     }
  else if(isset($_GET['cancel'])){
      //if user is not logged out, also redirect to home page
-     redirect('you are not logged out!', $url,'home');
+     redirect('you are not logged out!', $url,'home',3,true);
 
         exit();
      
  }
  else{//if session[username] is null
-     redirect('illegal access!', $url,'home');
+     redirect('illegal access!', $url,'home',5,false);
         exit();
      
  }

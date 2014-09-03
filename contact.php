@@ -7,12 +7,12 @@ require_once("include/demoframe.php");
 require_once("include/common.php");
 
 global $url;
-$url='/contact.php';
+$url='contact.php';
 if(isset($_POST['email'])&&isset($_POST['title'])&&isset($_POST['comment'])){
     // if all the fileds are not null
     if(empty($_POST['email'])||empty($_POST['title'])||empty($_POST['comment'])){
         //if any one of inputs is empty
-        redirect('missing one or more fileds!', $url,'contact');
+        redirect('missing one or more fileds!', $url,'contact',5,false);
         unset($_POST);
         exit();
     }
@@ -21,8 +21,8 @@ if(isset($_POST['email'])&&isset($_POST['title'])&&isset($_POST['comment'])){
     $email=  fix_str($_POST['email']); 
     if (!preg_match($pattern, $email)) {
 //checking email
-        redirect('invalid email address!', $url,'contact');
-        unset($_POST);
+        redirect('invalid email address!', $url,'contact',5,false);
+        
         exit();
 
     }
@@ -34,8 +34,8 @@ if(isset($_POST['email'])&&isset($_POST['title'])&&isset($_POST['comment'])){
     $body.="comment:<br/><br/><br/>".$comment."<br/><br/><br/>"."********end*********";
     sendMail($title, $body,'notify.ccigw@gmail.com');
     unset($_POST);
-    $url='/index.php';
-    redirect('feedback is sent completed !', $url,'HOME');
+    $url='index.php';
+    redirect('feedback is sent completed !', $url,'HOME',1,true);
 }
 
 else{
@@ -49,61 +49,45 @@ output_page_menu();
 
 
 	echo <<<ZZEOF
-   
-
+<div style="width:40%;margin:0 auto;">
+<br /><br />
 		<h1>Contact Us</h1>
 		
-		<div class="responsive-container">
-    		<div class="dummy"></div>
+		
+    		<div class="form-group"></div>
 
-    		<div class="form-container">
-        		<div class="centerer"></div>
+    		
+        		
 				<form name="commentform" class="login_and_signup" method="post" action="contact.php" >
-            	<fieldset>
-                <table >
+        
  
                     
-                    <tr>
-                        <td>Email:</td>
-                    <tr>
-                    <tr>
-                         <td><textarea rows="1" cols="50" name="email"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td>Title:</td>
-                    <tr>
-                    <tr>
-                         <td><textarea rows="1" cols="50" name="title"></textarea></td>
-                    </tr>
-                    <tr>
-                        <td>Your Comment:</td>
-					</tr>
-					<tr>
-                        <td><textarea rows="4" cols="50" name="comment"></textarea></td>
-                    </tr>
-                   	 <tr>
+             
+                     <label> Email: </label>
+                   <textarea rows="1" cols="50" name="email" class="form-control"></textarea>
+                   
+                    <label>Title:</label>
+                    
+                        <textarea rows="1" cols="50" name="title" class="form-control"></textarea>
+                   
+                        <label>Your Comment:</label>
+	           <textarea rows="4" cols="50" name="comment" class="form-control"></textarea>
+            
+                    <button type="submit" class="btn btn-default" name="Submit" value="Submit">Submit</button>
 
-                        <td colspan="2" align="right">
+                    <button type="reset" class="btn btn-default" name="Reset" value="Reset">Reset</button>
 
-                        <input type="submit" name="Submit" value="Submit">
-
-                        <input type="reset" name="Reset" value="Reset"></td>
-
-                    </tr>
-  				</div>
-		</div>
-               
-	</table>
- </fieldset>
+    
 
 </form>
-
-
+<br/><br/>
+</div>
 ZZEOF;
 
 
 
 
 getFooter();
+
 }
 ?>

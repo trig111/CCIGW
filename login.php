@@ -22,13 +22,13 @@ $username = fix_str($_POST['username']);
 $userpass = fix_str($_POST['userpass']);
 global $url;
 
-$url='/trylogin.php';
+$url='trylogin.php';
 
 if (!empty($username)) {       
     //checking all the required fileds are not empty
     if (empty($username)||empty($userpass)) {
         
-        redirect('missing one or more fileds', $url,'login');
+        redirect('missing one or more fileds', $url,'login',5,false);
 
         exit();
 
@@ -38,14 +38,14 @@ if (!empty($username)) {
     $pattern="/^\w+$/";
     if(!preg_match($pattern,$username)|| strlen($username)<3 || strlen($username)>15 ){
         
-         redirect('invalid username input', $url,'login');
+         redirect('invalid username input', $url,'login',5,false);
      
      exit();
     }
     // checking password's length
     if (strlen($userpass) < 6 || strlen($userpass) > 30) {
          
-         redirect("password's length should be >=6 and <=30", $url,'login');
+         redirect("password's length should be >=6 and <=30", $url,'login',5,false);
         
 
         exit();
@@ -54,7 +54,7 @@ if (!empty($username)) {
     //checking any potential sql injections
     if(!isDataIllegal()) {
         
-         redirect("illegal inputs", $url,'login');
+         redirect("illegal inputs", $url,'login',5,false);
         
         exit();
     }
@@ -64,14 +64,14 @@ if (!empty($username)) {
       
 if(!isBoolOrString($result)){
     //check any database error occured
-         redirect($result, $url,'login');
+         redirect($result, $url,'login',5,false);
         
         exit();
 }
 else if($result===FALSE){
     //if no record is matched then redirect to login page
     
-         redirect('username or password is not correct, try again!', $url,'login');
+         redirect('username or password is not correct, try again!', $url,'login',5,false);
         
         exit();
 }
@@ -83,9 +83,9 @@ if(!isBoolOrString($result)){
 }
 else if($result===FALSE){
    //checking if user is not activated
-    $url="/reactivate.php?username=$username";
+    $url="reactivate.php?username=$username";
             
-            redirect('your account is not activated!!', $url,'reactivation');
+            redirect('your account is not activated!!', $url,'reactivation',1,true);
             exit;
     //send_activation_email($username,$userpass,$verifycode,$email);
     exit();
@@ -97,8 +97,8 @@ else{
     $lastlogin=date("Y-m-d H:i:s");
    $result=$du->update_user_info_when_login($username);//need to check more
    if(!isBoolOrString($result)){
-        $url='/trylogin.php';
-         redirect($result, $url,'login');
+        $url='trylogin.php';
+         redirect($result, $url,'login',5,false);
         
         exit();
     }
@@ -113,8 +113,8 @@ else{
      $_SESSION['accessid']=$accessid;
      $_SESSION['uid']=$uid;
     
-       $url='/index.php';
-         redirect('you have logged in successfully','CCIGW/index.php','home',1,1);
+       $url='index.php';
+         redirect('you have logged in successfully','index.php','home',1,true);
         
         exit();
     
@@ -125,8 +125,8 @@ else{
 else{
      
      
-   $url='/index.php';
-    redirect('illegal access', $url,'home');
+   $url='index.php';
+    redirect('illegal access', $url,'home',5,false);
     exit();
     }
 }

@@ -80,7 +80,7 @@ class Db_user {
 			':uid'          =>$userupdate->uid,
 			':accessid'     =>$userupdate->accessid,
 			':username'     =>$userupdate->username,
-			':userpass'     =>sha1($userupdate->userpass),
+			//':userpass'     =>sha1($userupdate->userpass),
 			':email'        =>$userupdate->email,
 			':firstname'    =>$userupdate->firstname,
 			':lastname'     =>$userupdate->lastname,
@@ -88,10 +88,10 @@ class Db_user {
 			':phonenumber'  =>$userupdate->phonenumber,
 			':address'      =>$userupdate->address,
 			':status'       =>$userupdate->status,
-                        ':created'      =>$userupdate->created,
-			':lastlogin'    =>$userupdate->lastlogin,
+                       // ':created'      =>$userupdate->created,
+			//':lastlogin'    =>$userupdate->lastlogin,
 			':identifier'   =>$userupdate->identifier,
-			':expiry_time'  =>$userupdate->expiry_time
+			//':expiry_time'  =>$userupdate->expiry_time
 		);
                 
                         
@@ -99,7 +99,7 @@ class Db_user {
 
                         
 
-$sql="UPDATE IGNORE db_user SET accessid=:accessid,username=:username,email=:email,userpass=:userpass,firstname=:firstname,lastname=:lastname,gender=:gender,phonenumber=:phonenumber,address=:address,status=:status,created=:created,lastlogin=:lastlogin,identifier=:identifier,expiry_time=:expiry_time WHERE uid=:uid";
+$sql="UPDATE IGNORE db_user SET accessid=:accessid,username=:username,email=:email,firstname=:firstname,lastname=:lastname,gender=:gender,phonenumber=:phonenumber,address=:address,status=:status,identifier=:identifier WHERE uid=:uid";
 
 
 			$st = $this->db_connection_handle->prepare( $sql );
@@ -114,14 +114,14 @@ $sql="UPDATE IGNORE db_user SET accessid=:accessid,username=:username,email=:ema
 		}
 	}
         
-        public function update_user_info_necessary( $uid,$firstname,$lastname,$gender,$phonenumber,$address ) {
+        public function update_user_info_necessary( $uid,$firstname,$lastname,$gender,$phonenumber,$address,$email ) {
 
 		$user_array=array(
 			':uid'          =>$uid,
 			//':accessid'     =>$userupdate->accessid,
 			//':username'     =>$userupdate->username,
 			//':userpass'     =>sha1($userupdate->userpass),
-			//':email'        =>$userupdate->email,
+			':email'        =>$email,
 			':firstname'    =>$firstname,
 			':lastname'     =>$lastname,
 			':gender'       =>$gender,
@@ -139,7 +139,7 @@ $sql="UPDATE IGNORE db_user SET accessid=:accessid,username=:username,email=:ema
 
                         
 
-$sql="UPDATE IGNORE db_user SET firstname=:firstname,lastname=:lastname,gender=:gender,phonenumber=:phonenumber,address=:address WHERE uid=:uid";
+$sql="UPDATE db_user SET firstname=:firstname,lastname=:lastname,gender=:gender,phonenumber=:phonenumber,address=:address,email=:email WHERE uid=:uid";
 
 
 			$st = $this->db_connection_handle->prepare( $sql );
@@ -216,7 +216,29 @@ $sql="UPDATE db_user SET userpass=:userpass WHERE username=:username";
 	//assume the username has been checked already
 	//based on username(this attribute is unique and has index)in db_user structure
 	//depends on the controller to set how to retrieve from variables
-	public function show_user_info( $username ) {
+	public function show_user_info( $uid) {
+
+		$user_array=array(
+			':uid'          =>$uid
+		);
+		try{
+
+			$sql="SELECT * FROM db_user WHERE uid=:uid";
+			//$userdetails= new User();
+			$st = $this->db_connection_handle->prepare( $sql );
+			$st->setFetchMode( PDO::FETCH_ASSOC );
+			$st->execute( $user_array );
+			$row = $st->fetch();
+			
+			return $row;
+		}
+		catch ( PDOException $e ) {
+			return $e->getMessage();
+
+		}
+	}
+
+public function show_user_info_by_name( $username) {
 
 		$user_array=array(
 			':username'          =>$username
@@ -237,8 +259,6 @@ $sql="UPDATE db_user SET userpass=:userpass WHERE username=:username";
 
 		}
 	}
-
-
 
 	//succeed: return a dataset(2D-array)
 	//else return a error string
@@ -640,9 +660,67 @@ $sql="UPDATE db_user SET status=1,identifier=NULL,expiry_time=NULL WHERE usernam
             
         }
                 
-                
-                
+      public function show_user_access_list() {
 
+		try{
+
+
+			$sql='SELECT * FROM db_access';
+			//$userdetails= new User();
+			$st = $this->db_connection_handle->prepare( $sql );
+			$st->execute();
+			$st->setFetchMode( PDO::FETCH_ASSOC );
+			$result=array();
+
+
+			while ( $row = $st->fetch() ) {
+				array_push( $result, $row );
+			}
+			return $result;
+		}
+
+
+		catch ( PDOException $e ) {
+			return $e->getMessage();
+
+		}
+
+
+	}  
+          public function get_num_of_users(){
+         try{
+            $sql='SELECT COUNT( * ) FROM  db_user';
+            $st = $this->db_connection_handle->prepare( $sql );
+            $st->execute();
+            $st->setFetchMode(PDO::FETCH_NUM);
+            $result=$st->fetch();
+            return $result;
+        }
+
+        catch( PDOException $e ) {
+            return $e->getMessage();
+         }
+     }
+                
+   public function check_email_integrity($uid,$email){
+            $user_array = array( ':email' => $email );
+            $sql = 'SELECT uid FROM db_user WHERE email=:email';
+            try
+		{
+			$st = $this->db_connection_handle->prepare( $sql );
+			$st->execute( $user_array );
+			$st->setFetchMode( PDO::FETCH_ASSOC );
+			$result=$st->fetch();
+
+			if($result['uid']==$uid||empty($result)) return TRUE;
+                        else return FALSE;
+		}
+		catch ( PDOException $e ) {
+			return $e->getMessage();
+		}
+            
+            
+        }
 
 }
 ?>

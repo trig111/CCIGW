@@ -9,7 +9,7 @@ require_once 'dblib/user.class.php';
 
 global $url;
 
-    $url='/index.php'; 
+    $url='index.php'; 
     
     //checking null or has value
 if(isset($_GET['username'])&&isset($_GET['identifier'])){
@@ -22,25 +22,25 @@ if(isset($_GET['username'])&&isset($_GET['identifier'])){
     
     $pattern="/^\w+$/";
     if(!preg_match($pattern,$username)|| strlen($username)<3 || strlen($username)>15 ){
-     redirect('invlid username format,activation failed', $url,'home');
+     redirect('invlid username format,activation failed', $url,'home',5,false);
         exit();
     }
     
     if(!isDataIllegal()) {
         
-         redirect('contains illegal words,activation failed', $url,'home');
+         redirect('contains illegal words,activation failed', $url,'home',5,false);
         exit();
     }
     $du= new Db_user();
     $result=$du->check_user_name($username);
     if(!isBoolOrString($result)){
-                redirect($result, $url,'home');
+                redirect($result, $url,'home',5,false);
         
         exit();
            }
     else if($result){
         
-       redirect('your username can not be found!', $url,'home');
+       redirect('your username can not be found!', $url,'home',5,false);
         exit();
     }
     else{//if all checking passed
@@ -60,9 +60,9 @@ if(isset($_GET['username'])&&isset($_GET['identifier'])){
         
        $email=$account->email;
         if($result==0){
-             $url='/trylogin.php';
+             $url='trylogin.php';
             
-             redirect('you have already activated!', $url,'login');
+             redirect('you have already activated!', $url,'login',5,false);
         exit();
         }
         else if($result==1||$result==2){
@@ -78,9 +78,9 @@ if(isset($_GET['username'])&&isset($_GET['identifier'])){
 //           }
 //            send_activation_email($username,'only you know',$identifier,$email);
             //header('location:index.html');
-            $url="/reactivate.php?username=$username";
+            $url="reactivate.php?username=$username";
             
-            redirect('your verification code is incorrect or has expired !', $url,'reactivation');
+            redirect('your verification code is incorrect or has expired !', $url,'reactivation',5,false);
             exit;
         }
         
@@ -92,9 +92,9 @@ if(isset($_GET['username'])&&isset($_GET['identifier'])){
            }
             // else  echo'activication completed.';
            
-             $url='/index.php';
+             $url='index.php';
             
-             redirect('activication completed!', $url,'home');
+             redirect('activication completed!', $url,'home',3,true);
              exit();
        }
     }
@@ -103,7 +103,7 @@ if(isset($_GET['username'])&&isset($_GET['identifier'])){
 
 else{// if $_GET[xxx]is null then redirect to home page
     
-   redirect('illeagal access!', $url,'home');
+   redirect('illeagal access!', $url,'home',5,false);
              exit();
 }
 ?>

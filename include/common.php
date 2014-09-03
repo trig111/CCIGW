@@ -26,13 +26,13 @@ function is_user_logged_in()
 }
 
 function is_admin(){
-    if($_SESSION['accessid']<3)return false;
+    if(!is_user_logged_in()||$_SESSION['accessid']<3)return false;
     else return true;
 }
 
 function clean($method,$keys){
     if(strcmp($method,'post')==0){
-        if(!isset($_POST))return false;
+        if(!isset($_POST)||empty($_POST))return false;
         if(empty($keys)){
             foreach($_POST as $key => $value){
                 if(strcmp($key,'body')==0)continue;
@@ -46,7 +46,7 @@ function clean($method,$keys){
         }
     }
     if(strcmp($method,'get')==0){
-        if(!isset($_POST))return false;
+        if(!isset($_GET)||empty($_GET))return false;
         if(empty($keys)){
             foreach($_GET as $key => $value){
                 if(strcmp($key,'body')==0)continue;
@@ -288,13 +288,16 @@ function send_activation_email($username,$userpass,$verifycode,$email){
     
     // for page auto-redirecting
     function redirect($message,$url,$to,$sec,$status){
-        $url=  fix_str($url);
+        
         $error_str='';
         //var_dump($_SERVER['HTTP_REFERER']);
-        if(strcmp($url, $_SERVER['HTTP_REFERER'])!=0){
+        if(!isset($url)||empty($url)){
             $host= 'http://'.$_SERVER['HTTP_HOST'].'/';
-            $url=$host.$url;
+            $url=$host.'index.php';
+            $to='home';
         }
+       
+        
         if(!$status)$error_str='<strong><h1>Oops...Error Occured!</h1></strong><br/>';
             
         
@@ -312,9 +315,11 @@ function send_activation_email($username,$userpass,$verifycode,$email){
         });
 
         </script>
-        <div class= redirect_and_error>
+                <br /><br /><br /><br />
+        <div style="width:40%;margin:0 auto;">
+                
             <p>$error_str $message</p>
-             <br /><br /><br /><br />
+             <br />
              <strong>IF your browser does not support the redirection , click <u><a href="$url">here</a></u> to redirect to the $to page </strong>   
         </div> 
    

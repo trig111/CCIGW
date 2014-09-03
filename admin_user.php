@@ -2,54 +2,123 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-require_once("include/demoframe.php");
+require_once("include/common.php");
+if(!is_admin()||!clean('get',$keys=array())){
+    redirect('illegal access!', 'index.php', 'home', 5,false);
+    exit();
+}
+$error=array();
+if(!validate()){
+    redirect(implode("<br />", $error), $_SERVER['HTTP_REFERER'], 'home', 5,false);
+    exit();
+}
+
 require_once('dblib/db_user.php');
-$css = array('jquery.dataTables.min.css','simple-sidebar.css');
-
-$js = array('jquery.dataTables.min.js');
-
-
 $du = new Db_user();
-$results=$du->show_all_user_info(0,100);
-//var_dump($result);
+$num=$du->get_num_of_users();
+if(!isArrayOrString($num)){
+     redirect($num, $_SERVER['HTTP_REFERER'], 'Users Admin', 5,false);
+            exit();  
+}
+if(empty($num)){
+     redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'Users Admin', 5,false);
+            exit();  
+}
+$pagesize = 100;
+$page_key = pagination($num[0],$pagesize,'admin_user.php?');
+
+
+$css = array('simple-sidebar.css');
+$js = array('checkbox.js');
 getHeader("Superuser", $css, $js);
 output_page_menu();
 getSidebarHeader();
-echo <<<ZZEOF
-<script language="JavaScript">
-function isChecked(uid){
-var attr = new Array(
-                        "uid"+uid,
-                       "accessid"+uid,    
-                        "username"+uid,
-                        "email"+uid,
-                        "lastname"+uid, 
-                        "firstname"+uid,     
-                        "gender"+uid,      
-                        "phonenumber"+uid, 
-                        "address"+uid,      
-                        "status"+uid,         
-                        "identifier"+uid
-                          );
 
-  var c="checkbox"+uid;
-  var isTrue=true;
-  document.getElementById(attr[0]).readOnly=false;
-  if(document.getElementById(c).checked){
-      isTrue=false;
-     document.getElementById(attr[0]).readOnly=true;
-   }         
-  for (var i = 0; i < attr.length; i++){
-     
-      document.getElementById(attr[i]).disabled=isTrue;
-      
-      }
+echo <<< zzeof
+<form action="server_user_access_action.php" method="post">
+<table class="table table-hover" border="2">
+                <h2>User Access Table</h2><br />
+<small>click the checkbox to choose which row you want to delete or modify</small>
+					<thead>
+						<tr>
+                                                        <th></th>
+                                                        <th>Accessid</th>
+                                                         <th>Type</th>
+                                                        <th>ReadAccess</th>
+							 <th>AllowView</th>
+                                                         <th>AllowPost</th>
+							 <th>AllowReply</th>
+                                                         <th>AllowUpdate</th>
+							 <th>AllowDelete</th>
+                                                         <th>AllowGetAttach</th>
+                                                         <th>AllowPostAttach</th>
+                                                         <th>AllowSearch</th>
+                                                         <th>AllowSetReadPerm</th>
+                                                         
+							
+						</tr>
+					 </thead>
+                                        <tbody>
 
+zzeof;
+$results=$du->show_user_access_list();
+
+if(!isArrayOrString($results)){
+     redirect($results, $_SERVER['HTTP_REFERER'], 'Users Admin', 5,false);
+            exit();  
 }
-</script>
+if(empty($results)){
+     redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'Users Admin', 5,false);
+            exit();  
+}
+foreach( $results as $result){
+echo <<<ZZEOF
+    
+    <td><input type="checkbox" id="checkbox{$result['accessid']}" onclick="isChecked_userAccess('{$result['accessid']}')"/></td>
+    <td><input type="text" name="accessid[]" id="accessid{$result['accessid']}" value="{$result['accessid']}" disabled/></td>
+    <td><input type="text" name="type[]" id="type{$result['accessid']}" value="{$result['type']}" disabled/></td>
+    
+    <td><input type="text" name="readaccess[]" id="readaccess{$result['accessid']}" value="{$result['readaccess']}" disabled/></td>
+    <td><input type="text" name="allowview[]" id="allowview{$result['accessid']}" value="{$result['allowview']}"disabled/></td>
+    <td><input type="text" name="allowpost[]" id="allowpost{$result['accessid']}" value="{$result['allowpost']}"disabled/></td>
+    <td><input type="text" name="allowreply[]" id="allowreply{$result['accessid']}" value="{$result['allowreply']}"disabled/></td>
+    <td><input type="text" name="allowupdate[]" id="allowupdate{$result['accessid']}" value="{$result['allowupdate']}"disabled/></td>
+    <td><input type="text" name="allowdelete[]" id="allowdelete{$result['accessid']}" value="{$result['allowdelete']}" disabled/></td>
+    <td><input type="text" name="allowgetattach[]" id="allowgetattach{$result['accessid']}" value="{$result['allowgetattach']}" disabled/></td>
+    <td><input type="text" name="allowpostattach[]" id="allowpostattach{$result['accessid']}" value="{$result['allowpostattach']}" disabled/></td>
+    <td><input type="text" name="allowsearch[]" id="allowsearch{$result['accessid']}" value="{$result['allowsearch']}" disabled/></td>
+    <td><input type="text" name="allowsetreadperm[]" id="allowsetreadperm{$result['accessid']}" value="{$result['allowsetreadperm']}" disabled/></td>
+    
+    
 
+</tr>
+
+ZZEOF;
+}
+echo <<<ZZEOF
+
+						
+					</tbody>
+			 </table>
+ <dl class="dl-horizontal">
+  <dt>'0' and '1'</dt>
+  <dd>0: not allowed 1: allowed</dd>
+</dl>
+ <div class="row">
+  
+  <button type="submit" class="btn btn-default" name="edit">Edit</button>
+  <button type="submit" class="btn btn-default" name="delete">Delete</button>
+  </div>  
+                         </form>
+<br /><br />
+ZZEOF;
+
+
+echo <<<ZZEOF
 <form action="server_user_action.php" method="post">
 <table class="table table-hover" border="2">
+ <h2>User Records Table</h2><br />
+<small>click the checkbox to choose which row you want to delete or modify</small>
 					<thead>
 						<tr>
                                                         <th></th>
@@ -57,10 +126,10 @@ var attr = new Array(
                                                         <th>accessid</th>
 							 <th>username</th>
                                                          <th>email</th>
-							 <th>Lname</th>
-							 <th>Fname</th>
-							 <th>sex</th>
-                                                         <th>phone</th>
+							 <th>lastname</th>
+							 <th>firstname</th>
+							 <th>gender</th>
+                                                         <th>phoneNumber</th>
 							 <th>address</th>
                                                          <th>created</th>
                                                          <th>lastlogin</th>
@@ -72,11 +141,23 @@ var attr = new Array(
 					 </thead>
                                         <tbody>
 ZZEOF;
+
+$results=$du->show_all_user_info($page_key['offset'],$pagesize);
+
+if(!isArrayOrString($results)){
+     redirect($results, $_SERVER['HTTP_REFERER'], 'Users Admin', 5,false);
+            exit();  
+}
+if(empty($results)){
+     redirect('404 NOT FOUND', $_SERVER['HTTP_REFERER'], 'Users Admin', 5,false);
+            exit();  
+}
+
 foreach( $results as $result){
 echo <<<ZZEOF
     
-    <td><input type="checkbox" id="checkbox{$result['uid']}" onclick="isChecked('{$result['uid']}')"/></td>
-    <td><input type="text" name="uid[]" id="uid{$result['uid']}" value="{$result['uid']}" readonly/></td>
+    <td><input type="checkbox" id="checkbox{$result['uid']}" onclick="isChecked_user('{$result['uid']}')"/></td>
+    <td><input type="text" name="uid[]" id="uid{$result['uid']}" value="{$result['uid']}" disabled/></td>
     <td><input type="text" name="accessid[]" id="accessid{$result['uid']}" value="{$result['accessid']}" disabled/></td>
     <td><input type="text" name="username[]" id="username{$result['uid']}" value="{$result['username']}" disabled/></td>
     <td><input type="text" name="email[]" id="email{$result['uid']}" value="{$result['email']}"disabled/></td>
@@ -87,7 +168,7 @@ echo <<<ZZEOF
     <td><input type="text" name="address[]" id="address{$result['uid']}" value="{$result['address']}" disabled/></td>
     <td><input type="text" name="created[]" id="created{$result['uid']}" value="{$result['created']}" disabled/></td>
     <td><input type="text" name="lastlogin[]" id="lastlogin{$result['uid']}" value="{$result['lastlogin']}" disabled/></td>
-    <td><input type="text" name="status[]" id="status{$result['uid']}" value="{$result['stauts']}" disabled/></td>
+    <td><input type="text" name="status[]" id="status{$result['uid']}" value="{$result['status']}" disabled/></td>
     <td><input type="text" name="identifier[]" id="identifier{$result['uid']}" value="{$result['identifier']}" disabled/></td>
     <td><input type="text" name="expiry_time[]" id="expiry_time{$result['uid']}" value="{$result['expiry_time']}" disabled/></td>
 
@@ -100,13 +181,32 @@ echo <<<ZZEOF
 						
 					</tbody>
 			 </table>
-<div class="form-group">
-            <div class="col-sm-offset-0 col-sm-10">
-                <button type="submit" class="btn btn-default" name="edit">Edit</button>
-            </div>
-        </div>
+ <dl class="dl-horizontal">
+  <dt>status</dt>
+  <dd>0: not activated 1: activated</dd>
+    <dt>identifier</dt>
+  <dd>4-digit integer that is used for activation</dd>
+</dl>
+
+ <div class="row">
+ 
+  <button type="submit" class="btn btn-default" name="edit">Edit</button>
+  <button type="submit" class="btn btn-default" name="delete">Delete</button>
+  </div>  
                          </form>
+<br /><br />
+
 ZZEOF;
+echo $page_key['pagefooter'];
 getSidebarFooter();
+
 getFooter();
+
+ function validate(){
+     global $error;
+     if(!is_numeric($_GET['pg'])||$_GET['pg']<1) $error['pg']='invalid page number!';
+     if(empty($error))return true;
+     else return false;
+     
+ }
 ?>

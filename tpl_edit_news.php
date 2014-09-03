@@ -53,12 +53,12 @@ if(!is_legal_access($result['uid'])&&!is_admin()){
 }
 
 $css=array('datepicker.css');
-$js=array('tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
+$js=array('tinymce/js/tinymce/tinymce.min.js','tinymce_setting.js','datepicker_category_setting.js');
 getHeader("Post News", $css, $js);
 output_page_menu();
     
 echo <<< ZZEOF
-    
+    <div style="width:80%;margin:0 auto;">
     <form action="server_news_action.php" method="POST">
     <h1><input type="text" name="subject" size=80 value="{$result['subject']}"></h1>
      
@@ -72,7 +72,7 @@ echo <<< ZZEOF
     </fieldset>
  
      <div ><table > <tr> <td>
-     <textarea type="text" name="body"  cols="80" rows="20" >{$result['body']}</textarea>
+     <textarea type="text" name="body" rows="20" >{$result['body']}</textarea>
      </td></tr></table></div>
 
      <input type="submit" name="modify" value="Modify" />
@@ -81,6 +81,7 @@ echo <<< ZZEOF
      <input type="hidden" name="uid" value=" {$_SESSION['uid']}">
      
      </form>
+     </div>
 ZZEOF;
      
 getFooter();

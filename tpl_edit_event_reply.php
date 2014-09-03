@@ -61,13 +61,13 @@ if(empty($title)){
 
 //require_once("include/demoframe.php");
 $css=array('datepicker.css',);
-$js=array('tinymce/tinymce.min.js','tinymce_setting.js');
+$js=array('tinymce/js/tinymce/tinymce.min.js','tinymce_setting.js');
 getHeader("Edit event reply", $css, $js);
 output_page_menu();
 
    
  echo <<< ZZZEOF
-
+<div style="width:80%;margin:0 auto;">
    <form action="server_reply_event_action.php" method="POST" class="form-horizontal" role="form">
     
      <fieldset>
@@ -89,8 +89,8 @@ output_page_menu();
         </div>
      </fieldset> 
      <br/>
-     <div class="form-group col-sm-8">
-        <textarea class="form-control" rows=8 name="body">{$result['body']}</textarea>
+     <div class="form-group">
+        <textarea class="form-control" rows="20" name="body">{$result['body']}</textarea>
     </div>
     <div class="form-group">
         <div class="col-sm-8">
@@ -102,7 +102,7 @@ output_page_menu();
     <input type="hidden" name="uid" value=" {$result['uid']}">
      
      </form>
-     
+   </div>  
 ZZZEOF;
     
  getFooter();

@@ -9,6 +9,7 @@ INSTRUCTIONS:
 
 $DB_FIRST_ADMIN_ONLY=FALSE;
 
+<<<<<<< HEAD
 $DBNAME="CCIGW";
 $DBUSER="root";
 $DBPASS="daohao4bgun";
@@ -18,4 +19,14 @@ $DBPASS="daohao4bgun";
 //$DBNAME="liu11121_ccigw";
 //$DBUSER="liu11121";
 //$DBPASS="adminadmin";
+=======
+$DBNAME="CCIGW";
+$DBUSER="root";
+$DBPASS="daohao4bgun";
+   // $DBNAME="CCIGW";
+   // $DBUSER="root";
+   // $DBPASS="";
+
+
+>>>>>>> 5e8b8e3f924c3aad9bd59bea2decc42c63fd4ce8
 ?>

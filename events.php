@@ -10,7 +10,7 @@ require_once('dblib/db_events.php');
 
 $js=array('group5js/check.js');
 
-getHeader("Events",'',$js);
+getHeader("Events",array(),$js);
 
 output_page_menu();
 
@@ -20,7 +20,7 @@ $num  = $event_handle->get_num_of_events();
 $pagesize = 30;
 require_once('include/common.php');
 
-$page_key = pagination($num,$pagesize,'events.php?');
+$page_key = pagination($num[0],$pagesize,'events.php?');
 $newpost='';
 if(is_admin()) $newpost='<div class="col-md-3 col-md-offset-10"><button type="button" class="btn btn-default btn-lg"><a href="tpl_post_event.php">Post New Event</a></button></div>';
  echo <<<zzeof
