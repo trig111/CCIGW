@@ -14,7 +14,7 @@ $DB_FIRST_ADMIN_ONLY=FALSE;
 //$DBPASS="daohao4bgun";
    $DBNAME="CCIGW";
    $DBUSER="root";
-   $DBPASS="";
+   $DBPASS="root";
 
 
 ?>

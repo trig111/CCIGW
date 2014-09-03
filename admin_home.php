@@ -8,7 +8,7 @@ if(!is_admin()){
     exit();
 }
 $css = array('simple-sidebar.css');
-$js = array();
+$js = array('ajaxupload.js','test.js');
 getHeader("Superuser", $css, $js);
 output_page_menu();
 getSidebarHeader();
@@ -45,26 +45,6 @@ echo <<< zzeof
        <br /><br /><br />
      <button type="submit" class="btn btn-default" name="submit">Sumbit</button>
      </form>
-     
-  <script type="text/javascript">     
-function append_setting(){
-    var str='';
-    var size=document.getElementById("size").value;
-
-    if(!size|| 0 === size.length||size<=0) {
-        alert("please enter a integer!");
-        return;
-}   
-
-    for (var i = 0; i < size; i++){
-            str+='<label class="col-sm-2 control-label"> #'+i+':</label><br/><br/>'+'<input type="text" size="80" name="'+"slider[src][]"+'" placeholder="picture link"/><br /><input type="text" size="80" name="'+"slider[url][]"+'" placeholder="link to where (optional)"/><br /><input type="text" size="80" name="'+"slider[subject][]"+'" placeholder="picture title"/><br /><br />';
-        }
-
-
-
-   document.getElementById("slider_setting").innerHTML = str; 
-   
-   }
-  </script>     
+        
 zzeof;
 
